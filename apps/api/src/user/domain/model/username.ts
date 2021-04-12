@@ -1,4 +1,4 @@
-import { ValueObject } from '@boilerplate/domain';
+import { ValueObject } from '@melomaniapp/domain';
 
 interface Props {
   value: string;

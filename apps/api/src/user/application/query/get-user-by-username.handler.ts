@@ -1,4 +1,4 @@
-import { UserDTO } from '@boilerplate/contracts';
+import { UserDTO } from '@melomaniapp/contracts';
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 

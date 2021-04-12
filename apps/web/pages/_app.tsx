@@ -1,5 +1,5 @@
-import { theme } from '@boilerplate/ui';
 import { CssBaseline, ThemeProvider } from '@material-ui/core';
+import { theme } from '@melomaniapp/ui';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { Provider as NextAuthProvider } from 'next-auth/client';
@@ -19,7 +19,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     <NextAuthProvider session={pageProps.session}>
       <React.Fragment>
         <Head>
-          <title>NX Boilerplate</title>
+          <title>NX melomaniapp</title>
           <meta
             name="viewport"
             content="minimum-scale=1, initial-scale=1, width=device-width"

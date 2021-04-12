@@ -1,4 +1,4 @@
-import { AccessTokenInterface } from '@boilerplate/contracts';
+import { AccessTokenInterface } from '@melomaniapp/contracts';
 import {
   Body,
   Controller,

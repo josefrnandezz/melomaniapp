@@ -50,7 +50,7 @@ export function Navbar({
           noWrap
           className={classes.title}
         >
-          Boilerplate
+          melomaniapp
         </Typography>
         {session && (
           <Link href="/api/auth/signout">

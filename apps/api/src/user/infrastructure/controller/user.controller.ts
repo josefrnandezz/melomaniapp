@@ -3,7 +3,7 @@ import {
   EditUserDTO,
   Role,
   UserDTO,
-} from '@boilerplate/contracts';
+} from '@melomaniapp/contracts';
 import {
   BadRequestException,
   Body,
