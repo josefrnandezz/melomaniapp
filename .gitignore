@@ -42,3 +42,5 @@ Thumbs.db
 ormconfig.json
 .env.local
 cyreport
+
+.nvmrc
