@@ -17,7 +17,7 @@ async function bootstrap() {
 
   const options = new DocumentBuilder()
     .addBearerAuth()
-    .setTitle('Boilerplate API')
+    .setTitle('melomaniapp API')
     .setVersion('1.0')
     .build();
 

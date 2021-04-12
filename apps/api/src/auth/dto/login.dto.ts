@@ -1,4 +1,4 @@
-import { CredentialsInterface } from '@boilerplate/contracts';
+import { CredentialsInterface } from '@melomaniapp/contracts';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class LoginDTO implements CredentialsInterface {

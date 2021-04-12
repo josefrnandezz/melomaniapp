@@ -1,5 +1,5 @@
-import { theme } from '@boilerplate/ui'
 import { ServerStyleSheets } from '@material-ui/core'
+import { theme } from '@melomaniapp/ui'
 import Document, { Head, Html, Main, NextScript } from 'next/document'
 import React from 'react'
 
