@@ -1,4 +1,12 @@
 {
   "presets": ["@nrwl/react/babel"],
-  "plugins": []
+  "plugins": [
+    [
+      "import",
+      {
+        "libraryName": "antd",
+        "style": true
+      }
+    ]
+  ]
 }

@@ -1,6 +1,17 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const rootWebpackConfig = require('../../../.storybook/webpack.config');
+const lessToJS = require('less-vars-to-js');
+const fs = require('fs');
+const path = require('path');
+
+// Where your antd-custom.less file lives
+const themeVariables = lessToJS(
+  fs.readFileSync(
+    path.resolve(__dirname, '../src/lib/assets/antd-custom.less'),
+    'utf8'
+  )
+);
 /**
  * Export a function. Accept the base config as the only param.
  *
@@ -30,6 +41,24 @@ module.exports = async ({ config, mode }) => {
   ].test = /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|cur|ani|pdf)(\?.*)?$/;
 
   config.module.rules.push(
+    {
+      test: /\.less$/,
+      use: [
+        {
+          loader: 'style-loader',
+        },
+        {
+          loader: 'css-loader',
+        },
+        {
+          loader: 'less-loader',
+          options: {
+            javascriptEnabled: true,
+            modifyVars: themeVariables,
+          },
+        },
+      ],
+    },
     {
       test: /\.(png|jpe?g|gif|webp)$/,
       loader: require.resolve('url-loader'),
