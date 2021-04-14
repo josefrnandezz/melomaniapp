@@ -1,3 +1,4 @@
+import { Button as MyButton } from '@melomaniapp/ui';
 import {
   Button,
   DatePicker,
@@ -82,6 +83,9 @@ export default function Home() {
           <Button size="large" style={{ marginLeft: 8 }}>
             Cancel
           </Button>
+        </FormItem>
+        <FormItem style={{ marginTop: 48 }} wrapperCol={{ span: 8, offset: 8 }}>
+          <MyButton type="primary">It's working!</MyButton>
         </FormItem>
       </Form>
     </div>
