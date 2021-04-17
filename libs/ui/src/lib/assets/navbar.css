@@ -1,0 +1,11 @@
+.logo {
+  float: left;
+  width: 100px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+}
+
+.burgerMenu {
+  float: right;
+  color: rgba(255, 255, 255, 0.65);
+}

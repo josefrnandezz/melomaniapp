@@ -8,7 +8,14 @@ export default {
     args: {
         type: 'primary',
         icon: '',
-    }
+    },
+    decorators: [
+      (Button) => (
+        <div style={{ margin: '3em' }}>
+          <Button />
+        </div>
+      ),
+    ]
 }
 
 //👇 We create a “template” of how args map to rendering
