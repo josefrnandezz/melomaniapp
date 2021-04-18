@@ -1,11 +1,16 @@
-import { BellOutlined, CarryOutOutlined, HomeOutlined, SearchOutlined } from '@ant-design/icons';
+import {
+  BellOutlined,
+  CarryOutOutlined,
+  HomeOutlined,
+  SearchOutlined,
+} from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
 
 import { Navbar, NavbarProps } from './Navbar';
 
 export default {
-    title: 'Navbar',
-    component: Navbar,
+  title: 'Navbar',
+  component: Navbar,
 } as Meta;
 
 const Template: Story<NavbarProps> = (args) => <Navbar {...args} />;
@@ -16,40 +21,40 @@ ArtistNavbar.args = {
     {
       key: 'home',
       title: 'Home',
-      icon: <HomeOutlined />
+      icon: <HomeOutlined />,
     },
     {
       key: 'search',
       title: 'Search',
-      icon: <SearchOutlined />
+      icon: <SearchOutlined />,
     },
     {
       key: 'notifications',
       title: 'Notifications',
-      icon: <BellOutlined />
+      icon: <BellOutlined />,
     },
     {
       key: 'events',
       title: 'My events',
-      icon: <CarryOutOutlined />
-    }
-  ]
+      icon: <CarryOutOutlined />,
+    },
+  ],
 };
 
-export const EstablishemtNavbar = Template.bind({});
-EstablishemtNavbar.args = {
+export const EstablishmentNavbar = Template.bind({});
+EstablishmentNavbar.args = {
   options: [
     {
       key: 'home',
       title: 'Home',
-      icon: <HomeOutlined />
+      icon: <HomeOutlined />,
     },
     {
       key: 'events',
       title: 'My events',
-      icon: <CarryOutOutlined />
-    }
-  ]
+      icon: <CarryOutOutlined />,
+    },
+  ],
 };
 
 export const FanNavbar = Template.bind({});
@@ -58,17 +63,17 @@ FanNavbar.args = {
     {
       key: 'home',
       title: 'Home',
-      icon: <HomeOutlined />
+      icon: <HomeOutlined />,
     },
     {
       key: 'search',
       title: 'Search',
-      icon: <SearchOutlined />
+      icon: <SearchOutlined />,
     },
     {
       key: 'notifications',
       title: 'Notifications',
-      icon: <BellOutlined />
-    }
-  ]
+      icon: <BellOutlined />,
+    },
+  ],
 };
