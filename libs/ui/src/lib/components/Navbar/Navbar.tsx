@@ -1,10 +1,9 @@
-import '../../assets/navbar.css';
-
-import { MenuOutlined, SettingOutlined } from '@ant-design/icons';
+import { SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { ProfileSwitcher } from '@melomaniapp/ui';
 import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 
-const { Header } = Layout;
+const { Header, Sider } = Layout;
 const { SubMenu } = Menu;
 
 export interface NavbarProps {
@@ -12,36 +11,46 @@ export interface NavbarProps {
 }
 
 export const Navbar = ({ options }: NavbarProps) => {
-  const [isOpened, setIsOpened] = React.useState(false);
-
   return (
-    <Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
+    <Sider
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+      }}
+    >
+      <div className="logo" />
       <Menu
+        style={{ position: 'absolute' }}
         theme="dark"
-        mode="horizontal"
-        defaultSelectedKeys={options[0].key}
+        mode="inline"
         triggerSubMenuAction="click"
-        onOpenChange={() => setIsOpened(!isOpened)}
       >
         {options.map((option) => (
           <Menu.Item key={option.key} icon={option.icon}>
             {option.title}
           </Menu.Item>
         ))}
-        <SubMenu
-          key="burgerMenu"
-          icon={<MenuOutlined />}
-          className="burgerMenu"
-        >
-          <Menu.ItemGroup title="Profile">
-            <Menu.Item key="artist">Artist</Menu.Item>
-            <Menu.Item key="establishment">Establishment</Menu.Item>
-            <Menu.Item key="fan">Fan</Menu.Item>
-          </Menu.ItemGroup>
-          <Menu.Item icon={<SettingOutlined />}>Settings</Menu.Item>
-        </SubMenu>
+        <Menu.Divider />
+        <Menu.Item key="profile" icon={<UserOutlined />}>
+          Profile
+        </Menu.Item>
+        <Menu.Item key="settings" icon={<SettingOutlined />}>
+          Settings
+        </Menu.Item>
       </Menu>
-    </Header>
+      <div
+        style={{
+          position: 'absolute',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center',
+          bottom: '30px',
+        }}
+      >
+        <ProfileSwitcher artistProfiles={[]} establishmentProfiles={[]} />
+      </div>
+    </Sider>
   );
 };
 

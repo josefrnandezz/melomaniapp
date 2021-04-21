@@ -1,5 +1,4 @@
 import {
-  BellOutlined,
   CarryOutOutlined,
   HomeOutlined,
   SearchOutlined,

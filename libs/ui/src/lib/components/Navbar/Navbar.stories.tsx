@@ -15,8 +15,8 @@ export default {
 
 const Template: Story<NavbarProps> = (args) => <Navbar {...args} />;
 
-export const ArtistNavbar = Template.bind({});
-ArtistNavbar.args = {
+export const Default = Template.bind({});
+Default.args = {
   options: [
     {
       key: 'home',
