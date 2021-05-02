@@ -3,7 +3,11 @@ import React from 'react';
 
 import { ProfileSwitcher } from './ProfileSwitcher';
 
-const artistProfiles = [
+const profiles = [
+  {
+    username: 'josefrnandezz',
+    displayName: 'Jose Fernández',
+  },
   {
     username: 'peggygou',
     displayName: 'Peggy Gou',
@@ -12,9 +16,6 @@ const artistProfiles = [
     username: 'santandave',
     displayName: 'Dave',
   },
-];
-
-const establishmentProfiles = [
   {
     username: 'komoost',
     displayName: 'OOST',
@@ -23,12 +24,7 @@ const establishmentProfiles = [
 
 describe('Navbar', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(
-      <ProfileSwitcher
-        artistProfiles={artistProfiles}
-        establishmentProfiles={establishmentProfiles}
-      />
-    );
+    const { baseElement } = render(<ProfileSwitcher profiles={profiles} />);
     expect(baseElement).toBeTruthy();
   });
 });

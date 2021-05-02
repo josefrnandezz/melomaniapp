@@ -15,32 +15,6 @@ export default {
 
 const Template: Story<NavbarProps> = (args) => <Navbar {...args} />;
 
-export const Default = Template.bind({});
-Default.args = {
-  options: [
-    {
-      key: 'home',
-      title: 'Home',
-      icon: <HomeOutlined />,
-    },
-    {
-      key: 'search',
-      title: 'Search',
-      icon: <SearchOutlined />,
-    },
-    {
-      key: 'notifications',
-      title: 'Notifications',
-      icon: <BellOutlined />,
-    },
-    {
-      key: 'events',
-      title: 'My events',
-      icon: <CarryOutOutlined />,
-    },
-  ],
-};
-
 export const EstablishmentNavbar = Template.bind({});
 EstablishmentNavbar.args = {
   options: [
@@ -48,11 +22,13 @@ EstablishmentNavbar.args = {
       key: 'home',
       title: 'Home',
       icon: <HomeOutlined />,
+      href: '/home',
     },
     {
       key: 'events',
       title: 'My events',
       icon: <CarryOutOutlined />,
+      href: '/events',
     },
   ],
 };
@@ -64,16 +40,25 @@ FanNavbar.args = {
       key: 'home',
       title: 'Home',
       icon: <HomeOutlined />,
+      href: '/home',
     },
     {
-      key: 'search',
-      title: 'Search',
+      key: 'discover',
+      title: 'Discover',
       icon: <SearchOutlined />,
+      href: '/discover',
     },
     {
       key: 'notifications',
       title: 'Notifications',
       icon: <BellOutlined />,
+      href: '/notifications',
+    },
+    {
+      key: 'events',
+      title: 'My events',
+      icon: <CarryOutOutlined />,
+      href: '/events',
     },
   ],
 };

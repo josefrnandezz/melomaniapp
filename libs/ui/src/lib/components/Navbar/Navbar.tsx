@@ -1,10 +1,8 @@
-import { SettingOutlined, UserOutlined } from '@ant-design/icons';
-import { ProfileSwitcher } from '@melomaniapp/ui';
 import { Layout, Menu } from 'antd';
-import React, { useState } from 'react';
+import Link from 'next/link';
+import React from 'react';
 
-const { Header, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Sider } = Layout;
 
 export interface NavbarProps {
   options: Array<any>;
@@ -13,9 +11,10 @@ export interface NavbarProps {
 export const Navbar = ({ options }: NavbarProps) => {
   return (
     <Sider
+      breakpoint="md"
       style={{
         overflow: 'auto',
-        height: '100vh',
+        height: '100%',
         position: 'fixed',
       }}
     >
@@ -31,25 +30,7 @@ export const Navbar = ({ options }: NavbarProps) => {
             {option.title}
           </Menu.Item>
         ))}
-        <Menu.Divider />
-        <Menu.Item key="profile" icon={<UserOutlined />}>
-          Profile
-        </Menu.Item>
-        <Menu.Item key="settings" icon={<SettingOutlined />}>
-          Settings
-        </Menu.Item>
       </Menu>
-      <div
-        style={{
-          position: 'absolute',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'center',
-          bottom: '30px',
-        }}
-      >
-        <ProfileSwitcher artistProfiles={[]} establishmentProfiles={[]} />
-      </div>
     </Sider>
   );
 };

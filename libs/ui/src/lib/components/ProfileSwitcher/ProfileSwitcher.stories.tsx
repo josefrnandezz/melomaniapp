@@ -14,7 +14,11 @@ const Template: Story<ProfileSwitcherProps> = (args) => (
 
 export const Default = Template.bind({});
 Default.args = {
-  artistProfiles: [
+  profiles: [
+    {
+      username: 'josefrnandezz',
+      displayName: 'Jose Fernández',
+    },
     {
       username: 'peggygou',
       displayName: 'Peggy Gou',
@@ -23,8 +27,6 @@ Default.args = {
       username: 'santandave',
       displayName: 'Dave',
     },
-  ],
-  establishmentProfiles: [
     {
       username: 'komoost',
       displayName: 'OOST',

@@ -7,46 +7,27 @@ import {
 import { Avatar, Button, Dropdown, Menu } from 'antd';
 import React, { useEffect } from 'react';
 
-const mainUser = {
-  username: 'josefrnandezz',
-  displayName: 'Jose Fernandez',
-};
-
 export interface ProfileSwitcherProps {
-  artistProfiles: Array<any>;
-  establishmentProfiles: Array<any>;
+  profiles: Array<any>;
 }
 
-export const ProfileSwitcher = ({
-  artistProfiles,
-  establishmentProfiles,
-}: ProfileSwitcherProps) => {
+export const ProfileSwitcher = ({ profiles }: ProfileSwitcherProps) => {
   const [activeProfile, setActiveProfile] = React.useState(
-    mainUser.displayName
+    profiles[0].displayName
   );
 
   const handleProfilesListClick = (event) => {
-    [...artistProfiles, ...establishmentProfiles].map((profile) => {
+    profiles.map((profile) => {
       if (profile.username === event.key) {
         setActiveProfile(profile.displayName);
       }
     });
   };
 
-  const profiles = (
+  const profilesList = (
     <Menu>
       <Menu onClick={handleProfilesListClick}>
-        <Menu.Item
-          key={mainUser.username}
-          icon={
-            <Avatar size="small" style={{ marginRight: '10px' }}>
-              {mainUser.displayName[0].toUpperCase()}
-            </Avatar>
-          }
-        >
-          {mainUser.displayName}
-        </Menu.Item>
-        {[...artistProfiles, ...establishmentProfiles].map((profile) => (
+        {profiles.map((profile) => (
           <Menu.Item
             key={profile.username}
             icon={
@@ -74,7 +55,7 @@ export const ProfileSwitcher = ({
   return (
     <Dropdown
       arrow
-      overlay={profiles}
+      overlay={profilesList}
       trigger={['click']}
       placement="topCenter"
     >
