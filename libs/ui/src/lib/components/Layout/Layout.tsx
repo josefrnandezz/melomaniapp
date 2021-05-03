@@ -54,18 +54,19 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
 
   return (
     <AntLayout style={{ height: '100vh' }}>
-      <Header />
+      <Navbar options={mockedOptions} isFan={isFan} />
       <AntLayout>
-        <Navbar options={mockedOptions} isFan={isFan} />
+        <Header />
         <AntLayout
           style={{
-            padding: '0 0 24px 24px',
             display: 'flex',
             flexDirection: 'column',
             overflow: 'auto',
           }}
         >
-          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+          <Content
+            style={{ height: '100vh', margin: '24px', overflow: 'initial' }}
+          >
             <div
               style={{ padding: 24, background: '#fff', textAlign: 'center' }}
             >

@@ -6,7 +6,9 @@ import Layout from './Layout';
 describe('Layout', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
-      <Layout session={{}}>This is a test</Layout>
+      <Layout session={{}} isFan={false}>
+        This is a test
+      </Layout>
     );
     expect(baseElement).toBeTruthy();
   });
