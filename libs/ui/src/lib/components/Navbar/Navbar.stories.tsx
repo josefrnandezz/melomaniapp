@@ -31,6 +31,7 @@ EstablishmentNavbar.args = {
       href: '/events',
     },
   ],
+  isFan: false,
 };
 
 export const FanNavbar = Template.bind({});
@@ -61,4 +62,5 @@ FanNavbar.args = {
       href: '/events',
     },
   ],
+  isFan: true,
 };

@@ -61,7 +61,7 @@ const data = [
 
 const Template: Story<LayoutProps> = (args) => (
   <Layout {...args}>
-    {/* <List
+    <List
       itemLayout="horizontal"
       dataSource={data}
       renderItem={(item) => (
@@ -75,11 +75,12 @@ const Template: Story<LayoutProps> = (args) => (
           />
         </List.Item>
       )}
-    /> */}
+    />
   </Layout>
 );
 
 export const Default = Template.bind({});
 Default.args = {
   session: {},
+  isFan: false,
 };

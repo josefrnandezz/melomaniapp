@@ -16,30 +16,36 @@ const mockedOptions = [
     key: 'home',
     title: 'Home',
     icon: <HomeOutlined />,
+    href: '/home',
   },
   {
-    key: 'search',
-    title: 'Search',
+    key: 'discover',
+    title: 'Discover',
     icon: <SearchOutlined />,
+    href: '/discover',
   },
   {
     key: 'notifications',
     title: 'Notifications',
     icon: <BellOutlined />,
+    href: '/notifications',
   },
   {
     key: 'events',
     title: 'My events',
     icon: <CarryOutOutlined />,
+    href: '/events',
   },
 ];
 
 export interface LayoutProps {
   session?: Session;
+  isFan: boolean;
 }
 
 export const Layout: React.FunctionComponent<LayoutProps> = ({
   session,
+  isFan,
   children,
 }) => {
   if (!session) {
@@ -47,15 +53,26 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
   }
 
   return (
-    <AntLayout>
-      <Navbar options={mockedOptions} />
-      <AntLayout style={{ marginLeft: 200 }}>
-        <Header />
-        <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
-          <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
-            {children}
-          </div>
-        </Content>
+    <AntLayout style={{ height: '100vh' }}>
+      <Header />
+      <AntLayout>
+        <Navbar options={mockedOptions} isFan={isFan} />
+        <AntLayout
+          style={{
+            padding: '0 0 24px 24px',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'auto',
+          }}
+        >
+          <Content style={{ margin: '24px 16px 0', overflow: 'initial' }}>
+            <div
+              style={{ padding: 24, background: '#fff', textAlign: 'center' }}
+            >
+              {children}
+            </div>
+          </Content>
+        </AntLayout>
       </AntLayout>
     </AntLayout>
   );
