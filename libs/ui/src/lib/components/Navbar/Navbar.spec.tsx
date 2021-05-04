@@ -1,4 +1,5 @@
 import {
+  BellOutlined,
   CarryOutOutlined,
   HomeOutlined,
   SearchOutlined,
@@ -13,22 +14,33 @@ const mockedOptions = [
     key: 'home',
     title: 'Home',
     icon: <HomeOutlined />,
+    href: '/home',
   },
   {
-    key: 'search',
-    title: 'Search',
+    key: 'discover',
+    title: 'Discover',
     icon: <SearchOutlined />,
+    href: '/discover',
+  },
+  {
+    key: 'notifications',
+    title: 'Notifications',
+    icon: <BellOutlined />,
+    href: '/notifications',
   },
   {
     key: 'events',
     title: 'My events',
     icon: <CarryOutOutlined />,
+    href: '/events',
   },
 ];
 
 describe('Navbar', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(<Navbar options={mockedOptions} />);
+    const { baseElement } = render(
+      <Navbar options={mockedOptions} isFan={true} />
+    );
     expect(baseElement).toBeTruthy();
   });
 });

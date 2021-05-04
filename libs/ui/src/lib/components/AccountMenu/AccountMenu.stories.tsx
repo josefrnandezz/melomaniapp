@@ -1,8 +1,3 @@
-import {
-  LogoutOutlined,
-  SettingOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 import { Meta } from '@storybook/react';
 import React from 'react';
 

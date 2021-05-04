@@ -3,7 +3,7 @@ import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 
-const { Sider } = Layout;
+const { Sider, Footer } = Layout;
 
 export interface NavbarProps {
   options: Array<any>;
@@ -34,21 +34,21 @@ export const Navbar = ({ options, isFan }: NavbarProps) => {
             <Link href={option.href}>{option.title}</Link>
           </Menu.Item>
         ))}
-        {!isFan && (
-          <div
-            style={{
-              overflow: 'visible',
-              position: 'absolute',
-              marginLeft: '16px',
-              bottom: '30px',
-            }}
-          >
-            <ProfileSwitcher
-              profiles={[{ username: 'oost', displayName: 'OOST' }]}
-            />
-          </div>
-        )}
       </Menu>
+      {!isFan && (
+        <div
+          style={{
+            overflow: 'visible',
+            position: 'absolute',
+            marginLeft: '16px',
+            bottom: '30px',
+          }}
+        >
+          <ProfileSwitcher
+            profiles={[{ username: 'oost', displayName: 'OOST' }]}
+          />
+        </div>
+      )}
     </Sider>
   );
 };
