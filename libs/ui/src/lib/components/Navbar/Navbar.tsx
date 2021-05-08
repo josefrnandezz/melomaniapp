@@ -40,7 +40,7 @@ export const Navbar = ({ options, isFan }: NavbarProps) => {
           style={{
             overflow: 'visible',
             position: 'absolute',
-            marginLeft: '16px',
+            margin: '1em 0 0 1em',
             bottom: '30px',
           }}
         >
