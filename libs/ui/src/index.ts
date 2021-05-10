@@ -1,5 +1,6 @@
 export * from './lib/components/AccountMenu/AccountMenu';
 export * from './lib/components/Button/Button';
+export * from './lib/components/Genre/GenreFilter/GenreFilter';
 export * from './lib/components/Genre/GenreItem/GenreItem';
 export * from './lib/components/Header/Header';
 export * from './lib/components/Layout/Layout';
