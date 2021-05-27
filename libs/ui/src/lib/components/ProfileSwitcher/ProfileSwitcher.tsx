@@ -1,6 +1,5 @@
 import {
   EllipsisOutlined,
-  LogoutOutlined,
   UserAddOutlined,
   UserOutlined,
 } from '@ant-design/icons';
@@ -44,9 +43,6 @@ export const ProfileSwitcher = ({ profiles }: ProfileSwitcherProps) => {
       <Menu>
         <Menu.Item key="registerProfile" icon={<UserAddOutlined />}>
           Register a profile
-        </Menu.Item>
-        <Menu.Item key="logout" icon={<LogoutOutlined />}>
-          Log out
         </Menu.Item>
       </Menu>
     </Menu>

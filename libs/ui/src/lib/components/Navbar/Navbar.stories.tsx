@@ -3,6 +3,7 @@ import {
   CarryOutOutlined,
   HomeOutlined,
   SearchOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
 
@@ -60,6 +61,12 @@ FanNavbar.args = {
       title: 'My events',
       icon: <CarryOutOutlined />,
       href: '/events',
+    },
+    {
+      key: 'management',
+      title: 'Management',
+      icon: <SettingOutlined />,
+      href: '/management',
     },
   ],
   isFan: true,

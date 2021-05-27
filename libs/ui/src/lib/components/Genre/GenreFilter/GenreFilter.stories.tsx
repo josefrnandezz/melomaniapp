@@ -18,4 +18,7 @@ Default.args = {
   className: {
     width: '20%',
   },
+  onChangeHandler: (values: string[]) => {
+    console.log(values);
+  },
 };

@@ -3,6 +3,7 @@ import {
   CarryOutOutlined,
   HomeOutlined,
   SearchOutlined,
+  SettingOutlined,
 } from '@ant-design/icons';
 import { Header, Navbar } from '@melomaniapp/ui';
 import { Layout as AntLayout } from 'antd';
@@ -36,6 +37,12 @@ const mockedOptions = [
     icon: <CarryOutOutlined />,
     href: '/events',
   },
+  {
+    key: 'management',
+    title: 'Management',
+    icon: <SettingOutlined />,
+    href: '/management',
+  },
 ];
 
 export interface LayoutProps {
@@ -56,7 +63,6 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
     <AntLayout style={{ height: '100vh' }}>
       <Navbar options={mockedOptions} isFan={isFan} />
       <AntLayout>
-        <Header />
         <AntLayout
           style={{
             display: 'flex',
@@ -64,8 +70,9 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
             overflow: 'auto',
           }}
         >
+          <Header />
           <Content
-            style={{ height: '100vh', margin: '24px', overflow: 'initial' }}
+            style={{ height: '100%', margin: '24px', overflow: 'initial' }}
           >
             <div
               style={{ padding: 24, background: '#fff', textAlign: 'center' }}

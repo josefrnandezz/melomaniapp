@@ -1,6 +1,6 @@
 import { GenreDTO } from '@melomaniapp/contracts';
 import { GenreItem } from '@melomaniapp/ui';
-import { List } from 'antd';
+import { Col, List, Row } from 'antd';
 import Link from 'next/link';
 import React from 'react';
 
@@ -11,17 +11,19 @@ export interface GenreListProps {
 export const GenreList: React.FunctionComponent<GenreListProps> = ({
   genres,
 }) => (
-  <List
-    grid={{ gutter: 16, xs: 1, sm: 2, md: 2, lg: 3, xl: 3, xxl: 3 }}
-    dataSource={genres}
-    renderItem={(genre) => (
-      <Link href={`/discover/genre/${genre.id}`}>
-        <List.Item>
-          <GenreItem genre={genre} />
-        </List.Item>
-      </Link>
-    )}
-  />
+  <List>
+    <Row justify="center" gutter={{ xs: 8, sm: 16, md: 24 }}>
+      {genres.map((genre) => (
+        <Col xs={24} sm={12} md={8}>
+          <Link href={`/discover/genre/${genre.id}`}>
+            <List.Item>
+              <GenreItem genre={genre} />
+            </List.Item>
+          </Link>
+        </Col>
+      ))}
+    </Row>
+  </List>
 );
 
 export default GenreList;
