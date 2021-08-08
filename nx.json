@@ -29,31 +29,60 @@
     }
   },
   "projects": {
-    "web": {
-      "tags": []
-    },
-    "web-e2e": {
-      "tags": [],
-      "implicitDependencies": ["web"]
-    },
-    "api": {
-      "tags": []
-    },
-    "domain": {
-      "tags": []
-    },
-    "ui": {
-      "tags": []
-    },
-    "contracts": {
-      "tags": []
-    },
     "admin": {
       "tags": []
     },
     "admin-e2e": {
       "tags": [],
       "implicitDependencies": ["admin"]
+    },
+    "api": {
+      "tags": []
+    },
+    "contracts-auth": {
+      "tags": []
+    },
+    "contracts-establishment": {
+      "tags": []
+    },
+    "contracts-genre": {
+      "tags": []
+    },
+    "contracts-user": {
+      "tags": []
+    },
+    "domain": {
+      "tags": []
+    },
+    "nestjs-auth": {
+      "tags": []
+    },
+    "nestjs-common": {
+      "tags": []
+    },
+    "nestjs-genre": {
+      "tags": []
+    },
+    "nestjs-user": {
+      "tags": []
+    },
+    "ui": {
+      "tags": []
+    },
+    "web": {
+      "tags": []
+    },
+    "web-e2e": {
+      "tags": [],
+      "implicitDependencies": ["web"]
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
   }
 }

@@ -2,7 +2,7 @@ import {
   CreateEstablishmentDTO,
   EditEstablishmentDTO,
   EstablishmentDTO,
-} from '@melomaniapp/contracts';
+} from '@melomaniapp/contracts/establishment';
 import { Button, GenreFilter } from '@melomaniapp/ui';
 import { Form, Input } from 'antd';
 import React, { useState } from 'react';

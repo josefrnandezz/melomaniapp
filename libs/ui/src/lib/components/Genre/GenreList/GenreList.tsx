@@ -1,4 +1,4 @@
-import { GenreDTO } from '@melomaniapp/contracts';
+import { GenreDTO } from '@melomaniapp/contracts/genre';
 import { GenreItem } from '@melomaniapp/ui';
 import { Col, List, Row } from 'antd';
 import Link from 'next/link';

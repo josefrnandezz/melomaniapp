@@ -2,35 +2,37 @@ import {
   isAccessToken,
   isCredentials,
   isJwtPayload,
-} from '@melomaniapp/contracts';
+} from '@melomaniapp/contracts/auth';
 import axios from 'axios';
 import jose from 'jose';
 import jwt from 'jsonwebtoken';
 import { NextApiRequest, NextApiResponse } from 'next';
-import NextAuth, { InitOptions, User } from 'next-auth';
+import NextAuth, { NextAuthOptions, User } from 'next-auth';
 import Providers from 'next-auth/providers';
 
-const options: InitOptions = {
+const options: NextAuthOptions = {
   session: {
     jwt: true,
   },
   callbacks: {
     session: async (session, user) => {
-      // @ts-expect-error: Custom session attributes
       session.roles = user.roles;
-      return Promise.resolve(session);
+      session.access_token = user.access_token;
+
+      return session;
     },
     jwt: async (token, user, account, profile, isNewUser) => {
       const isSignIn = user ? true : false;
       if (isSignIn) {
         token.roles = profile.roles;
+        token.access_token = profile.access_token;
       }
       return Promise.resolve(token);
     },
   },
-  secret: process.env.JWT_SECRET,
+  secret: process.env.NODE_JWT_SECRET || process.env.NX_JWT_SECRET,
   jwt: {
-    secret: process.env.JWT_SECRET,
+    secret: process.env.NODE_JWT_SECRET || process.env.NX_JWT_SECRET,
     encode: async ({ secret, token, maxAge }) => {
       const signingOptions: jose.JWT.SignOptions = {
         expiresIn: `${maxAge}s`,
@@ -66,7 +68,10 @@ const options: InitOptions = {
             return Promise.resolve(null);
           }
           const res = await axios.post(
-            `${process.env.NEXTAUTH_URL}/api/login`,
+            `${
+              process.env.NODE_API_URL_INTERNAL ||
+              process.env.NX_API_URL_INTERNAL
+            }/api/login`,
             credentials
           );
 
@@ -81,8 +86,10 @@ const options: InitOptions = {
 
           const verify = jwt.verify(
             res.data.access_token,
-            process.env.JWT_SECRET
+            process.env.NODE_JWT_SECRET || process.env.NX_JWT_SECRET
           );
+
+          console.debug(verify);
 
           if (!isJwtPayload(verify)) {
             console.error(
@@ -97,6 +104,7 @@ const options: InitOptions = {
             name: verify.username,
             email: verify.username,
             roles: verify.roles,
+            access_token: res.data.access_token,
           });
         } catch (e) {
           console.error('next-auth - error in credentials');
@@ -108,5 +116,5 @@ const options: InitOptions = {
   ],
 };
 
-export default (req: NextApiRequest, res: NextApiResponse): Promise<void> =>
+export default (req: NextApiRequest, res: NextApiResponse) =>
   NextAuth(req, res, options);

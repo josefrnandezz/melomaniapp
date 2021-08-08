@@ -1,4 +1,4 @@
-import { GenreDTO } from '@melomaniapp/contracts';
+import { GenreDTO } from '@melomaniapp/contracts/genre';
 import { Card, Typography } from 'antd';
 import React from 'react';
 

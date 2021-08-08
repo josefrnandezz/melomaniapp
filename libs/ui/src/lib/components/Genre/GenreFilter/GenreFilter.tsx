@@ -1,4 +1,4 @@
-import { GenreDTO } from '@melomaniapp/contracts';
+import { GenreDTO } from '@melomaniapp/contracts/genre';
 import { Select } from 'antd';
 import React, { useState } from 'react';
 
