@@ -1,6 +1,6 @@
+import { UserDto } from '@melomaniapp/contracts/user';
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { UserDto } from '@melomaniapp/contracts/user';
 
 import { UsernameNotFoundError } from '../../domain';
 import { Username } from '../../domain/model/username';

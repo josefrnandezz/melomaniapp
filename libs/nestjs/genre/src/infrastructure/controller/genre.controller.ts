@@ -1,4 +1,7 @@
-import { IdAlreadyRegisteredError } from '@aulasoftwarelibre/nestjs-eventstore';
+import {
+  IdAlreadyRegisteredError,
+  IdNotFoundError,
+} from '@aulasoftwarelibre/nestjs-eventstore';
 import { CreateGenreDTO, GenreDTO } from '@melomaniapp/contracts/genre';
 import { catchError } from '@melomaniapp/nestjs/common';
 import {
@@ -6,6 +9,8 @@ import {
   ConflictException,
   Controller,
   Get,
+  NotFoundException,
+  Param,
   Post,
   Res,
 } from '@nestjs/common';
@@ -43,6 +48,19 @@ export class GenreController {
       return genres;
     } catch (e) {
       throw catchError(e);
+    }
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<GenreDTO> {
+    try {
+      return this.genreService.findOne(id);
+    } catch (e) {
+      if (e instanceof IdNotFoundError) {
+        throw new NotFoundException('Genre not found');
+      } else {
+        throw catchError(e);
+      }
     }
   }
 }

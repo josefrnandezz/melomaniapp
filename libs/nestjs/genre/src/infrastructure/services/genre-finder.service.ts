@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { IGenreFinder } from '../../application/services';
+import { GenreId, GenreName } from '../../domain';
 import { GenreDocument, GENRES_PROJECTION } from '../read-model';
 
 @Injectable()
@@ -17,5 +18,15 @@ export class GenreFinder implements IGenreFinder {
     const genres = await this.genres.find().lean();
 
     return genres.map((genre) => new GenreDTO(genre));
+  }
+
+  async find(id: GenreId): Promise<GenreDTO> {
+    const genre = await this.genres.findById(id.value).lean();
+
+    return new GenreDTO(genre);
+  }
+
+  async findOneByName(name: GenreName): Promise<GenreDTO> {
+    return this.genres.findOne({ name: name.value }).lean();
   }
 }
