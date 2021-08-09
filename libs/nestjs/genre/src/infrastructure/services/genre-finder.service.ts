@@ -27,6 +27,6 @@ export class GenreFinder implements IGenreFinder {
   }
 
   async findOneByName(name: GenreName): Promise<GenreDTO> {
-    return this.genres.findOne({ name: name.value }).lean();
+    return await this.genres.findOne({ name: name.value }).lean();
   }
 }
