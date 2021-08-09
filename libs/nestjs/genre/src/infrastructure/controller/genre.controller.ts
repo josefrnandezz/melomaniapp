@@ -12,6 +12,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Delete,
   Get,
   HttpCode,
   NotFoundException,
@@ -20,6 +21,7 @@ import {
   Put,
   Res,
 } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import { GenreService } from '../services';
@@ -72,9 +74,28 @@ export class GenreController {
 
   @Put(':id')
   @HttpCode(204)
-  async update(@Param('id') id: string, @Body() editGenreDTO: EditGenreDTO) {
+  async update(
+    @Param('id') id: string,
+    @Body() editGenreDTO: EditGenreDTO
+  ): Promise<void> {
     try {
       await this.genreService.update(id, editGenreDTO);
+    } catch (e) {
+      if (e instanceof IdNotFoundError) {
+        throw new NotFoundException('Genre not found');
+      } else {
+        throw catchError(e);
+      }
+    }
+  }
+
+  @Delete(':id')
+  @ApiResponse({ status: 204, description: 'Delete genre' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @HttpCode(204)
+  async delete(@Param('id') id: string): Promise<void> {
+    try {
+      return await this.genreService.delete(id);
     } catch (e) {
       if (e instanceof IdNotFoundError) {
         throw new NotFoundException('Genre not found');

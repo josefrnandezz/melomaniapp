@@ -1,6 +1,10 @@
 import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
 
-import { GenreNameWasUpdated, GenreWasCreated } from '../event';
+import {
+  GenreNameWasUpdated,
+  GenreWasCreated,
+  GenreWasDeleted,
+} from '../event';
 import { GenreId } from './genre-id';
 import { GenreName } from './genre-name';
 
@@ -41,6 +45,14 @@ export class Genre extends AggregateRoot {
     this.apply(new GenreNameWasUpdated(this.id.value, genreName.value));
   }
 
+  delete(): void {
+    if (this._deleted) {
+      return;
+    }
+
+    this.apply(new GenreWasDeleted(this.id.value));
+  }
+
   private onGenreWasCreated(event: GenreWasCreated) {
     this._genreId = GenreId.fromString(event.id);
     this._genreName = GenreName.fromString(event.name);
@@ -49,5 +61,9 @@ export class Genre extends AggregateRoot {
 
   private onGenreNameWasUpdated(event: GenreNameWasUpdated) {
     this._genreName = GenreName.fromString(event.name);
+  }
+
+  private onGenreWasDeleted(event: GenreWasDeleted) {
+    this._deleted = new Date(event.metadata._ocurred_on);
   }
 }

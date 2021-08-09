@@ -8,6 +8,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import {
   CreateGenreCommand,
+  DeleteGenreCommand,
   GetGenreQuery,
   GetGenresQuery,
   UpdateGenreCommand,
@@ -44,5 +45,9 @@ export class GenreService {
     const genre = await this.queryBus.execute(new GetGenreQuery(id));
 
     return new GenreDTO({ ...genre });
+  }
+
+  async delete(id: string) {
+    await this.commandBus.execute(new DeleteGenreCommand(id));
   }
 }
