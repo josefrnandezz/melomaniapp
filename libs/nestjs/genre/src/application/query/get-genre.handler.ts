@@ -17,7 +17,7 @@ export class GetGenreHandler implements IQueryHandler<GetGenreQuery> {
   async execute(query: GetGenreQuery): Promise<GenreDTO> {
     const genreId = GenreId.fromString(query.id);
 
-    const genre = this.finder.find(genreId);
+    const genre = await this.finder.find(genreId);
 
     if (!genre) {
       throw IdNotFoundError.withId(genreId);

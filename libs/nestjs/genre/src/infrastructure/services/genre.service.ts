@@ -1,4 +1,8 @@
-import { CreateGenreDTO, GenreDTO } from '@melomaniapp/contracts/genre';
+import {
+  CreateGenreDTO,
+  EditGenreDTO,
+  GenreDTO,
+} from '@melomaniapp/contracts/genre';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
@@ -6,6 +10,7 @@ import {
   CreateGenreCommand,
   GetGenreQuery,
   GetGenresQuery,
+  UpdateGenreCommand,
 } from '../../application';
 
 @Injectable()
@@ -24,10 +29,20 @@ export class GenreService {
   }
 
   async findOne(id: string): Promise<GenreDTO> {
-    return this.queryBus.execute(new GetGenreQuery(id));
+    return await this.queryBus.execute(new GetGenreQuery(id));
   }
 
   async findAll(): Promise<GenreDTO[]> {
-    return this.queryBus.execute(new GetGenresQuery());
+    return await this.queryBus.execute(new GetGenresQuery());
+  }
+
+  async update(id: string, editGenreDTO: EditGenreDTO): Promise<GenreDTO> {
+    await this.commandBus.execute(
+      new UpdateGenreCommand(id, editGenreDTO.name)
+    );
+
+    const genre = await this.queryBus.execute(new GetGenreQuery(id));
+
+    return new GenreDTO({ ...genre });
   }
 }

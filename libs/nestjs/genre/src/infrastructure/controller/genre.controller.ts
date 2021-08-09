@@ -2,16 +2,22 @@ import {
   IdAlreadyRegisteredError,
   IdNotFoundError,
 } from '@aulasoftwarelibre/nestjs-eventstore';
-import { CreateGenreDTO, GenreDTO } from '@melomaniapp/contracts/genre';
+import {
+  CreateGenreDTO,
+  EditGenreDTO,
+  GenreDTO,
+} from '@melomaniapp/contracts/genre';
 import { catchError } from '@melomaniapp/nestjs/common';
 import {
   Body,
   ConflictException,
   Controller,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
+  Put,
   Res,
 } from '@nestjs/common';
 import { Response } from 'express';
@@ -25,7 +31,7 @@ export class GenreController {
   @Post()
   async create(@Body() genreDTO: CreateGenreDTO): Promise<GenreDTO> {
     try {
-      return this.genreService.create(genreDTO);
+      return await this.genreService.create(genreDTO);
     } catch (e) {
       if (e instanceof IdAlreadyRegisteredError) {
         throw new ConflictException(e.message);
@@ -54,7 +60,21 @@ export class GenreController {
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<GenreDTO> {
     try {
-      return this.genreService.findOne(id);
+      return await this.genreService.findOne(id);
+    } catch (e) {
+      if (e instanceof IdNotFoundError) {
+        throw new NotFoundException('Genre not found');
+      } else {
+        throw catchError(e);
+      }
+    }
+  }
+
+  @Put(':id')
+  @HttpCode(204)
+  async update(@Param('id') id: string, @Body() editGenreDTO: EditGenreDTO) {
+    try {
+      await this.genreService.update(id, editGenreDTO);
     } catch (e) {
       if (e instanceof IdNotFoundError) {
         throw new NotFoundException('Genre not found');

@@ -14,6 +14,6 @@ export class GetGenresHandler implements IQueryHandler<GetGenresQuery> {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async execute(query: GetGenresQuery): Promise<GenreDTO[]> {
-    return this.finder.findAll();
+    return await this.finder.findAll();
   }
 }

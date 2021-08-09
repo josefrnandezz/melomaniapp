@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
 import { Role } from '@melomaniapp/nestjs/common';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class EditUserDto {
   @ApiProperty()
