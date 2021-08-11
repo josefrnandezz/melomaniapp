@@ -26,6 +26,6 @@ export class DeleteGenreHandler implements ICommandHandler<DeleteGenreCommand> {
 
     genre.delete();
 
-    await this.genres.delete(genre);
+    this.genres.save(genre);
   }
 }

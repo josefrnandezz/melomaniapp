@@ -14,7 +14,7 @@ export class GenreName extends ValueObject<Props> {
       throw DomainError.because('Invalid genre name characters');
     }
 
-    return new GenreName({ value: name });
+    return new GenreName({ value: name.toLowerCase() });
   }
 
   get value(): string {

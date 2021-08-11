@@ -14,6 +14,6 @@ describe('GenreName', () => {
   });
 
   it('should not have capital letters', () => {
-    expect(() => GenreName.fromString('Genre')).toThrow();
+    expect(GenreName.fromString('Genre').value).toBe('genre');
   });
 });

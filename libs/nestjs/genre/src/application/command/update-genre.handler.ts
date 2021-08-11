@@ -38,16 +38,8 @@ export class UpdateGenreHandler implements ICommandHandler<UpdateGenreCommand> {
       throw GenreNameAlreadyTakenError.with(genreName);
     }
 
-    await this.updateName(genre, command);
+    genre.updateName(GenreName.fromString(command.genreName));
 
     this.genres.save(genre);
-  }
-
-  private async updateName(genre: Genre, command: UpdateGenreCommand) {
-    if (!command.genreName) {
-      return;
-    }
-
-    genre.updateName(GenreName.fromString(command.genreName));
   }
 }
