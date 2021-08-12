@@ -60,6 +60,9 @@
     "nestjs-common": {
       "tags": []
     },
+    "nestjs-establishment": {
+      "tags": []
+    },
     "nestjs-genre": {
       "tags": []
     },
