@@ -12,8 +12,8 @@ export class EstablishmentService {
   constructor(private readonly commandBus: CommandBus) {}
 
   async create(
-    establishmentDTO: CreateEstablishmentDTO,
-    ownerId: string
+    ownerId: string,
+    establishmentDTO: CreateEstablishmentDTO
   ): Promise<EstablishmentDTO> {
     const { _id, name, slug, description, email, address, genreIds } =
       establishmentDTO;
@@ -31,6 +31,8 @@ export class EstablishmentService {
       )
     );
 
-    return new EstablishmentDTO({ ...establishmentDTO, ownerId });
+    console.debug({ ownerId, ...establishmentDTO });
+
+    return new EstablishmentDTO({ ownerId, ...establishmentDTO });
   }
 }

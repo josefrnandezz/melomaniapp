@@ -38,7 +38,7 @@ export class EstablishmentDTO {
   @ApiProperty()
   public readonly email: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: { full: 'string', city: 'string' } })
   public readonly address: Address;
 
   @ApiProperty()

@@ -4,24 +4,29 @@ import {
   CreateEstablishmentDTO,
 } from '@melomaniapp/contracts/establishment';
 
-export class EstablishmentWasCreated extends Event<CreateEstablishmentDTO> {
+export interface EstablishmentWasCreatedProps extends CreateEstablishmentDTO {
+  ownerId: string;
+}
+
+export class EstablishmentWasCreated extends Event<EstablishmentWasCreatedProps> {
   constructor(
     public readonly id: string,
+    public readonly ownerId: string,
     public readonly name: string,
     public readonly slug: string,
     public readonly description: string,
     public readonly email: string,
-    public readonly address: Address,
-    public readonly genreIds: string[]
+    public readonly address: Address
   ) {
     super(id, {
       _id: id,
+      ownerId,
       name,
       slug,
       description,
       email,
       address: address,
-      genreIds,
+      genreIds: [],
     });
   }
 }

@@ -10,7 +10,7 @@ export class Slug extends ValueObject<Props> {
       throw DomainError.because('Establishment slug cannot be empty');
     }
 
-    if (!/^[a-zA-Z0-9_]+$/.test(slug)) {
+    if (!/^[a-z0-9_.]+$/.test(slug)) {
       throw DomainError.because('Invalid establishment slug characters');
     }
 

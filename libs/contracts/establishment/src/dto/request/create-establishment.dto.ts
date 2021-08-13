@@ -4,23 +4,23 @@ import { Address } from '..';
 
 export class CreateEstablishmentDTO {
   @ApiProperty()
-  public readonly _id: string;
+  _id: string;
 
   @ApiProperty()
-  public readonly name: string;
+  name: string;
 
   @ApiProperty()
-  public readonly slug: string;
+  slug: string;
 
   @ApiProperty()
-  public readonly description: string;
+  description: string;
 
   @ApiProperty()
-  public readonly email: string;
+  email: string;
+
+  @ApiProperty({ example: { full: 'string', city: 'string' } })
+  address: Address;
 
   @ApiProperty()
-  public readonly address: Address;
-
-  @ApiProperty()
-  public readonly genreIds: string[];
+  genreIds: string[];
 }

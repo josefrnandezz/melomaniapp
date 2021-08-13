@@ -3,6 +3,7 @@ import {
   EventStoreModule,
 } from '@aulasoftwarelibre/nestjs-eventstore';
 import { AuthModule } from '@melomaniapp/nestjs/auth';
+import { EstablishmentModule } from '@melomaniapp/nestjs/establishment';
 import { GenreModule } from '@melomaniapp/nestjs/genre';
 import { UserModule } from '@melomaniapp/nestjs/user';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
@@ -49,6 +50,7 @@ import { appProviders } from './app.providers';
     AuthModule,
     UserModule,
     GenreModule,
+    EstablishmentModule,
   ],
   providers: [...appProviders],
 })

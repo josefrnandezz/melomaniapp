@@ -1,5 +1,8 @@
 import { IdAlreadyRegisteredError } from '@aulasoftwarelibre/nestjs-eventstore';
-import { CreateEstablishmentDTO } from '@melomaniapp/contracts/establishment';
+import {
+  CreateEstablishmentDTO,
+  EstablishmentDTO,
+} from '@melomaniapp/contracts/establishment';
 import { catchError } from '@melomaniapp/nestjs/common';
 import {
   Body,
@@ -11,17 +14,17 @@ import {
 
 import { EstablishmentService } from '../services';
 
-@Controller('establishment')
+@Controller('establishments')
 export class EstablishmentController {
   constructor(public readonly establishmentService: EstablishmentService) {}
 
   @Post()
   async create(
-    @Body() establishmentDTO: CreateEstablishmentDTO,
-    @Param() ownerId: string
-  ) {
+    @Param('ownerId') ownerId: string,
+    @Body() establishmentDTO: CreateEstablishmentDTO
+  ): Promise<EstablishmentDTO> {
     try {
-      return await this.establishmentService.create(establishmentDTO, ownerId);
+      return await this.establishmentService.create(ownerId, establishmentDTO);
     } catch (e) {
       if (e instanceof IdAlreadyRegisteredError) {
         throw new ConflictException(e.message);

@@ -4,20 +4,20 @@ import { Address } from '..';
 
 export class EditEstablishmentDTO {
   @ApiProperty()
-  public readonly name?: string;
+  name?: string;
 
   @ApiProperty()
-  public readonly slug?: string;
+  slug?: string;
 
   @ApiProperty()
-  public readonly description?: string;
+  description?: string;
 
   @ApiProperty()
-  public readonly email?: string;
+  email?: string;
 
   @ApiProperty()
-  public readonly address?: Address;
+  address?: Address;
 
   @ApiProperty()
-  public readonly genres?: string[];
+  genres?: string[];
 }
