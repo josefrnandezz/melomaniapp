@@ -31,8 +31,6 @@ export class EstablishmentService {
       )
     );
 
-    console.debug({ ownerId, ...establishmentDTO });
-
     return new EstablishmentDTO({ ownerId, ...establishmentDTO });
   }
 }
