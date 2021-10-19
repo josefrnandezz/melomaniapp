@@ -3,13 +3,20 @@ import {
   EstablishmentDTO,
 } from '@melomaniapp/contracts/establishment';
 import { Injectable } from '@nestjs/common';
-import { CommandBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { CreateEstablishmentCommand } from '../../application/command/create-establishment.command';
+import {
+  CreateEstablishmentCommand,
+  GetEstablishmentQuery,
+  GetEstablishmentsQuery,
+} from '../../application';
 
 @Injectable()
 export class EstablishmentService {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus
+  ) {}
 
   async create(
     ownerId: string,
@@ -32,5 +39,13 @@ export class EstablishmentService {
     );
 
     return new EstablishmentDTO({ ownerId, ...establishmentDTO });
+  }
+
+  async findAll(): Promise<EstablishmentDTO[]> {
+    return await this.queryBus.execute(new GetEstablishmentsQuery());
+  }
+
+  async findOne(id: string): Promise<EstablishmentDTO> {
+    return await this.queryBus.execute(new GetEstablishmentQuery(id));
   }
 }

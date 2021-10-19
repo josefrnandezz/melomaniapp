@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { commandHandlers } from '../application';
+import { commandHandlers, queryHandlers } from '../application';
 import { Establishment, eventTransformers } from '../domain';
 import { EstablishmentController } from './controller';
 import { establishmentProviders } from './establishment.providers';
@@ -28,6 +28,7 @@ import { EstablishmentService } from './services';
   ],
   providers: [
     ...commandHandlers,
+    ...queryHandlers,
     ...establishmentProviders,
     ...projectionHandlers,
     EstablishmentService,
