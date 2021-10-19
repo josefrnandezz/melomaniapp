@@ -1,4 +1,4 @@
-import { IEventHandler } from '@nestjs/cqrs';
+import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -8,6 +8,7 @@ import {
   ESTABLISHMENTS_PROJECTION,
 } from './establishment.schema';
 
+@EventsHandler(EstablishmentGenreWasAdded)
 export class EstablishmentGenreWasAddedProjection
   implements IEventHandler<EstablishmentGenreWasAdded>
 {
