@@ -1,5 +1,6 @@
 import {
   CreateEstablishmentDTO,
+  EditEstablishmentDTO,
   EstablishmentDTO,
 } from '@melomaniapp/contracts/establishment';
 import { Injectable } from '@nestjs/common';
@@ -9,6 +10,7 @@ import {
   CreateEstablishmentCommand,
   GetEstablishmentQuery,
   GetEstablishmentsQuery,
+  UpdateEstablishmentCommand,
 } from '../../application';
 
 @Injectable()
@@ -47,5 +49,27 @@ export class EstablishmentService {
 
   async findOne(id: string): Promise<EstablishmentDTO> {
     return await this.queryBus.execute(new GetEstablishmentQuery(id));
+  }
+
+  async update(
+    id: string,
+    establishment: EditEstablishmentDTO
+  ): Promise<EstablishmentDTO> {
+    const { name, slug, description, email, address, genres } = establishment;
+
+    this.commandBus.execute(
+      new UpdateEstablishmentCommand(
+        id,
+        name,
+        slug,
+        description,
+        email,
+        address,
+        genres
+      )
+    );
+
+    const updatedEstablishment = await this.findOne(id);
+    return updatedEstablishment;
   }
 }

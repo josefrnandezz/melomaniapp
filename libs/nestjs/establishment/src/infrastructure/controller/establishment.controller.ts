@@ -4,6 +4,7 @@ import {
 } from '@aulasoftwarelibre/nestjs-eventstore';
 import {
   CreateEstablishmentDTO,
+  EditEstablishmentDTO,
   EstablishmentDTO,
 } from '@melomaniapp/contracts/establishment';
 import { UserDto } from '@melomaniapp/contracts/user';
@@ -13,9 +14,12 @@ import {
   ConflictException,
   Controller,
   Get,
+  HttpCode,
+  HttpStatus,
   NotFoundException,
   Param,
   Post,
+  Put,
   Res,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -70,6 +74,22 @@ export class EstablishmentController {
         throw new NotFoundException('Establishment not found');
       } else {
         throw catchError(error);
+      }
+    }
+  }
+
+  @Put(':id')
+  @Roles(Role.Admin)
+  @HttpCode(204)
+  async update(
+    @Param('id') id: string,
+    @Body() establishment: EditEstablishmentDTO
+  ): Promise<EstablishmentDTO> {
+    try {
+      return await this.establishmentService.update(id, establishment);
+    } catch (e) {
+      if (e instanceof IdNotFoundError) {
+        throw new IdNotFoundError();
       }
     }
   }

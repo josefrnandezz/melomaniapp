@@ -82,6 +82,6 @@ export class CreateEstablishmentHandler implements ICommandHandler {
       establishment.addGenre(GenreId.fromString(genreId))
     );
 
-    await this.establishments.save(establishment);
+    this.establishments.save(establishment);
   }
 }
