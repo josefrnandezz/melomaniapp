@@ -15,7 +15,6 @@ import {
   Controller,
   Get,
   HttpCode,
-  HttpStatus,
   NotFoundException,
   Param,
   Post,
@@ -87,9 +86,9 @@ export class EstablishmentController {
   ): Promise<EstablishmentDTO> {
     try {
       return await this.establishmentService.update(id, establishment);
-    } catch (e) {
-      if (e instanceof IdNotFoundError) {
-        throw new IdNotFoundError();
+    } catch (error) {
+      if (error instanceof IdNotFoundError) {
+        throw catchError(error);
       }
     }
   }

@@ -18,11 +18,13 @@ export class EstablishmentAddressWasUpdatedProjection
   ) {}
 
   async handle(event: EstablishmentAddressWasUpdated) {
-    await this.establishments.findByIdAndUpdate(event.aggregateId, {
-      address: {
-        city: event.payload.city,
-        full: event.payload.full,
-      },
-    });
+    await this.establishments
+      .findByIdAndUpdate(event.aggregateId, {
+        address: {
+          city: event.payload.city,
+          full: event.payload.full,
+        },
+      })
+      .exec();
   }
 }

@@ -55,17 +55,15 @@ export class EstablishmentService {
     id: string,
     establishment: EditEstablishmentDTO
   ): Promise<EstablishmentDTO> {
-    const { name, slug, description, email, address, genres } = establishment;
-
     this.commandBus.execute(
       new UpdateEstablishmentCommand(
         id,
-        name,
-        slug,
-        description,
-        email,
-        address,
-        genres
+        establishment.name,
+        establishment.slug,
+        establishment.description,
+        establishment.email,
+        establishment.address,
+        establishment.genres
       )
     );
 

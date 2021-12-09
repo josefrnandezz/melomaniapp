@@ -54,12 +54,6 @@ export class UpdateEstablishmentHandler implements ICommandHandler {
       throw IdNotFoundError.withId(id);
     }
 
-    establishment.updateInfo(name, description);
-    establishment.updateEmail(email);
-    establishment.updateSlug(slug);
-    establishment.updateAddress(address);
-    this.updateGenres(establishment, command);
-
     if (await this.finder.findOneBySlug(slug)) {
       throw SlugAlreadyTakenError.with(slug);
     }
@@ -71,6 +65,12 @@ export class UpdateEstablishmentHandler implements ICommandHandler {
     if (await this.finder.findOneByAddress(address)) {
       throw AddressAlreadyTakenError.with(address);
     }
+
+    establishment.updateInfo(name, description);
+    establishment.updateEmail(email);
+    establishment.updateSlug(slug);
+    establishment.updateAddress(address);
+    this.updateGenres(establishment, command);
 
     this.establishments.save(establishment);
   }
