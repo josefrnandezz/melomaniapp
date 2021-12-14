@@ -1,7 +1,7 @@
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import { Document, Schema } from 'mongoose';
 
-export const ESTABLISHMENTS_PROJECTION = 'establishment';
+export const ESTABLISHMENTS_PROJECTION = 'establishments';
 
 export type EstablishmentDocument = EstablishmentDTO & Document;
 

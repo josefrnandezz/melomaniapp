@@ -6,6 +6,7 @@ import {
   EstablishmentInfoWasUpdated,
   EstablishmentSlugWasUpdated,
   EstablishmentWasCreated,
+  EstablishmentWasDeleted,
 } from '../event';
 import { EstablishmentAddressWasUpdated } from '../event/establishment-address-was-updated.event';
 import { EstablishmentGenreWasRemoved } from '../event/establishment-genre-was-removed.event';
@@ -57,6 +58,18 @@ export class Establishment extends AggregateRoot {
 
   aggregateId(): string {
     return this._establishmentId.value;
+  }
+
+  get id(): EstablishmentId {
+    return this._establishmentId;
+  }
+
+  get genres(): GenreId[] {
+    return this._genreIds;
+  }
+
+  get deleted(): boolean {
+    return !!this._deleted;
   }
 
   hasGenre(genreId: GenreId): boolean {
@@ -137,12 +150,12 @@ export class Establishment extends AggregateRoot {
     );
   }
 
-  get genres(): GenreId[] {
-    return this._genreIds;
-  }
+  delete(): void {
+    if (this.deleted) {
+      return;
+    }
 
-  get deleted(): boolean {
-    return !!this._deleted;
+    this.apply(new EstablishmentWasDeleted(this.id.value));
   }
 
   private onEstablishmentWasCreated(event: EstablishmentWasCreated) {
@@ -186,5 +199,9 @@ export class Establishment extends AggregateRoot {
     event: EstablishmentAddressWasUpdated
   ) {
     this._address = EstablishmentAddress.with(event.full, event.city);
+  }
+
+  private onEstablishmentWasDeleted(event: EstablishmentWasDeleted) {
+    this._deleted = new Date(event.metadata._ocurred_on);
   }
 }

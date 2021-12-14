@@ -38,7 +38,7 @@ export class CreateEstablishmentHandler implements ICommandHandler {
     private readonly finder: IEstablishmentFinder
   ) {}
 
-  async execute(command: CreateEstablishmentCommand) {
+  async execute(command: CreateEstablishmentCommand): Promise<void> {
     const { full, city } = command.address;
 
     const establishmentId = EstablishmentId.fromString(command.establishmentId);

@@ -13,6 +13,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Delete,
   Get,
   HttpCode,
   NotFoundException,
@@ -21,7 +22,7 @@ import {
   Put,
   Res,
 } from '@nestjs/common';
-import { ApiBearerAuth } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 
 import { EstablishmentService } from '../services';
@@ -88,6 +89,23 @@ export class EstablishmentController {
       return await this.establishmentService.update(id, establishment);
     } catch (error) {
       if (error instanceof IdNotFoundError) {
+        throw catchError(error);
+      }
+    }
+  }
+
+  @Delete(':id')
+  @Roles(Role.Admin)
+  @ApiResponse({ status: 204, description: 'Delete genre' })
+  @ApiResponse({ status: 404, description: 'Not found' })
+  @HttpCode(204)
+  async delete(@Param('id') id: string): Promise<void> {
+    try {
+      return await this.establishmentService.delete(id);
+    } catch (error) {
+      if (error instanceof IdNotFoundError) {
+        throw new NotFoundException('Establishment not found');
+      } else {
         throw catchError(error);
       }
     }

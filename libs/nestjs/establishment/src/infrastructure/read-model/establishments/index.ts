@@ -5,6 +5,7 @@ import { EstablishmentGenreWasRemovedProjection } from './establishment-genre-wa
 import { EstablishmentInfoWasUpdatedProjection } from './establishment-info-was-updated.projection';
 import { EstablishmentSlugWasUpdatedProjection } from './establishment-slug-was-updated.projection';
 import { EstablishmentWasCreatedProjection } from './establishment-was-created.projection';
+import { EstablishmentWasDeletedProjection } from './establishment-was-deleted.projection';
 
 export * from './establishment.schema';
 
@@ -16,4 +17,5 @@ export const projectionHandlers = [
   EstablishmentEmailWasUpdatedProjection,
   EstablishmentSlugWasUpdatedProjection,
   EstablishmentAddressWasUpdatedProjection,
+  EstablishmentWasDeletedProjection,
 ];

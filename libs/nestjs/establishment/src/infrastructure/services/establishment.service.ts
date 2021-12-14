@@ -8,6 +8,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import {
   CreateEstablishmentCommand,
+  DeleteEstablishmentCommand,
   GetEstablishmentQuery,
   GetEstablishmentsQuery,
   UpdateEstablishmentCommand,
@@ -69,5 +70,9 @@ export class EstablishmentService {
 
     const updatedEstablishment = await this.findOne(id);
     return updatedEstablishment;
+  }
+
+  async delete(id: string): Promise<void> {
+    return await this.commandBus.execute(new DeleteEstablishmentCommand(id));
   }
 }

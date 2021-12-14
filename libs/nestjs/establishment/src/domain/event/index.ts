@@ -28,6 +28,7 @@ import {
   EstablishmentWasCreated,
   EstablishmentWasCreatedProps,
 } from './establishment-was-created.event';
+import { EstablishmentWasDeleted } from './establishment-was-deleted.event';
 
 export * from './establishment-address-was-updated.event';
 export * from './establishment-email-was-updated.event';
@@ -36,6 +37,7 @@ export * from './establishment-genre-was-removed.event';
 export * from './establishment-info-was-updated.event';
 export * from './establishment-slug-was-updated.event';
 export * from './establishment-was-created.event';
+export * from './establishment-was-deleted.event';
 
 export const eventTransformers = {
   EstablishmentWasCreated: (event: Event<EstablishmentWasCreatedProps>) =>
@@ -76,4 +78,6 @@ export const eventTransformers = {
       event.payload.city,
       event.payload.full
     ),
+  EstablishmentWasDeleted: (event: Event) =>
+    new EstablishmentWasDeleted(event.aggregateId),
 };
