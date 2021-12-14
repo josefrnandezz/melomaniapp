@@ -15,6 +15,6 @@ export class GenreWasDeletedProjection
   ) {}
 
   async handle(event: GenreWasDeleted) {
-    await this.genres.findByIdAndDelete(event.id);
+    await this.genres.findByIdAndDelete(event.aggregateId).exec();
   }
 }
