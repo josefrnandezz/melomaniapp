@@ -1,8 +1,8 @@
+import { UserDto } from '@melomaniapp/contracts/user';
 import { UnauthorizedException } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { JwtModule } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserDto } from '@melomaniapp/contracts/user';
 
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';

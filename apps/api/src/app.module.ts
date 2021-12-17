@@ -10,8 +10,10 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AccessControlModule } from 'nest-access-control';
 import { ConsoleModule } from 'nestjs-console';
 
+import { acl } from './app.acl';
 import configuration from './app.config';
 import { AppLoggerMiddleware } from './app.middleware';
 import { appProviders } from './app.providers';
@@ -46,6 +48,8 @@ import { appProviders } from './app.providers';
       connection:
         process.env.EVENTSTORE_URL || 'esdb://localhost:2113?tls=false',
     }),
+    // Security
+    AccessControlModule.forRoles(acl),
     // Project modules
     AuthModule,
     UserModule,

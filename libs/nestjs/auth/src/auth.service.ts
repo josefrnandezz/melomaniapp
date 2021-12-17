@@ -1,13 +1,13 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { QueryBus, CommandBus } from '@nestjs/cqrs';
-import { JwtService } from '@nestjs/jwt';
 import {
   AccessTokenInterface,
   JwtPayloadInterface,
 } from '@melomaniapp/contracts/auth';
 import { UserDto } from '@melomaniapp/contracts/user';
-import { delay } from '@melomaniapp/nestjs/common';
+// eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { GetUserByUsernameQuery } from '@melomaniapp/nestjs/user';
+import { Injectable, Logger } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { JwtService } from '@nestjs/jwt';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import * as bcrypt from 'bcrypt';
 

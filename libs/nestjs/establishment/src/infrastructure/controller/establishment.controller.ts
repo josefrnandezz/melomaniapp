@@ -8,7 +8,13 @@ import {
   EstablishmentDTO,
 } from '@melomaniapp/contracts/establishment';
 import { UserDto } from '@melomaniapp/contracts/user';
-import { catchError, Role, Roles, User } from '@melomaniapp/nestjs/common';
+import {
+  catchError,
+  Resource,
+  Role,
+  Roles,
+  User,
+} from '@melomaniapp/nestjs/common';
 import {
   Body,
   ConflictException,
@@ -21,10 +27,13 @@ import {
   Post,
   Put,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
+import { ACGuard, UseRoles } from 'nest-access-control';
 
+import { EstablishmentGuard } from '../auth/establihsment.guard';
 import { EstablishmentService } from '../services';
 
 @ApiBearerAuth()
@@ -81,6 +90,12 @@ export class EstablishmentController {
   @Put(':id')
   @Roles(Role.Admin)
   @HttpCode(204)
+  @UseRoles({
+    resource: Resource.Establishment,
+    action: 'update',
+    possession: 'own',
+  })
+  @UseGuards(EstablishmentGuard, ACGuard)
   async update(
     @Param('id') id: string,
     @Body() establishment: EditEstablishmentDTO
