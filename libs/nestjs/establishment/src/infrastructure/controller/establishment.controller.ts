@@ -114,6 +114,12 @@ export class EstablishmentController {
   @ApiResponse({ status: 204, description: 'Delete genre' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @HttpCode(204)
+  @UseRoles({
+    resource: Resource.Establishment,
+    action: 'delete',
+    possession: 'own',
+  })
+  @UseGuards(EstablishmentGuard, ACGuard)
   async delete(@Param('id') id: string): Promise<void> {
     try {
       return await this.establishmentService.delete(id);
