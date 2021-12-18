@@ -8,13 +8,7 @@ import {
   EstablishmentDTO,
 } from '@melomaniapp/contracts/establishment';
 import { UserDto } from '@melomaniapp/contracts/user';
-import {
-  catchError,
-  Resource,
-  Role,
-  Roles,
-  User,
-} from '@melomaniapp/nestjs/common';
+import { catchError, Resource, User } from '@melomaniapp/nestjs/common';
 import {
   Body,
   ConflictException,
@@ -42,7 +36,12 @@ export class EstablishmentController {
   constructor(public readonly establishmentService: EstablishmentService) {}
 
   @Post()
-  @Roles(Role.Admin)
+  @UseRoles({
+    resource: Resource.Establishment,
+    action: 'create',
+    possession: 'own',
+  })
+  @UseGuards(EstablishmentGuard, ACGuard)
   async create(
     @User() user: UserDto,
     @Body() establishmentDTO: CreateEstablishmentDTO
@@ -88,7 +87,6 @@ export class EstablishmentController {
   }
 
   @Put(':id')
-  @Roles(Role.Admin)
   @HttpCode(204)
   @UseRoles({
     resource: Resource.Establishment,
@@ -110,7 +108,6 @@ export class EstablishmentController {
   }
 
   @Delete(':id')
-  @Roles(Role.Admin)
   @ApiResponse({ status: 204, description: 'Delete genre' })
   @ApiResponse({ status: 404, description: 'Not found' })
   @HttpCode(204)
