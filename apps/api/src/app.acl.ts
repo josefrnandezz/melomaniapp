@@ -12,4 +12,5 @@ acl
     .updateOwn(Resource.Establishment)
     .deleteOwn(Resource.Establishment)
   .grant(Role.Admin)
+    .inherit(Role.User)
     .inherit(Role.EstablishmentOwner)
