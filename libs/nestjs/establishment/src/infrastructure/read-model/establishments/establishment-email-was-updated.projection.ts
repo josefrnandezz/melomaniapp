@@ -20,7 +20,7 @@ export class EstablishmentEmailWasUpdatedProjection
   public async handle(event: EstablishmentEmailWasUpdated) {
     await this.establishments
       .findByIdAndUpdate(event.aggregateId, {
-        email: event.payload.email,
+        email: event.email,
       })
       .exec();
   }

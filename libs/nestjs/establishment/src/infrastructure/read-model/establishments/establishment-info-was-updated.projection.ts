@@ -21,7 +21,7 @@ export class EstablishmentInfoWasUpdatedProjection
     await this.establishments
       .findByIdAndUpdate(event.aggregateId, {
         name: event.payload.name,
-        description: event.payload.description,
+        description: event.description,
       })
       .exec();
   }

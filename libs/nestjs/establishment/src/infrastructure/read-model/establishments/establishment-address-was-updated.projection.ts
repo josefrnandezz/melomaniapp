@@ -21,8 +21,8 @@ export class EstablishmentAddressWasUpdatedProjection
     await this.establishments
       .findByIdAndUpdate(event.aggregateId, {
         address: {
-          city: event.payload.city,
-          full: event.payload.full,
+          city: event.city,
+          full: event.full,
         },
       })
       .exec();

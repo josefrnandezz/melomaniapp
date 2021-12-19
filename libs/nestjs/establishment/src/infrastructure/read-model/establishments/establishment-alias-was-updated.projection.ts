@@ -20,7 +20,7 @@ export class EstablishmentAliasWasUpdatedProjection
   async handle(event: EstablishmentAliasWasUpdated) {
     await this.establishments
       .findByIdAndUpdate(event.aggregateId, {
-        alias: event.payload.alias,
+        alias: event.alias,
       })
       .exec();
   }
