@@ -1,10 +1,23 @@
-import { GenreDTO } from '@melomaniapp/contracts/genre';
+import { ApiProperty } from '@nestjs/swagger';
+
+import { Address } from '..';
 
 export class EditEstablishmentDTO {
-  name: string;
-  username: string;
-  description: string;
-  email: string;
-  location: string;
-  genres: GenreDTO[];
+  @ApiProperty()
+  name?: string;
+
+  @ApiProperty()
+  alias?: string;
+
+  @ApiProperty()
+  description?: string;
+
+  @ApiProperty()
+  email?: string;
+
+  @ApiProperty()
+  address?: Address;
+
+  @ApiProperty()
+  genres?: string[];
 }

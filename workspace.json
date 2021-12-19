@@ -328,6 +328,27 @@
         }
       }
     },
+    "nestjs-establishment": {
+      "root": "libs/nestjs/establishment",
+      "sourceRoot": "libs/nestjs/establishment/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/nestjs/establishment/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/nestjs/establishment"],
+          "options": {
+            "jestConfig": "libs/nestjs/establishment/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "nestjs-genre": {
       "root": "libs/nestjs/genre",
       "sourceRoot": "libs/nestjs/genre/src",

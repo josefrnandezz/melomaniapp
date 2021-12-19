@@ -1,3 +1,4 @@
+import { AccessTokenInterface, LoginDTO } from '@melomaniapp/contracts/auth';
 import {
   Body,
   Controller,
@@ -5,7 +6,6 @@ import {
   Post,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AccessTokenInterface, LoginDTO } from '@melomaniapp/contracts/auth';
 
 import { AuthService } from './auth.service';
 
