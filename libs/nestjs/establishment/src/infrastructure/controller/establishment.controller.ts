@@ -39,7 +39,7 @@ export class EstablishmentController {
   @UseRoles({
     resource: Resource.Establishment,
     action: 'create',
-    possession: 'own',
+    possession: 'any',
   })
   @UseGuards(EstablishmentGuard, ACGuard)
   async create(

@@ -20,7 +20,6 @@ export class EstablishmentGuard extends AuthGuard('jwt') {
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    this.logger.debug(context);
     const req = context.switchToHttp().getRequest();
 
     const { id } = req?.params;
@@ -35,7 +34,6 @@ export class EstablishmentGuard extends AuthGuard('jwt') {
   }
 
   handleRequest(err, user, info, context: ExecutionContext) {
-    this.logger.debug({ err, user });
     if (err || !user) {
       throw err || new UnauthorizedException();
     }
