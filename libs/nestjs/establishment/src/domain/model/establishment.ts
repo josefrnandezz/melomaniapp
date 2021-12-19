@@ -1,29 +1,29 @@
 import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
 
 import {
+  EstablishmentAliasWasUpdated,
   EstablishmentEmailWasUpdated,
   EstablishmentGenreWasAdded,
   EstablishmentInfoWasUpdated,
-  EstablishmentSlugWasUpdated,
   EstablishmentWasCreated,
   EstablishmentWasDeleted,
 } from '../event';
 import { EstablishmentAddressWasUpdated } from '../event/establishment-address-was-updated.event';
 import { EstablishmentGenreWasRemoved } from '../event/establishment-genre-was-removed.event';
 import { EstablishmentAddress } from './address';
+import { Alias } from './alias';
 import { Description } from './description';
 import { Email } from './email';
 import { EstablishmentId } from './establishment-id';
 import { GenreId } from './genre-id';
 import { Name } from './name';
 import { OwnerId } from './owner-id';
-import { Slug } from './slug';
 
 export class Establishment extends AggregateRoot {
   private _establishmentId: EstablishmentId;
   private _ownerId: OwnerId;
   private _name: Name;
-  private _slug: Slug;
+  private _alias: Alias;
   private _description: Description;
   private _email: Email;
   private _address: EstablishmentAddress;
@@ -34,7 +34,7 @@ export class Establishment extends AggregateRoot {
     establishmentId: EstablishmentId,
     ownerId: OwnerId,
     name: Name,
-    slug: Slug,
+    alias: Alias,
     description: Description,
     email: Email,
     address: EstablishmentAddress
@@ -46,7 +46,7 @@ export class Establishment extends AggregateRoot {
         establishmentId.value,
         ownerId.value,
         name.value,
-        slug.value,
+        alias.value,
         description.value,
         email.value,
         address.value
@@ -123,13 +123,13 @@ export class Establishment extends AggregateRoot {
     );
   }
 
-  updateSlug(slug: Slug): void {
-    if (slug.value === this._slug.value) {
+  updateAlias(alias: Alias): void {
+    if (alias.value === this._alias.value) {
       return;
     }
 
     this.apply(
-      new EstablishmentSlugWasUpdated(this._establishmentId.value, slug.value)
+      new EstablishmentAliasWasUpdated(this._establishmentId.value, alias.value)
     );
   }
 
@@ -164,7 +164,7 @@ export class Establishment extends AggregateRoot {
     this._establishmentId = EstablishmentId.fromString(event.id);
     this._ownerId = OwnerId.fromString(event.ownerId);
     this._name = Name.fromString(event.name);
-    this._slug = Slug.fromString(event.slug);
+    this._alias = Alias.fromString(event.alias);
     this._description = Description.fromString(event.name);
     this._email = Email.fromString(event.email);
     this._address = EstablishmentAddress.with(full, city);
@@ -191,8 +191,8 @@ export class Establishment extends AggregateRoot {
     this._email = Email.fromString(event.email);
   }
 
-  private onEstablishmentSlugWasUpdated(event: EstablishmentSlugWasUpdated) {
-    this._slug = Slug.fromString(event.slug);
+  private onEstablishmentSlugWasUpdated(event: EstablishmentAliasWasUpdated) {
+    this._alias = Alias.fromString(event.alias);
   }
 
   private onEstablishmentAddressWasUpdated(

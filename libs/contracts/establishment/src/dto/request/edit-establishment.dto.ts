@@ -7,7 +7,7 @@ export class EditEstablishmentDTO {
   name?: string;
 
   @ApiProperty()
-  slug?: string;
+  alias?: string;
 
   @ApiProperty()
   description?: string;

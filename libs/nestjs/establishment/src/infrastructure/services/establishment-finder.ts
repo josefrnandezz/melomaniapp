@@ -4,10 +4,11 @@ import { Model } from 'mongoose';
 
 import { IEstablishmentFinder } from '../../application/services/establishment-finder.interface';
 import {
+  Alias,
   Email,
   EstablishmentAddress,
   EstablishmentId,
-  Slug,
+  GenreId,
 } from '../../domain';
 import {
   EstablishmentDocument,
@@ -38,9 +39,9 @@ export class EstablishmentFinder implements IEstablishmentFinder {
     return new EstablishmentDTO(establishment);
   }
 
-  async findOneBySlug(slug: Slug): Promise<EstablishmentDTO> {
+  async findOneByAlias(alias: Alias): Promise<EstablishmentDTO> {
     const establishment = await this.establishments
-      .findOne({ slug: slug.value })
+      .findOne({ alias: alias.value })
       .lean();
 
     if (!establishment) {
@@ -79,5 +80,21 @@ export class EstablishmentFinder implements IEstablishmentFinder {
     }
 
     return new EstablishmentDTO(establishment);
+  }
+
+  async findByGenreId(genreId: GenreId): Promise<EstablishmentDTO[]> {
+    const establishments = await this.establishments
+      .find({
+        genreIds: genreId.value,
+      })
+      .lean();
+
+    if (!establishments) {
+      return;
+    }
+
+    return establishments.map(
+      (establishment) => new EstablishmentDTO(establishment)
+    );
   }
 }

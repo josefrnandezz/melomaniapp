@@ -25,7 +25,7 @@ export class EstablishmentService {
     ownerId: string,
     establishmentDTO: CreateEstablishmentDTO
   ): Promise<EstablishmentDTO> {
-    const { _id, name, slug, description, email, address, genreIds } =
+    const { _id, name, alias, description, email, address, genreIds } =
       establishmentDTO;
 
     await this.commandBus.execute(
@@ -33,7 +33,7 @@ export class EstablishmentService {
         _id,
         ownerId,
         name,
-        slug,
+        alias,
         description,
         email,
         address,
@@ -60,7 +60,7 @@ export class EstablishmentService {
       new UpdateEstablishmentCommand(
         id,
         establishment.name,
-        establishment.slug,
+        establishment.alias,
         establishment.description,
         establishment.email,
         establishment.address,

@@ -7,7 +7,7 @@ interface Props {
   _id: string;
   ownerId: string;
   name: string;
-  slug: string;
+  alias: string;
   description: string;
   email: string;
   address: Address;
@@ -23,14 +23,13 @@ export class EstablishmentDTO {
   public readonly _id: string;
 
   @ApiProperty()
-  @Exclude()
   public readonly ownerId: string;
 
   @ApiProperty()
   public readonly name: string;
 
   @ApiProperty()
-  public readonly slug: string;
+  public readonly alias: string;
 
   @ApiProperty()
   public readonly description: string;

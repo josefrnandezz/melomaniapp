@@ -13,7 +13,7 @@ export class EstablishmentWasCreated extends Event<EstablishmentWasCreatedProps>
     public readonly id: string,
     public readonly ownerId: string,
     public readonly name: string,
-    public readonly slug: string,
+    public readonly alias: string,
     public readonly description: string,
     public readonly email: string,
     public readonly address: Address
@@ -22,7 +22,7 @@ export class EstablishmentWasCreated extends Event<EstablishmentWasCreatedProps>
       _id: id,
       ownerId,
       name,
-      slug,
+      alias,
       description,
       email,
       address: address,

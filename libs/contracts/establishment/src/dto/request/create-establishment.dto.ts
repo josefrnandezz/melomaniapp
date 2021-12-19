@@ -10,7 +10,7 @@ export class CreateEstablishmentDTO {
   name: string;
 
   @ApiProperty()
-  slug: string;
+  alias: string;
 
   @ApiProperty()
   description: string;

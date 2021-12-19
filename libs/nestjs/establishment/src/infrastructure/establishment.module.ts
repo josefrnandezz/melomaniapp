@@ -12,6 +12,7 @@ import {
   EstablishmentSchema,
   projectionHandlers,
 } from './read-model';
+import { sagas } from './saga';
 import { EstablishmentService } from './services';
 
 @Module({
@@ -31,6 +32,7 @@ import { EstablishmentService } from './services';
     ...queryHandlers,
     ...establishmentProviders,
     ...projectionHandlers,
+    ...sagas,
     EstablishmentService,
   ],
   exports: [],

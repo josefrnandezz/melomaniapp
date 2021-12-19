@@ -10,7 +10,7 @@ export const EstablishmentSchema = new Schema(
     _id: String,
     ownerId: String,
     name: String,
-    slug: { type: String, index: { unique: true } },
+    alias: { type: String, index: { unique: true } },
     description: String,
     email: { type: String, index: { unique: true } },
     address: {

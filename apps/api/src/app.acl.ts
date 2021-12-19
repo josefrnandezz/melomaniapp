@@ -6,7 +6,7 @@ export const acl: RolesBuilder = new RolesBuilder();
 // prettier-ignore
 acl
   .grant(Role.User)
-    .createOwn(Resource.Establishment)
+    .createAny(Resource.Establishment)
     .readAny(Resource.Establishment)
   .grant(Role.EstablishmentOwner)
     .updateOwn(Resource.Establishment)

@@ -7,6 +7,8 @@ import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import {
+  Alias,
+  AliasAlreadyTakenError,
   Description,
   Email,
   EmailAlreadyTakenError,
@@ -16,10 +18,7 @@ import {
   GenreId,
   Name,
   OwnerId,
-  Slug,
-  SlugAlreadyTakenError,
 } from '../../domain';
-import { AddressAlreadyTakenError } from '../../domain/exception/address-already-taken.error';
 import {
   ESTABLISHMENT_FINDER,
   IEstablishmentFinder,
@@ -51,28 +50,24 @@ export class CreateEstablishmentHandler implements ICommandHandler {
     }
 
     const name = Name.fromString(command.name);
-    const slug = Slug.fromString(command.slug);
+    const alias = Alias.fromString(command.alias);
     const description = Description.fromString(command.description);
     const email = Email.fromString(command.email);
     const address = EstablishmentAddress.with(full, city);
 
-    if (await this.finder.findOneBySlug(slug)) {
-      throw SlugAlreadyTakenError.with(slug);
+    if (await this.finder.findOneByAlias(alias)) {
+      throw AliasAlreadyTakenError.with(alias);
     }
 
     if (await this.finder.findOneByEmail(email)) {
       throw EmailAlreadyTakenError.with(email);
     }
 
-    if (await this.finder.findOneByAddress(address)) {
-      throw AddressAlreadyTakenError.with(address);
-    }
-
     const establishment = Establishment.add(
       establishmentId,
       ownerId,
       name,
-      slug,
+      alias,
       description,
       email,
       address

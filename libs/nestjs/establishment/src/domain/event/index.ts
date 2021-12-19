@@ -5,6 +5,10 @@ import {
   EstablishmentAddressWasUpdatedProps,
 } from './establishment-address-was-updated.event';
 import {
+  EstablishmentAliasWasUpdated,
+  EstablishmentAliasWasUpdatedProps,
+} from './establishment-alias-was-updated.event';
+import {
   EstablishmentEmailWasUpdated,
   EstablishmentEmailWasUpdatedProps,
 } from './establishment-email-was-updated.event';
@@ -21,21 +25,17 @@ import {
   EstablishmentInfoWasUpdatedProps,
 } from './establishment-info-was-updated.event';
 import {
-  EstablishmentSlugWasUpdated,
-  EstablishmentSlugWasUpdatedProps,
-} from './establishment-slug-was-updated.event';
-import {
   EstablishmentWasCreated,
   EstablishmentWasCreatedProps,
 } from './establishment-was-created.event';
 import { EstablishmentWasDeleted } from './establishment-was-deleted.event';
 
 export * from './establishment-address-was-updated.event';
+export * from './establishment-alias-was-updated.event';
 export * from './establishment-email-was-updated.event';
 export * from './establishment-genre-was-added.event';
 export * from './establishment-genre-was-removed.event';
 export * from './establishment-info-was-updated.event';
-export * from './establishment-slug-was-updated.event';
 export * from './establishment-was-created.event';
 export * from './establishment-was-deleted.event';
 
@@ -45,7 +45,7 @@ export const eventTransformers = {
       event.aggregateId,
       event.payload.ownerId,
       event.payload.name,
-      event.payload.slug,
+      event.payload.alias,
       event.payload.description,
       event.payload.email,
       event.payload.address
@@ -67,9 +67,9 @@ export const eventTransformers = {
   EstablishmentEmailWasUpdated: (
     event: Event<EstablishmentEmailWasUpdatedProps>
   ) => new EstablishmentEmailWasUpdated(event.aggregateId, event.payload.email),
-  EstablishmentSlugWasUpdated: (
-    event: Event<EstablishmentSlugWasUpdatedProps>
-  ) => new EstablishmentSlugWasUpdated(event.aggregateId, event.payload.slug),
+  EstablishmentAliasWasUpdated: (
+    event: Event<EstablishmentAliasWasUpdatedProps>
+  ) => new EstablishmentAliasWasUpdated(event.aggregateId, event.payload.alias),
   EstablishmentAddressWasUpdated: (
     event: Event<EstablishmentAddressWasUpdatedProps>
   ) =>

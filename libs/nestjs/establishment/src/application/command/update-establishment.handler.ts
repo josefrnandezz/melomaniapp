@@ -7,7 +7,8 @@ import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import {
-  AddressAlreadyTakenError,
+  Alias,
+  AliasAlreadyTakenError,
   Description,
   Email,
   EmailAlreadyTakenError,
@@ -16,8 +17,6 @@ import {
   EstablishmentId,
   GenreId,
   Name,
-  Slug,
-  SlugAlreadyTakenError,
 } from '../../domain';
 import {
   ESTABLISHMENT_FINDER,
@@ -41,7 +40,7 @@ export class UpdateEstablishmentHandler implements ICommandHandler {
     const id = EstablishmentId.fromString(command.id);
     const name = Name.fromString(command.name);
     const description = Description.fromString(command.description);
-    const slug = Slug.fromString(command.slug);
+    const alias = Alias.fromString(command.alias);
     const address = EstablishmentAddress.with(
       command.address.full,
       command.address.city
@@ -50,25 +49,24 @@ export class UpdateEstablishmentHandler implements ICommandHandler {
 
     const establishment = await this.establishments.find(id);
 
+    const establishmentAlias = await this.finder.findOneByAlias(alias);
+    const establishmentEmail = await this.finder.findOneByEmail(email);
+
     if (!establishment || establishment.deleted) {
       throw IdNotFoundError.withId(id);
     }
 
-    if (await this.finder.findOneBySlug(slug)) {
-      throw SlugAlreadyTakenError.with(slug);
+    if (establishmentAlias && establishmentAlias._id !== command.id) {
+      throw AliasAlreadyTakenError.with(alias);
     }
 
-    if (await this.finder.findOneByEmail(email)) {
+    if (establishmentEmail && establishmentEmail._id !== command.id) {
       throw EmailAlreadyTakenError.with(email);
-    }
-
-    if (await this.finder.findOneByAddress(address)) {
-      throw AddressAlreadyTakenError.with(address);
     }
 
     establishment.updateInfo(name, description);
     establishment.updateEmail(email);
-    establishment.updateSlug(slug);
+    establishment.updateAlias(alias);
     establishment.updateAddress(address);
     this.updateGenres(establishment, command);
 

@@ -6,7 +6,7 @@ export class CreateEstablishmentCommand implements ICommand {
     public readonly establishmentId: string,
     public readonly ownerId: string,
     public readonly name: string,
-    public readonly slug: string,
+    public readonly alias: string,
     public readonly description: string,
     public readonly email: string,
     public readonly address: Address,
