@@ -4,7 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { IUserFinder } from '../../application';
-import { UserId, Username } from '../../domain';
+import { Email, UserId, Username } from '../../domain';
 import { UserDocument, USERS_PROJECTION } from '../read-model';
 
 @Injectable()
@@ -27,5 +27,9 @@ export class UserFinder implements IUserFinder {
 
   async findOneByUsername(username: Username): Promise<UserDto> {
     return this.users.findOne({ username: username.value }).lean();
+  }
+
+  async findOneByEmail(email: Email): Promise<UserDto> {
+    return this.users.findOne({ Email: email.value }).lean();
   }
 }

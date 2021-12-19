@@ -9,5 +9,14 @@ export class EditUserDto {
   password: string;
 
   @ApiProperty()
+  email: string;
+
+  @ApiProperty()
+  city: string;
+
+  @ApiProperty()
+  genres: string[];
+
+  @ApiProperty()
   roles: Role[];
 }

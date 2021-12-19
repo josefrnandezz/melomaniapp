@@ -10,6 +10,9 @@ export const UserSchema = new Schema(
     _id: String,
     username: { type: String, index: { unique: true } },
     roles: [String],
+    email: String,
+    city: String,
+    genres: [String],
     password: String,
   },
   {

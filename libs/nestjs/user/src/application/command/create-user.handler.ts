@@ -7,6 +7,7 @@ import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import {
+  EmailAlreadyTakenError,
   Password,
   Role,
   User,
@@ -14,6 +15,7 @@ import {
   Username,
   UsernameAlreadyTakenError,
 } from '../../domain';
+import { Email } from '../../domain/model/email';
 import {
   IUserFinder,
   IUserSecurity,
@@ -36,6 +38,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   async execute(command: CreateUserCommand) {
     const userId = UserId.fromString(command.userId);
     const username = Username.fromString(command.username);
+    const email = Email.fromString(command.email);
 
     if ((await this.users.find(userId)) instanceof User) {
       throw IdAlreadyRegisteredError.withId(userId);
@@ -45,12 +48,16 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
       throw UsernameAlreadyTakenError.with(username);
     }
 
+    if (await this.finder.findOneByEmail(email)) {
+      throw EmailAlreadyTakenError.with(email);
+    }
+
     const encodedPassword = await this.userSecurity.encodePassword(
       command.password
     );
     const password = Password.fromString(encodedPassword);
 
-    const user = User.add(userId, username, password);
+    const user = User.add(userId, username, password, email);
     command.roles.map((role: string) => user.addRole(Role.fromString(role)));
 
     await this.users.save(user);

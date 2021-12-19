@@ -17,6 +17,15 @@ export class UserDto {
   public readonly username: string;
 
   @ApiProperty()
+  public readonly email: string;
+
+  @ApiProperty()
+  public readonly city: string;
+
+  @ApiProperty()
+  public readonly genres: string[];
+
+  @ApiProperty()
   public readonly roles: Role[];
 
   @Exclude()

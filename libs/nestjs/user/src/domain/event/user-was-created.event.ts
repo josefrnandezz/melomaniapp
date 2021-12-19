@@ -5,12 +5,14 @@ export class UserWasCreated extends Event<CreateUserDto> {
   constructor(
     public readonly id: string,
     public readonly username: string,
-    public readonly password: string
+    public readonly password: string,
+    public readonly email: string
   ) {
     super(id, {
       _id: id,
       username,
-      password: password,
+      password,
+      email,
       roles: [],
     });
   }

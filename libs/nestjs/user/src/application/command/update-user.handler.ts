@@ -6,7 +6,7 @@ import {
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { Password, Role, User, UserId } from '../../domain';
+import { City, GenreId, Password, Role, User, UserId } from '../../domain';
 import {
   IUserFinder,
   IUserSecurity,
@@ -27,6 +27,7 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
   ) {}
 
   async execute(command: UpdateUserCommand) {
+    const city = City.fromString(command.city);
     const userId = UserId.fromString(command.userId);
 
     const user = await this.users.find(userId);
@@ -36,6 +37,9 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
     }
 
     await this.updatePassword(user, command);
+
+    user.updateCity(city);
+    this.updateGenres(user, command);
     this.updateRoles(user, command);
 
     this.users.save(user);
@@ -63,5 +67,18 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
     );
 
     command.roles.map((role) => user.addRole(Role.fromString(role)));
+  }
+
+  private updateGenres(user: User, command: UpdateUserCommand) {
+    if (command.genres === undefined) {
+      return;
+    }
+
+    user.genres.map(
+      (genre) =>
+        !command.genres.includes(genre.value) && user.removeGenre(genre)
+    );
+
+    command.genres.map((genre) => user.addGenre(GenreId.fromString(genre)));
   }
 }

@@ -35,6 +35,7 @@ export class UserService {
         userDto._id,
         userDto.username,
         userDto.password,
+        userDto.email,
         userDto.roles
       )
     );
@@ -48,6 +49,8 @@ export class UserService {
         id,
         editUserDto.username,
         editUserDto.password,
+        editUserDto.city,
+        editUserDto.genres,
         editUserDto.roles
       )
     );
