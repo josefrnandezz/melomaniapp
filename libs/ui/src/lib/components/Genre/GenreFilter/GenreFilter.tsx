@@ -6,7 +6,7 @@ const { Option } = Select;
 
 export interface GenreFilterProps {
   genres: GenreDTO[];
-  selectedGenres?: GenreDTO[];
+  selectedGenres?: string[];
   className?: React.CSSProperties;
   onChangeHandler?: (values: string[]) => void;
 }
@@ -25,11 +25,11 @@ export const GenreFilter: React.FunctionComponent<GenreFilterProps> = ({
       showSearch={false}
       style={className}
       onChange={onChangeHandler}
-      defaultValue={selectedGenres?.map((e) => e.id)}
+      defaultValue={selectedGenres?.map((genre) => genre)}
       showArrow
     >
       {genres.map((genre) => (
-        <Option key={genre.id} data-cy={genre.id} value={genre.id}>
+        <Option key={genre._id} data-cy={genre._id} value={genre._id}>
           {genre.name}
         </Option>
       ))}

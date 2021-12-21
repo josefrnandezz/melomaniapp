@@ -1,7 +1,8 @@
 import { SearchOutlined } from '@ant-design/icons';
-import { AccountMenu } from '@melomaniapp/ui';
 import { Col, Input, Layout, Row } from 'antd';
 import React from 'react';
+
+import AccountMenu from '../AccountMenu/AccountMenu';
 
 export const Header = () => {
   return (

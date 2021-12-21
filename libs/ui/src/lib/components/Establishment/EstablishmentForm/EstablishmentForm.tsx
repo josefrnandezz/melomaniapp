@@ -1,11 +1,8 @@
-import {
-  CreateEstablishmentDTO,
-  EditEstablishmentDTO,
-  EstablishmentDTO,
-} from '@melomaniapp/contracts/establishment';
-import { Button, GenreFilter } from '@melomaniapp/ui';
-import { Form, Input } from 'antd';
+import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
+import { Button, Form, Input } from 'antd';
 import React, { useState } from 'react';
+
+import GenreFilter from '../../Genre/GenreFilter/GenreFilter';
 
 const { TextArea } = Input;
 
@@ -29,11 +26,7 @@ export const EstablishmentForm: React.FC<EstablishmentFormProps> = ({
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        name="username"
-        label="Username"
-        initialValue={establishment?.username}
-      >
+      <Form.Item name="alias" label="Alias" initialValue={establishment?.alias}>
         <Input placeholder="@my_establishment" />
       </Form.Item>
       <Form.Item
@@ -49,7 +42,7 @@ export const EstablishmentForm: React.FC<EstablishmentFormProps> = ({
       <Form.Item
         name="location"
         label="Location"
-        initialValue={establishment?.location}
+        initialValue={establishment?.address}
       >
         <Input />
       </Form.Item>
@@ -59,17 +52,17 @@ export const EstablishmentForm: React.FC<EstablishmentFormProps> = ({
       <Form.Item
         name="genres"
         label="Genres"
-        initialValue={establishment?.genres.map((genre) => genre.id)}
+        initialValue={establishment?.genreIds.map((genre) => genre)}
         trigger="onChangeHandler"
       >
         <GenreFilter
           genres={[
-            { id: 'rock', name: 'Rock' },
-            { id: 'rap', name: 'Rap' },
-            { id: 'pop', name: 'Pop' },
-            { id: 'techno', name: 'Techno' },
+            { _id: 'rock', name: 'Rock' },
+            { _id: 'rap', name: 'Rap' },
+            { _id: 'pop', name: 'Pop' },
+            { _id: 'techno', name: 'Techno' },
           ]}
-          selectedGenres={establishment?.genres}
+          selectedGenres={establishment?.genreIds.map((genre) => genre)}
         />
       </Form.Item>
       <Form.Item>

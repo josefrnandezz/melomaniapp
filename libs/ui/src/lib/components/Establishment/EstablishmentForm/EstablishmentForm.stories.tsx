@@ -16,8 +16,8 @@ const mockedEstablishment = {
   description: faker.lorem.paragraphs(),
   location: faker.address.cityName(),
   genres: [
-    { id: 'rock', name: 'Rock' },
-    { id: 'rap', name: 'Rap' },
+    { _id: 'rock', name: 'Rock' },
+    { _id: 'rap', name: 'Rap' },
   ],
 };
 
