@@ -1,7 +1,8 @@
-import { ProfileSwitcher } from '@melomaniapp/ui';
 import { Layout, Menu } from 'antd';
 import Link from 'next/link';
 import React from 'react';
+
+import ProfileSwitcher from '../ProfileSwitcher/ProfileSwitcher';
 
 const { Sider, Footer } = Layout;
 

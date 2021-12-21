@@ -10,10 +10,10 @@ const Template = (args) => <GenreFilter {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   genres: [
-    { id: 'rock', name: 'Rock' },
-    { id: 'techno', name: 'Techno' },
-    { id: 'rap', name: 'Rap' },
-    { id: 'pop', name: 'Pop' },
+    { _id: 'rock', name: 'Rock' },
+    { _id: 'techno', name: 'Techno' },
+    { _id: 'rap', name: 'Rap' },
+    { _id: 'pop', name: 'Pop' },
   ],
   className: {
     width: '20%',

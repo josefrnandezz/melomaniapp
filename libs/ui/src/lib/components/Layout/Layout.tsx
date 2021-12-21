@@ -5,10 +5,12 @@ import {
   SearchOutlined,
   SettingOutlined,
 } from '@ant-design/icons';
-import { Header, Navbar } from '@melomaniapp/ui';
 import { Layout as AntLayout } from 'antd';
 import { Session } from 'next-auth';
 import React from 'react';
+
+import Header from '../Header/Header';
+import Navbar from '../Navbar/Navbar';
 
 const { Content } = AntLayout;
 
