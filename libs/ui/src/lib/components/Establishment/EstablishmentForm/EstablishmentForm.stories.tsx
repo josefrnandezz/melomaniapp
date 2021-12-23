@@ -15,10 +15,7 @@ const mockedEstablishment = {
   email: faker.internet.email(),
   description: faker.lorem.paragraphs(),
   location: faker.address.cityName(),
-  genres: [
-    { _id: 'rock', name: 'Rock' },
-    { _id: 'rap', name: 'Rap' },
-  ],
+  genreIds: ['rock', 'rap'],
 };
 
 const eventsFromNames = actions('onSubmit');

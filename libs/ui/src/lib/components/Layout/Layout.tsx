@@ -1,63 +1,23 @@
-import {
-  BellOutlined,
-  CarryOutOutlined,
-  HomeOutlined,
-  SearchOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
 import { Layout as AntLayout } from 'antd';
 import { Session } from 'next-auth';
 import React from 'react';
 
 import Header from '../Header/Header';
-import Navbar from '../Navbar/Navbar';
-
-React.useLayoutEffect = React.useEffect;
+import Navbar, { NavbarOption } from '../Navbar/Navbar';
 
 const { Content } = AntLayout;
-
-const mockedOptions = [
-  {
-    key: 'home',
-    title: 'Home',
-    icon: <HomeOutlined />,
-    href: '/home',
-  },
-  {
-    key: 'discover',
-    title: 'Discover',
-    icon: <SearchOutlined />,
-    href: '/discover',
-  },
-  {
-    key: 'notifications',
-    title: 'Notifications',
-    icon: <BellOutlined />,
-    href: '/notifications',
-  },
-  {
-    key: 'events',
-    title: 'My events',
-    icon: <CarryOutOutlined />,
-    href: '/events',
-  },
-  {
-    key: 'management',
-    title: 'Management',
-    icon: <SettingOutlined />,
-    href: '/management',
-  },
-];
 
 export interface LayoutProps {
   session?: Session;
   isFan: boolean;
+  navbarOptions: NavbarOption[];
 }
 
 export const Layout: React.FunctionComponent<LayoutProps> = ({
   session,
   isFan,
   children,
+  navbarOptions,
 }) => {
   if (!session) {
     return <h1>Error</h1>;
@@ -65,7 +25,7 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
 
   return (
     <AntLayout style={{ height: '100vh' }}>
-      <Navbar options={mockedOptions} isFan={isFan} />
+      <Navbar options={navbarOptions} isFan={isFan} />
       <AntLayout>
         <AntLayout
           style={{

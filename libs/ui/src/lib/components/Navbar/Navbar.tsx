@@ -6,6 +6,12 @@ import ProfileSwitcher from '../ProfileSwitcher/ProfileSwitcher';
 
 const { Sider, Footer } = Layout;
 
+export type NavbarOption = {
+  key: string;
+  title: string;
+  icon: any;
+  href: string;
+};
 export interface NavbarProps {
   options: Array<any>;
   isFan: boolean;

@@ -17,7 +17,7 @@ export const AccountMenu = () => {
         <Link href="/profile/settings">Settings</Link>
       </Menu.Item>
       <Menu.Item key="logout" icon={<LogoutOutlined />}>
-        <Link href="/api/auth/signout">Log out</Link>
+        <Link href="/api/signout">Log out</Link>
       </Menu.Item>
     </Menu>
   );

@@ -1,3 +1,10 @@
+import {
+  BellOutlined,
+  CarryOutOutlined,
+  HomeOutlined,
+  SearchOutlined,
+  SettingOutlined,
+} from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
 import { Avatar, List } from 'antd';
 
@@ -59,6 +66,39 @@ const data = [
   },
 ];
 
+const mockedOptions = [
+  {
+    key: 'home',
+    title: 'Home',
+    icon: <HomeOutlined />,
+    href: '/home',
+  },
+  {
+    key: 'discover',
+    title: 'Discover',
+    icon: <SearchOutlined />,
+    href: '/discover',
+  },
+  {
+    key: 'notifications',
+    title: 'Notifications',
+    icon: <BellOutlined />,
+    href: '/notifications',
+  },
+  {
+    key: 'events',
+    title: 'My events',
+    icon: <CarryOutOutlined />,
+    href: '/events',
+  },
+  {
+    key: 'management',
+    title: 'Management',
+    icon: <SettingOutlined />,
+    href: '/management',
+  },
+];
+
 const Template: Story<LayoutProps> = (args) => (
   <Layout {...args}>
     <List
@@ -83,4 +123,5 @@ export const Default = Template.bind({});
 Default.args = {
   session: {},
   isFan: false,
+  navbarOptions: mockedOptions,
 };
