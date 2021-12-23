@@ -24,60 +24,9 @@
           "test",
           "e2e",
           "build-storybook"
-        ]
+        ],
+        "parallel": 1
       }
-    }
-  },
-  "projects": {
-    "admin": {
-      "tags": []
-    },
-    "admin-e2e": {
-      "tags": [],
-      "implicitDependencies": ["admin"]
-    },
-    "api": {
-      "tags": []
-    },
-    "contracts-auth": {
-      "tags": []
-    },
-    "contracts-establishment": {
-      "tags": []
-    },
-    "contracts-genre": {
-      "tags": []
-    },
-    "contracts-user": {
-      "tags": []
-    },
-    "domain": {
-      "tags": []
-    },
-    "nestjs-auth": {
-      "tags": []
-    },
-    "nestjs-common": {
-      "tags": []
-    },
-    "nestjs-establishment": {
-      "tags": []
-    },
-    "nestjs-genre": {
-      "tags": []
-    },
-    "nestjs-user": {
-      "tags": []
-    },
-    "ui": {
-      "tags": []
-    },
-    "web": {
-      "tags": []
-    },
-    "web-e2e": {
-      "tags": [],
-      "implicitDependencies": ["web"]
     }
   },
   "targetDependencies": {
@@ -87,5 +36,30 @@
         "projects": "dependencies"
       }
     ]
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/next"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "none",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "none"
+      },
+      "library": {
+        "style": "none",
+        "linter": "eslint"
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "less",
+        "linter": "eslint"
+      }
+    }
   }
 }

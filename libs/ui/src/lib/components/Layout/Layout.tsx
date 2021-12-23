@@ -12,6 +12,8 @@ import React from 'react';
 import Header from '../Header/Header';
 import Navbar from '../Navbar/Navbar';
 
+React.useLayoutEffect = React.useEffect;
+
 const { Content } = AntLayout;
 
 const mockedOptions = [
