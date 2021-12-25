@@ -1,52 +1,17 @@
-import { Layout } from '@melomaniapp/ui';
+import { FanLayout } from '@melomaniapp/ui';
 import { Typography } from 'antd';
 
-import {
-  BellOutlined,
-  CarryOutOutlined,
-  HomeOutlined,
-  SearchOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
-
-const options = [
-  {
-    key: 'home',
-    title: 'Home',
-    icon: <HomeOutlined />,
-    href: '/home',
-  },
-  {
-    key: 'discover',
-    title: 'Discover',
-    icon: <SearchOutlined />,
-    href: '/discover',
-  },
-  {
-    key: 'notifications',
-    title: 'Notifications',
-    icon: <BellOutlined />,
-    href: '/notifications',
-  },
-  {
-    key: 'events',
-    title: 'My events',
-    icon: <CarryOutOutlined />,
-    href: '/events',
-  },
-  {
-    key: 'management',
-    title: 'Management',
-    icon: <SettingOutlined />,
-    href: '/management',
-  },
-];
+import { useSession } from 'next-auth/react';
 
 export function Index() {
+  const { data: session } = useSession();
+
   return (
-    <Layout navbarOptions={options} session={{}} isFan={true}>
-      <Typography.Title>Hola que pasa esto es el home</Typography.Title>
-    </Layout>
+    <FanLayout session={session}>
+      <Typography.Title>
+        Welcome {session ? session.user.name : 'to Melomaniapp'}
+      </Typography.Title>
+    </FanLayout>
   );
 }
 
