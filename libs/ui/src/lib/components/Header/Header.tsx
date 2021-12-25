@@ -1,24 +1,47 @@
-import { SearchOutlined } from '@ant-design/icons';
-import { Col, Input, Layout, Row } from 'antd';
-import React from 'react';
+import { BellOutlined, LoginOutlined, SearchOutlined } from '@ant-design/icons';
+import { Button, Col, Layout, Menu, Row, Typography } from 'antd';
+import { Session } from 'next-auth';
+import { signIn, useSession } from 'next-auth/react';
 
 import AccountMenu from '../AccountMenu/AccountMenu';
 
-export const Header = () => {
+export type HeaderProps = {
+  session?: Session;
+};
+
+const SignInButton = () => (
+  <Button
+    data-cy="signInButton"
+    icon={<LoginOutlined />}
+    onClick={() => signIn()}
+  >
+    Sign in
+  </Button>
+);
+
+const Logo = () => (
+  <Typography.Text style={{ color: 'white' }}>Melomaniapp</Typography.Text>
+);
+
+export const Header = ({ session }: HeaderProps) => {
   return (
     <Layout.Header>
-      <Row>
-        <Col xs={16} sm={16} md={8}>
-          <Input
-            placeholder="Genres, Events, Establishments..."
-            style={{ borderRadius: '500px' }}
-            prefix={<SearchOutlined />}
-          />
+      <Row justify="end">
+        <Col span={14}>
+          <Logo />
         </Col>
-        <Col xs={{ offset: 4, span: 4 }} md={{ offset: 8, span: 8 }}>
-          <div style={{ float: 'right' }}>
-            <AccountMenu />
-          </div>
+        <Col span={6} offset={2}>
+          <Menu mode="horizontal" theme="dark">
+            <Menu.Item key="discover" icon={<SearchOutlined />}>
+              Discover
+            </Menu.Item>
+            <Menu.Item key="notifications" icon={<BellOutlined />}>
+              Notifications
+            </Menu.Item>
+          </Menu>
+        </Col>
+        <Col span={2}>
+          {!session ? <SignInButton /> : <AccountMenu session={session} />}
         </Col>
       </Row>
     </Layout.Header>

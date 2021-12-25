@@ -1,18 +1,11 @@
-import {
-  BellOutlined,
-  CarryOutOutlined,
-  HomeOutlined,
-  SearchOutlined,
-  SettingOutlined,
-} from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
 import { Avatar, List } from 'antd';
 
-import { Layout, LayoutProps } from './Layout';
+import { FanLayout, FanLayoutProps } from './FanLayout';
 
 export default {
   title: 'Layout',
-  component: Layout,
+  component: FanLayout,
 } as Meta;
 
 const data = [
@@ -66,41 +59,8 @@ const data = [
   },
 ];
 
-const mockedOptions = [
-  {
-    key: 'home',
-    title: 'Home',
-    icon: <HomeOutlined />,
-    href: '/home',
-  },
-  {
-    key: 'discover',
-    title: 'Discover',
-    icon: <SearchOutlined />,
-    href: '/discover',
-  },
-  {
-    key: 'notifications',
-    title: 'Notifications',
-    icon: <BellOutlined />,
-    href: '/notifications',
-  },
-  {
-    key: 'events',
-    title: 'My events',
-    icon: <CarryOutOutlined />,
-    href: '/events',
-  },
-  {
-    key: 'management',
-    title: 'Management',
-    icon: <SettingOutlined />,
-    href: '/management',
-  },
-];
-
-const Template: Story<LayoutProps> = (args) => (
-  <Layout {...args}>
+const Template: Story = (args: FanLayoutProps) => (
+  <FanLayout {...args}>
     <List
       itemLayout="horizontal"
       dataSource={data}
@@ -116,12 +76,7 @@ const Template: Story<LayoutProps> = (args) => (
         </List.Item>
       )}
     />
-  </Layout>
+  </FanLayout>
 );
 
 export const Default = Template.bind({});
-Default.args = {
-  session: {},
-  isFan: false,
-  navbarOptions: mockedOptions,
-};

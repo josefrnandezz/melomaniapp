@@ -1,11 +1,15 @@
-import { Meta } from '@storybook/react';
-import React from 'react';
+import { Meta, Story } from '@storybook/react';
 
-import { AccountMenu } from './AccountMenu';
+import { AccountMenu, AccountMenuProps } from './AccountMenu';
 
 export default {
   title: 'AccountMenu',
   component: AccountMenu,
 } as Meta;
 
-export const Default = () => <AccountMenu />;
+const Template: Story<AccountMenuProps> = (args) => <AccountMenu {...args} />;
+
+export const Default = () => Template.bind({});
+Default.args = {
+  session: {},
+};

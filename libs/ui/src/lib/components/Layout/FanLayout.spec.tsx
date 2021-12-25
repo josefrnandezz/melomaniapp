@@ -1,14 +1,17 @@
 import { render } from '@testing-library/react';
-import React from 'react';
 
-import Layout from './Layout';
+import FanLayout from './FanLayout';
 
 describe('Layout', () => {
   it('should render successfully', () => {
     const { baseElement } = render(
-      <Layout session={{}} isFan={false}>
+      <FanLayout
+        session={{
+          expires: '',
+        }}
+      >
         This is a test
-      </Layout>
+      </FanLayout>
     );
     expect(baseElement).toBeTruthy();
   });

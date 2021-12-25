@@ -4,11 +4,16 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Avatar, Button, Dropdown, Menu } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
 
-export interface ProfileSwitcherProps {
-  profiles: Array<any>;
-}
+type Profile = {
+  username: string;
+  displayName: string;
+};
+
+export type ProfileSwitcherProps = {
+  profiles: Profile[];
+};
 
 export const ProfileSwitcher = ({ profiles }: ProfileSwitcherProps) => {
   const [activeProfile, setActiveProfile] = React.useState(
@@ -16,11 +21,7 @@ export const ProfileSwitcher = ({ profiles }: ProfileSwitcherProps) => {
   );
 
   const handleProfilesListClick = (event) => {
-    profiles.map((profile) => {
-      if (profile.username === event.key) {
-        setActiveProfile(profile.displayName);
-      }
-    });
+    setActiveProfile(event.key);
   };
 
   const profilesList = (
