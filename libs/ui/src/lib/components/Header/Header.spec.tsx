@@ -4,13 +4,7 @@ import Header from './Header';
 
 describe('Header', () => {
   it('should render successfully', () => {
-    const { baseElement } = render(
-      <Header
-        session={{
-          expires: '',
-        }}
-      />
-    );
+    const { baseElement } = render(<Header />);
     expect(baseElement).toBeTruthy();
   });
 });

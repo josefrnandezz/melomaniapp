@@ -1,10 +1,11 @@
-import { Layout } from 'antd';
+import { Layout, Typography } from 'antd';
 import { Session } from 'next-auth';
+import { getProviders } from 'next-auth/react';
 import React from 'react';
 
 import Header from '../Header/Header';
 
-const { Content } = Layout;
+const { Content, Footer } = Layout;
 
 export type FanLayoutProps = {
   session?: Session;
@@ -17,11 +18,14 @@ export const FanLayout: React.FunctionComponent<FanLayoutProps> = ({
   return (
     <Layout>
       <Header session={session} />
-      <Content style={{ height: '100%', margin: '24px', overflow: 'initial' }}>
-        <div style={{ padding: 24, background: '#fff', textAlign: 'center' }}>
+      <Content style={{ padding: '0 50px', marginTop: 64 }}>
+        <div style={{ padding: 24, minHeight: 380, textAlign: 'center' }}>
           {children}
         </div>
       </Content>
+      <Footer style={{ textAlign: 'center' }}>
+        <Typography.Paragraph>Melomaniapp ©2022</Typography.Paragraph>
+      </Footer>
     </Layout>
   );
 };

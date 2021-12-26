@@ -3,7 +3,6 @@ import { Card, Typography } from 'antd';
 import React from 'react';
 
 const { Title } = Typography;
-const { Meta } = Card;
 
 export interface GenreItemProps {
   genre: GenreDTO;
@@ -14,13 +13,14 @@ export const GenreItem: React.FunctionComponent<GenreItemProps> = ({
 }) => {
   return (
     <Card
+      data-cy={genre._id}
+      key={genre._id}
       style={{
         borderRadius: '8px',
         width: '100%',
         backgroundColor: 'rgb(141, 103, 171)',
       }}
       hoverable
-      onClick={() => console.log('you have clicked: ', genre.name)}
     >
       <Title
         level={2}

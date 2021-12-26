@@ -1,7 +1,8 @@
 import { BellOutlined, LoginOutlined, SearchOutlined } from '@ant-design/icons';
-import { Button, Col, Layout, Menu, Row, Typography } from 'antd';
+import { Button, Col, Layout, Menu, Modal, Row, Typography } from 'antd';
 import { Session } from 'next-auth';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
 
 import AccountMenu from '../AccountMenu/AccountMenu';
 
@@ -9,23 +10,41 @@ export type HeaderProps = {
   session?: Session;
 };
 
-const SignInButton = () => (
-  <Button
-    data-cy="signInButton"
-    icon={<LoginOutlined />}
-    onClick={() => signIn()}
-  >
-    Sign in
-  </Button>
-);
+const SignIn = () => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <>
+      <Button
+        data-cy="signInButton"
+        icon={<LoginOutlined />}
+        onClick={() => setVisible(true)}
+      >
+        Sign in
+      </Button>
+      <Modal
+        title="Choose your sign in method"
+        visible={visible}
+        footer={null}
+        onCancel={() => setVisible(false)}
+      >
+        <Button onClick={() => signIn('google', { callbackUrl: '/' })}>
+          Sign in with Google
+        </Button>
+      </Modal>
+    </>
+  );
+};
 
 const Logo = () => (
-  <Typography.Text style={{ color: 'white' }}>Melomaniapp</Typography.Text>
+  <Typography.Text style={{ color: 'white' }}>
+    Melomaniapp for fans
+  </Typography.Text>
 );
 
 export const Header = ({ session }: HeaderProps) => {
   return (
-    <Layout.Header>
+    <Layout.Header style={{ position: 'fixed', zIndex: 1, width: '100%' }}>
       <Row justify="end">
         <Col span={14}>
           <Logo />
@@ -41,7 +60,7 @@ export const Header = ({ session }: HeaderProps) => {
           </Menu>
         </Col>
         <Col span={2}>
-          {!session ? <SignInButton /> : <AccountMenu session={session} />}
+          {!session ? <SignIn /> : <AccountMenu session={session} />}
         </Col>
       </Row>
     </Layout.Header>
