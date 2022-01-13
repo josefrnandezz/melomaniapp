@@ -12,6 +12,8 @@ const USERNAME = 'username';
 const PASSWORD = 'password';
 const CRYPT_PASSWORD =
   '$2a$04$J.qvJcqZRPBlGFKWIxPOYOsPRXpkZmTyTHScEF3Kq5/QXV.8oMcfy';
+const CITY = 'Córdoba';
+const EMAIL = 'user@example.com';
 
 describe('AuthController', () => {
   let controller: AuthController;
@@ -40,6 +42,9 @@ describe('AuthController', () => {
       _id: ID,
       username: USERNAME,
       password: CRYPT_PASSWORD,
+      city: CITY,
+      email: EMAIL,
+      genres: [],
       roles: [],
     };
     controller = app.get<AuthController>(AuthController);

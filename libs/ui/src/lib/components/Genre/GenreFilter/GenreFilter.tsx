@@ -1,6 +1,6 @@
 import { GenreDTO } from '@melomaniapp/contracts/genre';
 import { Select } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
 
 const { Option } = Select;
 
@@ -28,11 +28,12 @@ export const GenreFilter: React.FunctionComponent<GenreFilterProps> = ({
       defaultValue={selectedGenres?.map((genre) => genre)}
       showArrow
     >
-      {genres.map((genre) => (
-        <Option key={genre._id} data-cy={genre._id} value={genre._id}>
-          {genre.name}
-        </Option>
-      ))}
+      {genres &&
+        genres.map((genre) => (
+          <Option key={genre._id} data-cy={genre.name} value={genre._id}>
+            {genre.name}
+          </Option>
+        ))}
     </Select>
   );
 };
