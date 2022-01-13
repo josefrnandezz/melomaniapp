@@ -191,7 +191,7 @@ export class Establishment extends AggregateRoot {
     this._email = Email.fromString(event.email);
   }
 
-  private onEstablishmentSlugWasUpdated(event: EstablishmentAliasWasUpdated) {
+  private onEstablishmentAliasWasUpdated(event: EstablishmentAliasWasUpdated) {
     this._alias = Alias.fromString(event.alias);
   }
 

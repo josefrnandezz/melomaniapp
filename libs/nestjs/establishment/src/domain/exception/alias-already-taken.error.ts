@@ -4,6 +4,6 @@ import { Alias } from '../model';
 
 export class AliasAlreadyTakenError extends DomainError {
   public static with(alias: Alias): AliasAlreadyTakenError {
-    return new AliasAlreadyTakenError(`Slug ${alias.value} already taken`);
+    return new AliasAlreadyTakenError(`Alias ${alias.value} already taken`);
   }
 }
