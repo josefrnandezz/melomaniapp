@@ -24,6 +24,13 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options, {});
   SwaggerModule.setup(GLOBAL_PREFIX, app, document);
 
+  app.enableCors({
+    origin: true,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
+
   const port = process.env.PORT || 3333;
   await app.listen(port, () => {
     Logger.log('Listening at http://localhost:' + port + '/' + GLOBAL_PREFIX);
