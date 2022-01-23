@@ -28,12 +28,11 @@ export const GenreFilter: React.FunctionComponent<GenreFilterProps> = ({
       defaultValue={selectedGenres?.map((genre) => genre)}
       showArrow
     >
-      {genres &&
-        genres.map((genre) => (
-          <Option key={genre._id} data-cy={genre.name} value={genre._id}>
-            {genre.name}
-          </Option>
-        ))}
+      {genres?.map((genre) => (
+        <Option key={genre._id} data-cy={genre.name} value={genre._id}>
+          {genre.name}
+        </Option>
+      ))}
     </Select>
   );
 };
