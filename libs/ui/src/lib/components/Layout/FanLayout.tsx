@@ -1,6 +1,5 @@
 import { Layout, Typography } from 'antd';
 import { Session } from 'next-auth';
-import { getProviders } from 'next-auth/react';
 import React from 'react';
 
 import Header from '../Header/Header';

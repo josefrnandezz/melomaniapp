@@ -9,5 +9,5 @@ const Template = (args) => <GenreItem {...args} />;
 
 export const Default = Template.bind({});
 Default.args = {
-  genre: { id: 'rock', name: 'Rock' },
+  genre: { _id: 'rock', name: 'Rock' },
 };
