@@ -22,6 +22,16 @@ export const useEstablishments = (): EstablishmentDTO[] => {
   return data;
 };
 
+export const useEstablishment = (id: string): EstablishmentDTO => {
+  const { data, error } = useSWR([`api/establishments/${id}`], fetchURL);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return data;
+};
+
 const fetchURL = async (url: string) =>
   fetch(`http://localhost:3333/${url}`, {
     method: 'GET',
