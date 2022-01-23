@@ -1,11 +1,11 @@
-import { FanLayout } from '@melomaniapp/ui';
+import { EstablishmentItem, FanLayout } from '@melomaniapp/ui';
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
-import { useEstablishments } from '@melomaniapp/hooks';
-import { Avatar, Input, List } from 'antd';
+import { useEstablishments, useGenres } from '@melomaniapp/hooks';
+import { Input, List, Space, Typography } from 'antd';
 
 const { Search } = Input;
 
@@ -13,30 +13,38 @@ const onSearch = (value: string) => console.log(value);
 
 const Home = () => {
   const establishments = useEstablishments();
+  const genres = useGenres();
 
   return (
     <>
-      <Search
-        placeholder="What are you looking forward to?"
-        onSearch={onSearch}
-        enterButton
-      />
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Search
+          placeholder="What are you looking forward to?"
+          onSearch={onSearch}
+          enterButton
+        />
 
-      <List
-        itemLayout="horizontal"
-        dataSource={establishments}
-        renderItem={(establishment) => (
-          <List.Item>
-            <List.Item.Meta
-              avatar={
-                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              }
-              title={<a href="https://ant.design">{establishment.name}</a>}
-              description={establishment.description}
-            />
-          </List.Item>
-        )}
-      />
+        <Typography.Title style={{ textAlign: 'left' }} level={3}>
+          Establishments
+        </Typography.Title>
+        <List
+          grid={{
+            gutter: 16,
+            xs: 1,
+            sm: 2,
+            md: 2,
+            lg: 3,
+            xl: 4,
+            xxl: 5,
+          }}
+          dataSource={establishments}
+          renderItem={(establishment) => (
+            <List.Item>
+              <EstablishmentItem item={establishment} genres={genres} />
+            </List.Item>
+          )}
+        />
+      </Space>
     </>
   );
 };
