@@ -6,7 +6,7 @@ import {
 import { Avatar, Dropdown, Menu } from 'antd';
 import Link from 'next/link';
 import { Session } from 'next-auth';
-import { signOut } from 'next-auth/react';
+import { signOut } from 'next-auth/client';
 
 export type AccountMenuProps = {
   session?: Session;

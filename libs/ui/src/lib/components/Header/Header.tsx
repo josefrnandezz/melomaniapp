@@ -1,7 +1,7 @@
 import { BellOutlined, LoginOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Col, Layout, Menu, Modal, Row, Typography } from 'antd';
 import { Session } from 'next-auth';
-import { signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/client';
 import { useState } from 'react';
 
 import AccountMenu from '../AccountMenu/AccountMenu';
@@ -28,7 +28,11 @@ const SignIn = () => {
         footer={null}
         onCancel={() => setVisible(false)}
       >
-        <Button onClick={() => signIn('google', { callbackUrl: '/' })}>
+        <Button
+          onClick={() =>
+            signIn('google', { callbackUrl: 'http://localhost:4200' })
+          }
+        >
           Sign in with Google
         </Button>
       </Modal>

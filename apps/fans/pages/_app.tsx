@@ -1,19 +1,19 @@
 import './styles.less';
 
-import { SessionProvider } from 'next-auth/react';
+import { Provider } from 'next-auth/client';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
-    <SessionProvider session={session}>
+    <Provider session={session}>
       <Head>
         <title>Melomaniapp Fans</title>
       </Head>
       <main className="app">
         <Component {...pageProps} />
       </main>
-    </SessionProvider>
+    </Provider>
   );
 }
 

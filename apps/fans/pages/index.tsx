@@ -1,6 +1,6 @@
 import { EstablishmentItem, FanLayout } from '@melomaniapp/ui';
 
-import { useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 
@@ -50,7 +50,7 @@ const Home = () => {
 };
 
 export function Index() {
-  const { data: session, status: loading } = useSession();
+  const [session, loading] = useSession();
   const router = useRouter();
 
   useEffect(() => {
