@@ -14,7 +14,7 @@ export const GenreList: React.FunctionComponent<GenreListProps> = ({
   <List>
     <Row justify="center" gutter={{ xs: 8, sm: 16, md: 24 }}>
       {genres?.map((genre) => (
-        <Col>
+        <Col key={genre._id}>
           <List.Item>
             <GenreItem genre={genre} />
           </List.Item>
