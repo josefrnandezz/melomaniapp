@@ -28,13 +28,7 @@ const SignIn = () => {
         footer={null}
         onCancel={() => setVisible(false)}
       >
-        <Button
-          onClick={() =>
-            signIn('google', { callbackUrl: 'http://localhost:4200' })
-          }
-        >
-          Sign in with Google
-        </Button>
+        <Button onClick={() => signIn('google')}>Sign in with Google</Button>
       </Modal>
     </>
   );

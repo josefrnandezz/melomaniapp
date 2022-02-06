@@ -6,7 +6,7 @@ interface Props {
   _id: string;
   username: string;
   roles: Role[];
-  password: string;
+  email: string;
 }
 
 export class UserDto {
@@ -27,9 +27,6 @@ export class UserDto {
 
   @ApiProperty()
   public readonly roles: Role[];
-
-  @Exclude()
-  public readonly password: string;
 
   constructor(props: Partial<Props>) {
     Object.assign(this, props);

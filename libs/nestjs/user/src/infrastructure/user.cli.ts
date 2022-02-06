@@ -19,9 +19,9 @@ export class UserCli {
     command: 'add <username> <password> <email>',
     description: 'Create a new admin user',
   })
-  async create(username: string, password: string, email: string) {
+  async create(username: string, email: string) {
     await this.commandBus.execute(
-      new CreateUserCommand(uuid(), username, password, email, ['ROLE_ADMIN'])
+      new CreateUserCommand(uuid(), username, email, ['ROLE_ADMIN'])
     );
 
     await delay(2000);

@@ -8,7 +8,6 @@ import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import {
   EmailAlreadyTakenError,
-  Password,
   Role,
   User,
   UserId,
@@ -16,12 +15,7 @@ import {
   UsernameAlreadyTakenError,
 } from '../../domain';
 import { Email } from '../../domain/model/email';
-import {
-  IUserFinder,
-  IUserSecurity,
-  USER_FINDER,
-  USER_SECURITY,
-} from '../services';
+import { IUserFinder, USER_FINDER } from '../services';
 import { CreateUserCommand } from './create-user.command';
 
 @CommandHandler(CreateUserCommand)
@@ -30,9 +24,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     @InjectAggregateRepository(User)
     private readonly users: AggregateRepository<User, UserId>,
     @Inject(USER_FINDER)
-    private readonly finder: IUserFinder,
-    @Inject(USER_SECURITY)
-    private readonly userSecurity: IUserSecurity
+    private readonly finder: IUserFinder
   ) {}
 
   async execute(command: CreateUserCommand) {
@@ -52,12 +44,7 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
       throw EmailAlreadyTakenError.with(email);
     }
 
-    const encodedPassword = await this.userSecurity.encodePassword(
-      command.password
-    );
-    const password = Password.fromString(encodedPassword);
-
-    const user = User.add(userId, username, password, email);
+    const user = User.add(userId, username, email);
     command.roles.map((role: string) => user.addRole(Role.fromString(role)));
 
     await this.users.save(user);

@@ -6,13 +6,8 @@ import {
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { City, GenreId, Password, Role, User, UserId } from '../../domain';
-import {
-  IUserFinder,
-  IUserSecurity,
-  USER_FINDER,
-  USER_SECURITY,
-} from '../services';
+import { City, GenreId, Role, User, UserId } from '../../domain';
+import { IUserFinder, USER_FINDER } from '../services';
 import { UpdateUserCommand } from './update-user.command';
 
 @CommandHandler(UpdateUserCommand)
@@ -21,9 +16,7 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
     @InjectAggregateRepository(User)
     private readonly users: AggregateRepository<User, UserId>,
     @Inject(USER_FINDER)
-    private readonly finder: IUserFinder,
-    @Inject(USER_SECURITY)
-    private readonly userSecurity: IUserSecurity
+    private readonly finder: IUserFinder
   ) {}
 
   async execute(command: UpdateUserCommand) {
@@ -36,25 +29,11 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
       throw IdNotFoundError.withId(userId);
     }
 
-    await this.updatePassword(user, command);
-
     user.updateCity(city);
     this.updateGenres(user, command);
     this.updateRoles(user, command);
 
     this.users.save(user);
-  }
-
-  private async updatePassword(user: User, command: UpdateUserCommand) {
-    if (!command.password) {
-      return;
-    }
-
-    const encodedPassword = await this.userSecurity.encodePassword(
-      command.password
-    );
-
-    user.updatePassword(Password.fromString(encodedPassword));
   }
 
   private updateRoles(user: User, command: UpdateUserCommand) {

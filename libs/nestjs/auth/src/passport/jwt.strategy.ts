@@ -1,30 +1,48 @@
 import { JwtPayloadInterface } from '@melomaniapp/contracts/auth';
 import { UserDto } from '@melomaniapp/contracts/user';
+import { Role } from '@melomaniapp/nestjs/common';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
 import { GetUserByUsernameQuery } from '@melomaniapp/nestjs/user';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { QueryBus } from '@nestjs/cqrs';
+import { Injectable } from '@nestjs/common';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { PassportStrategy } from '@nestjs/passport';
+import { CreateUserCommand } from 'libs/nestjs/user/src/application';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import * as uuid from 'uuid';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor(configService: ConfigService, private queryBus: QueryBus) {
+  constructor(
+    private readonly queryBus: QueryBus,
+    private readonly commandBus: CommandBus
+  ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: configService.get('jwt.secret'),
+      secretOrKey: process.env.JWT_SECRET || 'changeme',
     });
   }
 
   async validate(payload: JwtPayloadInterface): Promise<UserDto> {
-    const user = await this.queryBus.execute<GetUserByUsernameQuery, UserDto>(
-      new GetUserByUsernameQuery(payload.username)
-    );
+    let user: UserDto;
 
-    if (!user) {
-      throw new UnauthorizedException();
+    try {
+      user = await this.queryBus.execute<GetUserByUsernameQuery, UserDto>(
+        new GetUserByUsernameQuery(payload.sub)
+      );
+    } catch (error) {
+      const userId = uuid.v4();
+
+      await this.commandBus.execute(
+        new CreateUserCommand(userId, payload.sub, payload.email, [Role.User])
+      );
+
+      user = new UserDto({
+        _id: userId,
+        username: payload.sub,
+        email: payload.email,
+        roles: [Role.User],
+      });
     }
 
     return user;

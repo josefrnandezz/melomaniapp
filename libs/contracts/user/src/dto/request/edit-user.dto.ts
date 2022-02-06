@@ -6,9 +6,6 @@ export class EditUserDto {
   username: string;
 
   @ApiProperty()
-  password: string;
-
-  @ApiProperty()
   city: string;
 
   @ApiProperty()

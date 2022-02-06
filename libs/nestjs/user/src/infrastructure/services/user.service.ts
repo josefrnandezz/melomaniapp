@@ -34,7 +34,6 @@ export class UserService {
       new CreateUserCommand(
         userDto._id,
         userDto.username,
-        userDto.password,
         userDto.email,
         userDto.roles
       )
@@ -48,7 +47,6 @@ export class UserService {
       new UpdateUserCommand(
         id,
         editUserDto.username,
-        editUserDto.password,
         editUserDto.city,
         editUserDto.genres,
         editUserDto.roles

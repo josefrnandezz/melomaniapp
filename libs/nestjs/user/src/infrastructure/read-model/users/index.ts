@@ -1,7 +1,6 @@
 import { UserCityWasUpdatedProjection } from './user-city-was-updated.projection';
 import { UserGenreWasAddedProjection } from './user-genre-was-added.projection';
 import { UserGenreWasRemovedProjection } from './user-genre-was-removed.projection';
-import { UserPasswordWasUpdatedProjection } from './user-password-was-updated.projection';
 import { UserRoleWasAddedProjection } from './user-role-was-added.projection';
 import { UserRoleWasRemovedProjection } from './user-role-was-removed.projection';
 import { UserWasCreatedProjection } from './user-was-created.projection';
@@ -11,7 +10,6 @@ export * from './user.schema';
 
 export const projectionHandlers = [
   UserCityWasUpdatedProjection,
-  UserPasswordWasUpdatedProjection,
   UserGenreWasAddedProjection,
   UserGenreWasRemovedProjection,
   UserRoleWasAddedProjection,
