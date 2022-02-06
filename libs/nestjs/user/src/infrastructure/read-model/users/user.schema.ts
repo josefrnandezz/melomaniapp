@@ -13,7 +13,6 @@ export const UserSchema = new Schema(
     email: String,
     city: String,
     genres: [String],
-    password: String,
   },
   {
     versionKey: false,
