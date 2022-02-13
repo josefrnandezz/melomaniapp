@@ -27,7 +27,7 @@ import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ACGuard, UseRoles } from 'nest-access-control';
 
-import { EstablishmentGuard } from '../auth/establihsment.guard';
+import { EstablishmentGuard } from '../auth/establishment.guard';
 import { EstablishmentService } from '../services';
 
 @ApiBearerAuth()
