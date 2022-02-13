@@ -7,13 +7,12 @@ import {
 } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { AuthGuard } from '@nestjs/passport';
-
-import { GetEstablishmentQuery } from '../../application';
-import { EstablishmentDocument } from '../read-model';
+import { GetUserByUsernameQuery } from '../../application';
+import { UserDocument } from '../read-model';
 
 @Injectable()
-export class EstablishmentGuard extends AuthGuard('jwt') {
-  private readonly logger = new Logger(EstablishmentGuard.name);
+export class UserGuard extends AuthGuard('jwt') {
+  private readonly logger = new Logger(UserGuard.name);
 
   constructor(private readonly queryBus: QueryBus) {
     super();
@@ -26,7 +25,7 @@ export class EstablishmentGuard extends AuthGuard('jwt') {
 
     if (id) {
       req.establishment = await this.queryBus.execute(
-        new GetEstablishmentQuery(id)
+        new GetUserByUsernameQuery(id)
       );
     }
 
@@ -38,12 +37,12 @@ export class EstablishmentGuard extends AuthGuard('jwt') {
       throw err || new UnauthorizedException();
     }
 
-    const establishment: EstablishmentDocument = context
+    const document: UserDocument = context
       .switchToHttp()
       .getRequest().establishment;
 
-    if (establishment && establishment.ownerId === user?._id) {
-      user?.roles.push(Role.EstablishmentOwner);
+    if (document && document._id === user?._id) {
+      user?.roles.push(Role.UserOwner);
     }
 
     return user;

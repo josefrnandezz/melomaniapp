@@ -10,6 +10,7 @@ import {
   CreateUserCommand,
   DeleteUserCommand,
   GetUserQuery,
+  GetUserByUsernameQuery,
   GetUsersQuery,
   UpdateUserCommand,
 } from '../../application';
@@ -22,7 +23,7 @@ export class UserService {
   ) {}
 
   async findOne(id: string): Promise<UserDto> {
-    return this.queryBus.execute(new GetUserQuery(id));
+    return this.queryBus.execute(new GetUserByUsernameQuery(id));
   }
 
   async findAll(): Promise<UserDto[]> {

@@ -7,7 +7,7 @@ import {
   EditUserDto,
   UserDto,
 } from '@melomaniapp/contracts/user';
-import { catchError, Role, Roles } from '@melomaniapp/nestjs/common';
+import { catchError, Resource, Role, Roles } from '@melomaniapp/nestjs/common';
 import {
   Body,
   ConflictException,
@@ -20,9 +20,13 @@ import {
   Post,
   Put,
   Res,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
+import { UserGuard } from '../auth';
+
+import { ACGuard, UseRoles } from 'nest-access-control';
 
 import { UserService } from '../services';
 
@@ -61,7 +65,12 @@ export class UserController {
   }
 
   @Get(':id')
-  @Roles(Role.Admin)
+  @UseRoles({
+    resource: Resource.User,
+    action: 'read',
+    possession: 'own',
+  })
+  @UseGuards(UserGuard, ACGuard)
   async findOne(@Param('id') id: string): Promise<UserDto> {
     try {
       return this.userService.findOne(id);
