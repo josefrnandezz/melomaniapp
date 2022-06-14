@@ -12,6 +12,7 @@ const { Search } = Input;
 const onSearch = (value: string) => console.log(value);
 
 const Home = () => {
+  const router = useRouter();
   const establishments = useEstablishments();
   const genres = useGenres();
 
@@ -39,7 +40,9 @@ const Home = () => {
           }}
           dataSource={establishments}
           renderItem={(establishment) => (
-            <List.Item>
+            <List.Item
+              onClick={() => router.push(`establishments/${establishment._id}`)}
+            >
               <EstablishmentItem item={establishment} genres={genres} />
             </List.Item>
           )}
