@@ -23,6 +23,7 @@
       "@melomaniapp/contracts/user": ["libs/contracts/user/src/index.ts"],
       "@melomaniapp/domain": ["libs/domain/src/index.ts"],
       "@melomaniapp/hooks": ["libs/hooks/src/index.ts"],
+      "@melomaniapp/nestjs/artist": ["libs/nestjs/artist/src/index.ts"],
       "@melomaniapp/nestjs/auth": ["libs/nestjs/auth/src/index.ts"],
       "@melomaniapp/nestjs/common": ["libs/nestjs/common/src/index.ts"],
       "@melomaniapp/nestjs/establishment": [
