@@ -1,4 +1,5 @@
 import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
+import { Description } from '@melomaniapp/nestjs/common';
 
 import {
   EstablishmentAliasWasUpdated,
@@ -12,7 +13,6 @@ import { EstablishmentAddressWasUpdated } from '../event/establishment-address-w
 import { EstablishmentGenreWasRemoved } from '../event/establishment-genre-was-removed.event';
 import { EstablishmentAddress } from './address';
 import { Alias } from './alias';
-import { Description } from './description';
 import { Email } from './email';
 import { EstablishmentId } from './establishment-id';
 import { GenreId } from './genre-id';
