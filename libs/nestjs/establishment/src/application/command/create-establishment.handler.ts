@@ -3,12 +3,11 @@ import {
   IdAlreadyRegisteredError,
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
-import { Description } from '@melomaniapp/nestjs/common';
+import { Description, Alias } from '@melomaniapp/nestjs/common';
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
 import {
-  Alias,
   AliasAlreadyTakenError,
   Email,
   EmailAlreadyTakenError,

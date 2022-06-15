@@ -1,10 +1,10 @@
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
+import { Alias } from '@melomaniapp/nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { IEstablishmentFinder } from '../../application/services/establishment-finder.interface';
 import {
-  Alias,
   Email,
   EstablishmentAddress,
   EstablishmentId,
