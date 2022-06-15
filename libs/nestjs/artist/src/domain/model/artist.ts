@@ -21,8 +21,8 @@ export class Artist extends AggregateRoot {
   private _genreIds: GenreId[];
   private _deleted?: Date;
 
-  get id(): ArtistId {
-    return this._id;
+  aggregateId(): string {
+    return this._id.value;
   }
 
   get userId(): UserId {
@@ -53,11 +53,7 @@ export class Artist extends AggregateRoot {
     return !!this._deleted;
   }
 
-  aggregateId(): string {
-    return this._id.value;
-  }
-
-  static create(args: {
+  static add(args: {
     id: ArtistId;
     userId: UserId;
     name: ArtistName;
