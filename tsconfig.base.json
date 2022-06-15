@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@melomaniapp/contracts/artist": ["libs/contracts/artist/src/index.ts"],
       "@melomaniapp/contracts/auth": ["libs/contracts/auth/src/index.ts"],
       "@melomaniapp/contracts/establishment": [
         "libs/contracts/establishment/src/index.ts"

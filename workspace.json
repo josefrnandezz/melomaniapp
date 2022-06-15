@@ -185,6 +185,29 @@
         }
       }
     },
+    "contracts-artist": {
+      "root": "libs/contracts/artist",
+      "sourceRoot": "libs/contracts/artist/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/contracts/artist/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/contracts/artist"],
+          "options": {
+            "jestConfig": "libs/contracts/artist/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "contracts-auth": {
       "root": "libs/contracts/auth",
       "sourceRoot": "libs/contracts/auth/src",
