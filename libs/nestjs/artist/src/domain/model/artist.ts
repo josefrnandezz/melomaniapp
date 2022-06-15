@@ -64,7 +64,6 @@ export class Artist extends AggregateRoot {
     alias: Alias;
     description: Description;
     socialLinks: SocialLink[];
-    genres: GenreId[];
   }): Artist {
     const artist = new Artist();
 
@@ -105,6 +104,7 @@ export class Artist extends AggregateRoot {
   }
 
   private onArtistWasCreated(event: ArtistWasCreated): void {
+    this._id = ArtistId.fromString(event.id);
     this._userId = UserId.fromString(event.userId);
     this._name = ArtistName.fromString(event.name);
     this._alias = Alias.fromString(event.alias);

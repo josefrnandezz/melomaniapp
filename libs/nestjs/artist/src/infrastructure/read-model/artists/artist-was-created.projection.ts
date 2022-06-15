@@ -11,12 +11,12 @@ export class ArtistWasCreatedProjection
 {
   constructor(
     @InjectModel(ARTISTS_PROJECTION)
-    private readonly Artists: Model<ArtistDocument>
+    private readonly artists: Model<ArtistDocument>
   ) {}
 
   async handle(event: ArtistWasCreated) {
-    const Artist = new this.Artists({ ...event.payload });
+    const artist = new this.artists({ ...event.payload });
 
-    await Artist.save();
+    await artist.save();
   }
 }

@@ -53,7 +53,6 @@ export class CreateArtistHandler
       alias: Alias.fromString(command.alias),
       description: Description.fromString(command.description),
       socialLinks,
-      genres: [],
     });
 
     command.genreIds.map((genre) => artist.addGenre(GenreId.fromString(genre)));
