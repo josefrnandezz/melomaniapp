@@ -5,7 +5,7 @@ export const ARTISTS_PROJECTION = 'artists';
 
 export type ArtistDocument = ArtistDTO & Document;
 
-export const AritstSchema = new Schema(
+export const ArtistSchema = new Schema(
   {
     _id: String,
     userId: String,

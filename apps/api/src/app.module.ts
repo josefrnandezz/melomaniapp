@@ -6,6 +6,7 @@ import { AuthModule } from '@melomaniapp/nestjs/auth';
 import { EstablishmentModule } from '@melomaniapp/nestjs/establishment';
 import { GenreModule } from '@melomaniapp/nestjs/genre';
 import { UserModule } from '@melomaniapp/nestjs/user';
+import { ArtistModule } from '@melomaniapp/nestjs/artist';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { CqrsModule } from '@nestjs/cqrs';
@@ -55,6 +56,7 @@ import { appProviders } from './app.providers';
     UserModule,
     GenreModule,
     EstablishmentModule,
+    ArtistModule,
   ],
   providers: [...appProviders],
 })
