@@ -10,7 +10,7 @@ interface Props {
   genreIds: string[];
 }
 
-export class EstablishmentDTO {
+export class ArtistDTO {
   constructor(props: Props) {
     Object.assign(this, props);
   }
