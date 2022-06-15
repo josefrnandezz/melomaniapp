@@ -30,7 +30,7 @@ export class CreateArtistHandler
   ) {}
 
   async execute(command: CreateArtistCommand): Promise<void> {
-    const id = ArtistId.fromString(command._id);
+    const id = ArtistId.fromString(command.id);
 
     if ((await this.artists.find(id)) instanceof Artist) {
       throw IdAlreadyRegisteredError.withId(id);
@@ -46,7 +46,7 @@ export class CreateArtistHandler
       SocialLink.fromString(link)
     );
 
-    const artist = Artist.create({
+    const artist = Artist.add({
       id,
       userId: UserId.fromString(command.userId),
       name: ArtistName.fromString(command.name),
