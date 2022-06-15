@@ -1,7 +1,7 @@
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
+import { Alias } from '@melomaniapp/nestjs/common';
 
 import {
-  Alias,
   Email,
   EstablishmentAddress,
   EstablishmentId,
