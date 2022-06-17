@@ -5,9 +5,11 @@ export enum Role {
   User = 'ROLE_USER',
   EstablishmentOwner = 'ROLE_ESTABLISHMENT_OWNER',
   UserOwner = 'USER_OWNER',
+  ArtistOwner = 'ROLE_ARTIST_OWNER',
 }
 
 export enum Resource {
   Establishment = 'establishment',
   User = 'user',
+  Artist = 'artist',
 }
