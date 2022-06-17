@@ -56,4 +56,17 @@ export class ArtistController {
       }
     }
   }
+
+  @Get()
+  async find(): Promise<ArtistDTO> {
+    try {
+      return await this.artistService.findAll();
+    } catch (e) {
+      if (e instanceof IdAlreadyRegisteredError) {
+        throw new NotFoundException('Artist not found');
+      } else {
+        throw catchError(e);
+      }
+    }
+  }
 }

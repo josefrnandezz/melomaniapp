@@ -22,6 +22,16 @@ export class ArtistFinder implements IArtistFinder {
     return new ArtistDTO({ ...artist });
   }
 
+  async findAll(): Promise<ArtistDTO[]> {
+    const artists = await this.artists.find().lean();
+
+    if (!artists) {
+      return [];
+    }
+
+    return artists.map((artist) => new ArtistDTO({ ...artist }));
+  }
+
   async findByAlias(alias: Alias): Promise<ArtistDTO | null> {
     const artist = await this.artists
       .findOne({
