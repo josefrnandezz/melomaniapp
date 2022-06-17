@@ -30,6 +30,6 @@ export class UserFinder implements IUserFinder {
   }
 
   async findOneByEmail(email: Email): Promise<UserDto> {
-    return this.users.findOne({ Email: email.value }).lean();
+    return this.users.findOne({ email: email.value }).lean();
   }
 }
