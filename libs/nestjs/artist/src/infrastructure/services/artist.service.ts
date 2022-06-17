@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateArtistDTO, ArtistDTO } from '@melomaniapp/contracts/artist';
-import { CreateArtistCommand } from '../../application';
+import { CreateArtistCommand, GetArtistQuery } from '../../application';
 
 @Injectable()
 export class ArtistService {
@@ -26,5 +26,9 @@ export class ArtistService {
     );
 
     return new ArtistDTO({ userId, ...artist });
+  }
+
+  async findOne(id: string): Promise<ArtistDTO> {
+    return await this.queryBus.execute(new GetArtistQuery(id));
   }
 }

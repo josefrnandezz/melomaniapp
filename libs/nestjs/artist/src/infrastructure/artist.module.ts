@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { commandHandlers } from '../application';
+import { commandHandlers, queryHandlers } from '../application';
 import { Artist, eventTransformers } from '../domain';
 import { ArtistController } from './controller';
 import { artistProviders } from './artist.providers';
@@ -28,6 +28,7 @@ import { ArtistService } from './services';
   ],
   providers: [
     ...commandHandlers,
+    ...queryHandlers,
     ...artistProviders,
     ...projectionHandlers,
     ArtistService,

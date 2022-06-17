@@ -12,10 +12,18 @@ export class ArtistFinder implements IArtistFinder {
     public readonly artists: Model<ArtistDocument>
   ) {}
 
+  async find(id: ArtistId): Promise<ArtistDTO> {
+    const artist = await this.artists.findById(id.value).lean();
+
+    return new ArtistDTO({ ...artist });
+  }
+
   async findByAlias(alias: Alias): Promise<ArtistDTO | null> {
-    const artist = this.artists.findOne({
-      alias: alias.value,
-    });
+    const artist = await this.artists
+      .findOne({
+        alias: alias.value,
+      })
+      .lean();
 
     if (!artist) {
       return null;

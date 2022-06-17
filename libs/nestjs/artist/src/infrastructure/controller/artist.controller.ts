@@ -6,6 +6,9 @@ import {
   Body,
   ConflictException,
   Controller,
+  Get,
+  NotFoundException,
+  Param,
   Post,
   UseGuards,
 } from '@nestjs/common';
@@ -35,6 +38,19 @@ export class ArtistController {
     } catch (e) {
       if (e instanceof IdAlreadyRegisteredError) {
         throw new ConflictException(e.message);
+      } else {
+        throw catchError(e);
+      }
+    }
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<ArtistDTO> {
+    try {
+      return await this.artistService.findOne(id);
+    } catch (e) {
+      if (e instanceof IdAlreadyRegisteredError) {
+        throw new NotFoundException('Artist not found');
       } else {
         throw catchError(e);
       }
