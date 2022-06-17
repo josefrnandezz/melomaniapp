@@ -1,6 +1,5 @@
 import { Role } from '@melomaniapp/nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
 
 interface Props {
   _id: string;
@@ -8,6 +7,8 @@ interface Props {
   roles: Role[];
   email: string;
 }
+
+export const anonymousUser = () => new UserDto({ roles: [Role.User] });
 
 export class UserDto {
   @ApiProperty()

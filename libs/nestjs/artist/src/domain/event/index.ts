@@ -1,6 +1,5 @@
 import { Event } from '@aulasoftwarelibre/nestjs-eventstore';
 
-import { ArtistWasCreated, ArtistWasCreatedProps } from './artist-was-created';
 import {
   ArtistGenreWasAdded,
   ArtistGenreWasAddedProps,
@@ -9,10 +8,11 @@ import {
   ArtistGenreWasRemoved,
   ArtistGenreWasRemovedProps,
 } from './artist-genre-was-removed';
+import { ArtistWasCreated, ArtistWasCreatedProps } from './artist-was-created';
 
-export * from './artist-was-created';
 export * from './artist-genre-was-added';
 export * from './artist-genre-was-removed';
+export * from './artist-was-created';
 
 export const eventTransformers = {
   ArtistWasCreated: (event: Event<ArtistWasCreatedProps>) =>

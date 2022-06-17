@@ -1,15 +1,16 @@
 import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
-import { ArtistId } from './artist-id';
-import { ArtistName } from './name';
 import { Alias, Description } from '@melomaniapp/nestjs/common';
-import { GenreId } from './genre-id';
-import { SocialLink } from './social-link';
-import { UserId } from './user-id';
+
 import {
   ArtistGenreWasAdded,
   ArtistGenreWasRemoved,
   ArtistWasCreated,
 } from '../event';
+import { ArtistId } from './artist-id';
+import { GenreId } from './genre-id';
+import { ArtistName } from './name';
+import { SocialLink } from './social-link';
+import { UserId } from './user-id';
 
 export class Artist extends AggregateRoot {
   private _id: ArtistId;

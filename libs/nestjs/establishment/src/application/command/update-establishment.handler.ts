@@ -3,7 +3,7 @@ import {
   IdNotFoundError,
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
-import { Description, Alias } from '@melomaniapp/nestjs/common';
+import { Alias,Description } from '@melomaniapp/nestjs/common';
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 

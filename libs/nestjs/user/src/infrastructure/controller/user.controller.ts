@@ -24,10 +24,9 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
-import { UserGuard } from '../auth';
-
 import { ACGuard, UseRoles } from 'nest-access-control';
 
+import { UserGuard } from '../auth';
 import { UserService } from '../services';
 
 @ApiBearerAuth()

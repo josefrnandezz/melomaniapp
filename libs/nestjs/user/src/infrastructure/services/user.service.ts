@@ -9,8 +9,8 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   CreateUserCommand,
   DeleteUserCommand,
-  GetUserQuery,
   GetUserByUsernameQuery,
+  GetUserQuery,
   GetUsersQuery,
   UpdateUserCommand,
 } from '../../application';

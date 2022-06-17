@@ -1,6 +1,7 @@
 import { ArtistDTO } from '@melomaniapp/contracts/artist';
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+
 import { ARTIST_FINDER, IArtistFinder } from '../services';
 import { GetArtistsQuery } from './get-artists-query';
 

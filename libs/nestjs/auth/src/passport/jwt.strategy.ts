@@ -2,11 +2,13 @@ import { JwtPayloadInterface } from '@melomaniapp/contracts/auth';
 import { UserDto } from '@melomaniapp/contracts/user';
 import { Role } from '@melomaniapp/nestjs/common';
 // eslint-disable-next-line @nrwl/nx/enforce-module-boundaries
-import { GetUserByUsernameQuery } from '@melomaniapp/nestjs/user';
+import {
+  CreateUserCommand,
+  GetUserByUsernameQuery,
+} from '@melomaniapp/nestjs/user';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { PassportStrategy } from '@nestjs/passport';
-import { CreateUserCommand } from 'libs/nestjs/user/src/application';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import * as uuid from 'uuid';
 

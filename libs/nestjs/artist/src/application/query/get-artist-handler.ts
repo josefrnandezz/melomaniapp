@@ -2,6 +2,7 @@ import { IdNotFoundError } from '@aulasoftwarelibre/nestjs-eventstore';
 import { ArtistDTO } from '@melomaniapp/contracts/artist';
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
+
 import { ArtistId } from '../../domain';
 import { ARTIST_FINDER, IArtistFinder } from '../services';
 import { GetArtistQuery } from './get-artist-query';

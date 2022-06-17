@@ -7,6 +7,7 @@ import {
 } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { AuthGuard } from '@nestjs/passport';
+
 import { GetUserByUsernameQuery } from '../../application';
 import { UserDocument } from '../read-model';
 

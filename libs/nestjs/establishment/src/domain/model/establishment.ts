@@ -1,5 +1,5 @@
 import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
-import { Description, Alias } from '@melomaniapp/nestjs/common';
+import { Alias,Description } from '@melomaniapp/nestjs/common';
 
 import {
   EstablishmentAliasWasUpdated,

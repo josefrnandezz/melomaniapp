@@ -1,3 +1,4 @@
+import { anonymousUser } from '@melomaniapp/contracts/user';
 import { Role } from '@melomaniapp/nestjs/common';
 import {
   ExecutionContext,
@@ -7,7 +8,6 @@ import {
 } from '@nestjs/common';
 import { QueryBus } from '@nestjs/cqrs';
 import { AuthGuard } from '@nestjs/passport';
-import anonymousUser from 'libs/nestjs/common/src/factories/user.factory';
 
 import { GetEstablishmentQuery } from '../../application';
 import { EstablishmentDocument } from '../read-model';

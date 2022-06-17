@@ -6,6 +6,7 @@ import {
 import { Alias, Description } from '@melomaniapp/nestjs/common';
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+
 import {
   Artist,
   ArtistAliasAlreadyTakenError,

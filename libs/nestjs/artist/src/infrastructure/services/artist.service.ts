@@ -1,6 +1,7 @@
+import { ArtistDTO,CreateArtistDTO } from '@melomaniapp/contracts/artist';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateArtistDTO, ArtistDTO } from '@melomaniapp/contracts/artist';
+
 import { CreateArtistCommand, GetArtistQuery } from '../../application';
 import { GetArtistsQuery } from '../../application/query/get-artists-query';
 

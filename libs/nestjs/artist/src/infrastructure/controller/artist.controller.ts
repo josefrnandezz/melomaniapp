@@ -13,9 +13,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { ArtistService } from '../services';
 import { ACGuard, UseRoles } from 'nest-access-control';
+
 import { ArtistGuard } from '../auth';
+import { ArtistService } from '../services';
 
 @ApiBearerAuth()
 @Controller('artists')

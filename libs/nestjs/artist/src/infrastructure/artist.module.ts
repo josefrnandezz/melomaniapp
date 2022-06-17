@@ -5,8 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { commandHandlers, queryHandlers } from '../application';
 import { Artist, eventTransformers } from '../domain';
-import { ArtistController } from './controller';
 import { artistProviders } from './artist.providers';
+import { ArtistController } from './controller';
 import {
   ARTISTS_PROJECTION,
   ArtistSchema,
