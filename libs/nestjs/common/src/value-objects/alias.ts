@@ -7,11 +7,11 @@ interface Props {
 export class Alias extends ValueObject<Props> {
   public static fromString(alias: string): Alias {
     if (alias.length === 0) {
-      throw DomainError.because('Establishment alias cannot be empty');
+      throw DomainError.because('Alias cannot be empty');
     }
 
     if (!/^[a-z0-9_.]+$/.test(alias)) {
-      throw DomainError.because('Invalid establishment alias characters');
+      throw DomainError.because('Invalid alias characters');
     }
 
     return new Alias({ value: alias });

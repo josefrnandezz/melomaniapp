@@ -101,11 +101,11 @@ export class Artist extends AggregateRoot {
     this.apply(new ArtistGenreWasRemoved(this.aggregateId(), genre.value));
   }
 
-  update(args: { alias?: Alias | undefined }): void {
+  update(args: { alias: Alias }): void {
     this.updateAlias(args.alias);
   }
 
-  private updateAlias(alias: Alias | undefined): void {
+  private updateAlias(alias: Alias): void {
     if (this.alias.equals(alias)) {
       return;
     }

@@ -8,9 +8,9 @@ export type ArtistDocument = ArtistDTO & Document;
 export const ArtistSchema = new Schema(
   {
     _id: String,
-    userId: String,
+    userId: { type: String, required: true },
     name: String,
-    alias: { type: String, index: { unique: true } },
+    alias: { type: String, index: { unique: true }, required: true },
     description: String,
     socialLinks: [String],
     genreIds: [String],
