@@ -2,6 +2,7 @@ import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
 import { Alias, Description } from '@melomaniapp/nestjs/common';
 
 import {
+  ArtistAliasWasUpdated,
   ArtistGenreWasAdded,
   ArtistGenreWasRemoved,
   ArtistWasCreated,
@@ -97,7 +98,19 @@ export class Artist extends AggregateRoot {
       return;
     }
 
-    this.apply(new ArtistGenreWasRemoved(this._id.value, genre.value));
+    this.apply(new ArtistGenreWasRemoved(this.aggregateId(), genre.value));
+  }
+
+  update(args: { alias?: Alias | undefined }): void {
+    this.updateAlias(args.alias);
+  }
+
+  private updateAlias(alias: Alias | undefined): void {
+    if (this.alias.equals(alias)) {
+      return;
+    }
+
+    this.apply(new ArtistAliasWasUpdated(this.aggregateId(), alias.value));
   }
 
   private onArtistWasCreated(event: ArtistWasCreated): void {
@@ -121,5 +134,9 @@ export class Artist extends AggregateRoot {
     this._genreIds = this._genreIds.filter(
       (genre) => !genre.equals(GenreId.fromString(event.genreId))
     );
+  }
+
+  private onArtistAliasWasUpdated(event: ArtistAliasWasUpdated) {
+    this._alias = Alias.fromString(event.alias);
   }
 }

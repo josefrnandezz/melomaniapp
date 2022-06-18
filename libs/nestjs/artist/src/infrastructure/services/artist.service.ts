@@ -1,8 +1,16 @@
-import { ArtistDTO,CreateArtistDTO } from '@melomaniapp/contracts/artist';
+import {
+  ArtistDTO,
+  CreateArtistDTO,
+  EditArtistDTO,
+} from '@melomaniapp/contracts/artist';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { CreateArtistCommand, GetArtistQuery } from '../../application';
+import {
+  CreateArtistCommand,
+  GetArtistQuery,
+  UpdateArtistCommand,
+} from '../../application';
 import { GetArtistsQuery } from '../../application/query/get-artists-query';
 
 @Injectable()
@@ -36,5 +44,13 @@ export class ArtistService {
 
   async findAll(): Promise<ArtistDTO> {
     return await this.queryBus.execute(new GetArtistsQuery());
+  }
+
+  async update(id: string, artist: EditArtistDTO): Promise<ArtistDTO> {
+    await this.commandBus.execute(new UpdateArtistCommand(id, artist.alias));
+
+    const updatedArtist = await this.findOne(id);
+
+    return new ArtistDTO({ ...updatedArtist });
   }
 }

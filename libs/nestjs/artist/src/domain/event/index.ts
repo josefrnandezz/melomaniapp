@@ -1,6 +1,10 @@
 import { Event } from '@aulasoftwarelibre/nestjs-eventstore';
 
 import {
+  ArtistAliasWasUpdated,
+  ArtistAliasWasUpdatedProps,
+} from './artist-alias-was-updated';
+import {
   ArtistGenreWasAdded,
   ArtistGenreWasAddedProps,
 } from './artist-genre-was-added';
@@ -10,6 +14,7 @@ import {
 } from './artist-genre-was-removed';
 import { ArtistWasCreated, ArtistWasCreatedProps } from './artist-was-created';
 
+export * from './artist-alias-was-updated';
 export * from './artist-genre-was-added';
 export * from './artist-genre-was-removed';
 export * from './artist-was-created';
@@ -28,4 +33,6 @@ export const eventTransformers = {
     new ArtistGenreWasAdded(event.aggregateId, event.payload.genreId),
   ArtistGenreWasRemoved: (event: Event<ArtistGenreWasRemovedProps>) =>
     new ArtistGenreWasRemoved(event.aggregateId, event.payload.genreId),
+  ArtistAliasWasUpdated: (event: Event<ArtistAliasWasUpdatedProps>) =>
+    new ArtistAliasWasUpdated(event.aggregateId, event.payload.alias),
 };

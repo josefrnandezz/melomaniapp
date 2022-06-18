@@ -1,5 +1,9 @@
 import { IdAlreadyRegisteredError } from '@aulasoftwarelibre/nestjs-eventstore';
-import { ArtistDTO, CreateArtistDTO } from '@melomaniapp/contracts/artist';
+import {
+  ArtistDTO,
+  CreateArtistDTO,
+  EditArtistDTO,
+} from '@melomaniapp/contracts/artist';
 import { UserDto } from '@melomaniapp/contracts/user';
 import { catchError, Resource, User } from '@melomaniapp/nestjs/common';
 import {
@@ -7,9 +11,11 @@ import {
   ConflictException,
   Controller,
   Get,
+  HttpCode,
   NotFoundException,
   Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -68,6 +74,16 @@ export class ArtistController {
       } else {
         throw catchError(e);
       }
+    }
+  }
+
+  @Put(':id')
+  @HttpCode(204)
+  async update(@Param('id') id: string, @Body() artistDTO: EditArtistDTO) {
+    try {
+      await this.artistService.update(id, artistDTO);
+    } catch (e) {
+      throw catchError(e);
     }
   }
 }
