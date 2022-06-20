@@ -12,6 +12,7 @@ import {
   ArtistAliasAlreadyTakenError,
   ArtistId,
   ArtistName,
+  GenreId,
   SocialLink,
 } from '../../domain';
 import { ARTIST_FINDER, IArtistFinder } from '../services';
@@ -48,6 +49,7 @@ export class UpdateArtistHandler
     });
     artist.updateAlias(alias);
     this.updateSocialLinks(artist, command);
+    this.updateGenres(artist, command);
 
     this.artists.save(artist);
   }
@@ -66,5 +68,18 @@ export class UpdateArtistHandler
     command.socialLinks.map((socialLink) =>
       artist.addSocialLink(SocialLink.fromString(socialLink))
     );
+  }
+
+  private updateGenres(artist: Artist, command: UpdateArtistCommand) {
+    if (command.genreIds === undefined) {
+      return;
+    }
+
+    artist.genres.map(
+      (genre) =>
+        !command.genreIds.includes(genre.value) && artist.removeGenre(genre)
+    );
+
+    command.genreIds.map((genre) => artist.addGenre(GenreId.fromString(genre)));
   }
 }

@@ -54,7 +54,8 @@ export class ArtistService {
         artist.name,
         artist.alias,
         artist.description,
-        artist.socialLinks
+        artist.socialLinks,
+        artist.genreIds
       )
     );
 
