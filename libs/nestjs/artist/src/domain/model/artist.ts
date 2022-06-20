@@ -112,7 +112,7 @@ export class Artist extends AggregateRoot {
   }
 
   addSocialLink(socialLink: SocialLink): void {
-    if (this.hasGenre(socialLink)) {
+    if (this.hasSocialLink(socialLink)) {
       return;
     }
 
@@ -120,7 +120,7 @@ export class Artist extends AggregateRoot {
   }
 
   removeSocialLink(socialLink: SocialLink): void {
-    if (!this.hasGenre(socialLink)) {
+    if (!this.hasSocialLink(socialLink)) {
       return;
     }
 
