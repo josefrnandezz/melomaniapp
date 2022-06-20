@@ -5,6 +5,7 @@ import {
   ArtistAliasWasUpdated,
   ArtistGenreWasAdded,
   ArtistGenreWasRemoved,
+  ArtistPersonalInfoWasUpdated,
   ArtistSocialLinkWasAdded,
   ArtistSocialLinkWasRemoved,
   ArtistWasCreated,
@@ -136,6 +137,19 @@ export class Artist extends AggregateRoot {
     this.apply(new ArtistAliasWasUpdated(this.aggregateId(), alias.value));
   }
 
+  public updatePersonalInfo(args: {
+    name: ArtistName;
+    description: Description;
+  }): void {
+    this.apply(
+      new ArtistPersonalInfoWasUpdated(
+        this.aggregateId(),
+        args.name.value,
+        args.description.value
+      )
+    );
+  }
+
   public delete(): void {
     if (this.deleted) {
       return;
@@ -180,6 +194,11 @@ export class Artist extends AggregateRoot {
 
   private onArtistAliasWasUpdated(event: ArtistAliasWasUpdated) {
     this._alias = Alias.fromString(event.alias);
+  }
+
+  private onArtistPersonalInfoWasUpdated(event: ArtistPersonalInfoWasUpdated) {
+    this._name = ArtistName.fromString(event.name);
+    this._description = Description.fromString(event.description);
   }
 
   private onArtistWasDeleted(event: ArtistWasDeleted) {

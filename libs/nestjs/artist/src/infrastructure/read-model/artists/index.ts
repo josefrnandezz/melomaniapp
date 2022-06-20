@@ -1,6 +1,7 @@
 import { ArtistAliasWasUpdatedProjection } from './artist-alias-was-updated.projection';
 import { ArtistGenreWasAddedProjection } from './artist-genre-was-added.projection';
 import { ArtistGenreWasRemovedProjection } from './artist-genre-was-removed.projection';
+import { ArtistPersonalInfoWasUpdatedProjection } from './artist-personal-info-was-updated.projection';
 import { ArtistSocialLinkWasAddedProjection } from './artist-social-link-was-added.projection';
 import { ArtistSocialLinkWasRemovedProjection } from './artist-social-link-was-removed.projection';
 import { ArtistWasCreatedProjection } from './artist-was-created.projection';
@@ -15,5 +16,6 @@ export const projectionHandlers = [
   ArtistAliasWasUpdatedProjection,
   ArtistSocialLinkWasAddedProjection,
   ArtistSocialLinkWasRemovedProjection,
+  ArtistPersonalInfoWasUpdatedProjection,
   ArtistWasDeletedProjection,
 ];

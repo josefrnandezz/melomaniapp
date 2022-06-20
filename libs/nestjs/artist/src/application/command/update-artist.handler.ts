@@ -3,7 +3,7 @@ import {
   IdNotFoundError,
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
-import { Alias } from '@melomaniapp/nestjs/common';
+import { Alias, Description } from '@melomaniapp/nestjs/common';
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
@@ -11,6 +11,7 @@ import {
   Artist,
   ArtistAliasAlreadyTakenError,
   ArtistId,
+  ArtistName,
   SocialLink,
 } from '../../domain';
 import { ARTIST_FINDER, IArtistFinder } from '../services';
@@ -41,6 +42,10 @@ export class UpdateArtistHandler
       throw ArtistAliasAlreadyTakenError.with(alias);
     }
 
+    artist.updatePersonalInfo({
+      name: ArtistName.fromString(command.name),
+      description: Description.fromString(command.description),
+    });
     artist.updateAlias(alias);
     this.updateSocialLinks(artist, command);
 
