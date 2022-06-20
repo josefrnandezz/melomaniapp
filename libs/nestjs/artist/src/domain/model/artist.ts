@@ -5,6 +5,8 @@ import {
   ArtistAliasWasUpdated,
   ArtistGenreWasAdded,
   ArtistGenreWasRemoved,
+  ArtistSocialLinkWasAdded,
+  ArtistSocialLinkWasRemoved,
   ArtistWasCreated,
   ArtistWasDeleted,
 } from '../event';
@@ -102,8 +104,36 @@ export class Artist extends AggregateRoot {
     this.apply(new ArtistGenreWasRemoved(this.aggregateId(), genre.value));
   }
 
-  update(args: { alias: Alias }): void {
-    this.updateAlias(args.alias);
+  hasSocialLink(socialLink: SocialLink): boolean {
+    return this._socialLinks.some((item: SocialLink) =>
+      item.equals(socialLink)
+    );
+  }
+
+  addSocialLink(socialLink: SocialLink): void {
+    if (this.hasGenre(socialLink)) {
+      return;
+    }
+
+    this.apply(new ArtistSocialLinkWasAdded(this._id.value, socialLink.value));
+  }
+
+  removeSocialLink(socialLink: SocialLink): void {
+    if (!this.hasGenre(socialLink)) {
+      return;
+    }
+
+    this.apply(
+      new ArtistSocialLinkWasRemoved(this.aggregateId(), socialLink.value)
+    );
+  }
+
+  public updateAlias(alias: Alias): void {
+    if (this.alias.equals(alias)) {
+      return;
+    }
+
+    this.apply(new ArtistAliasWasUpdated(this.aggregateId(), alias.value));
   }
 
   public delete(): void {
@@ -112,14 +142,6 @@ export class Artist extends AggregateRoot {
     }
 
     this.apply(new ArtistWasDeleted(this.aggregateId()));
-  }
-
-  private updateAlias(alias: Alias): void {
-    if (this.alias.equals(alias)) {
-      return;
-    }
-
-    this.apply(new ArtistAliasWasUpdated(this.aggregateId(), alias.value));
   }
 
   private onArtistWasCreated(event: ArtistWasCreated): void {
@@ -142,6 +164,17 @@ export class Artist extends AggregateRoot {
   private onArtistGenreWasRemoved(event: ArtistGenreWasRemoved) {
     this._genreIds = this._genreIds.filter(
       (genre) => !genre.equals(GenreId.fromString(event.genreId))
+    );
+  }
+
+  private onArtistSocialLinkWasAdded(event: ArtistSocialLinkWasAdded) {
+    this._socialLinks.push(SocialLink.fromString(event.socialLink));
+  }
+
+  private onArtistSocialLinkWasRemoved(event: ArtistSocialLinkWasRemoved) {
+    this._socialLinks = this._socialLinks.filter(
+      (socialLink) =>
+        !socialLink.equals(SocialLink.fromString(event.socialLink))
     );
   }
 

@@ -48,7 +48,9 @@ export class ArtistService {
   }
 
   async update(id: string, artist: EditArtistDTO): Promise<ArtistDTO> {
-    await this.commandBus.execute(new UpdateArtistCommand(id, artist.alias));
+    await this.commandBus.execute(
+      new UpdateArtistCommand(id, artist.alias, artist.socialLinks)
+    );
 
     const updatedArtist = await this.findOne(id);
 

@@ -12,12 +12,18 @@ import {
   ArtistGenreWasRemoved,
   ArtistGenreWasRemovedProps,
 } from './artist-genre-was-removed';
+import {
+  ArtistSocialLinkWasAdded,
+  ArtistSocialLinkWasAddedProps,
+} from './artist-social-link-was-added';
 import { ArtistWasCreated, ArtistWasCreatedProps } from './artist-was-created';
 import { ArtistWasDeleted } from './artist-was-deleted';
 
 export * from './artist-alias-was-updated';
 export * from './artist-genre-was-added';
 export * from './artist-genre-was-removed';
+export * from './artist-social-link-was-added';
+export * from './artist-social-link-was-removed';
 export * from './artist-was-created';
 export * from './artist-was-deleted';
 
@@ -39,4 +45,8 @@ export const eventTransformers = {
     new ArtistAliasWasUpdated(event.aggregateId, event.payload.alias),
   ArtistWasDeleted: (event: ArtistWasDeleted) =>
     new ArtistWasDeleted(event.aggregateId),
+  ArtistSocialLinkWasAdded: (event: Event<ArtistSocialLinkWasAddedProps>) =>
+    new ArtistSocialLinkWasAdded(event.aggregateId, event.payload.socialLink),
+  ArtistSocialLinkWasRemoved: (event: Event<ArtistSocialLinkWasAddedProps>) =>
+    new ArtistSocialLinkWasAdded(event.aggregateId, event.payload.socialLink),
 };

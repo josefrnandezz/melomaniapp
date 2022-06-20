@@ -7,7 +7,12 @@ import { Alias } from '@melomaniapp/nestjs/common';
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
-import { Artist, ArtistAliasAlreadyTakenError, ArtistId } from '../../domain';
+import {
+  Artist,
+  ArtistAliasAlreadyTakenError,
+  ArtistId,
+  SocialLink,
+} from '../../domain';
 import { ARTIST_FINDER, IArtistFinder } from '../services';
 import { UpdateArtistCommand } from './update-artist.command';
 
@@ -36,8 +41,25 @@ export class UpdateArtistHandler
       throw ArtistAliasAlreadyTakenError.with(alias);
     }
 
-    artist.update({ alias });
+    artist.updateAlias(alias);
+    this.updateSocialLinks(artist, command);
 
     this.artists.save(artist);
+  }
+
+  private updateSocialLinks(artist: Artist, command: UpdateArtistCommand) {
+    if (command.socialLinks === undefined) {
+      return;
+    }
+
+    artist.socialLinks.map(
+      (socialLink) =>
+        !command.socialLinks.includes(socialLink.value) &&
+        artist.removeSocialLink(socialLink)
+    );
+
+    command.socialLinks.map((socialLink) =>
+      artist.addSocialLink(SocialLink.fromString(socialLink))
+    );
   }
 }
