@@ -8,6 +8,7 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
 import {
   CreateArtistCommand,
+  DeleteArtistCommand,
   GetArtistQuery,
   UpdateArtistCommand,
 } from '../../application';
@@ -52,5 +53,9 @@ export class ArtistService {
     const updatedArtist = await this.findOne(id);
 
     return new ArtistDTO({ ...updatedArtist });
+  }
+
+  async delete(id: string): Promise<void> {
+    await this.commandBus.execute(new DeleteArtistCommand(id));
   }
 }

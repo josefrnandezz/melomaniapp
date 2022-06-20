@@ -6,6 +6,7 @@ import {
   ArtistGenreWasAdded,
   ArtistGenreWasRemoved,
   ArtistWasCreated,
+  ArtistWasDeleted,
 } from '../event';
 import { ArtistId } from './artist-id';
 import { GenreId } from './genre-id';
@@ -105,6 +106,14 @@ export class Artist extends AggregateRoot {
     this.updateAlias(args.alias);
   }
 
+  public delete(): void {
+    if (this.deleted) {
+      return;
+    }
+
+    this.apply(new ArtistWasDeleted(this.aggregateId()));
+  }
+
   private updateAlias(alias: Alias): void {
     if (this.alias.equals(alias)) {
       return;
@@ -138,5 +147,9 @@ export class Artist extends AggregateRoot {
 
   private onArtistAliasWasUpdated(event: ArtistAliasWasUpdated) {
     this._alias = Alias.fromString(event.alias);
+  }
+
+  private onArtistWasDeleted(event: ArtistWasDeleted) {
+    this._deleted = new Date(event.metadata._ocurred_on);
   }
 }

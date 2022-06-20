@@ -13,11 +13,13 @@ import {
   ArtistGenreWasRemovedProps,
 } from './artist-genre-was-removed';
 import { ArtistWasCreated, ArtistWasCreatedProps } from './artist-was-created';
+import { ArtistWasDeleted } from './artist-was-deleted';
 
 export * from './artist-alias-was-updated';
 export * from './artist-genre-was-added';
 export * from './artist-genre-was-removed';
 export * from './artist-was-created';
+export * from './artist-was-deleted';
 
 export const eventTransformers = {
   ArtistWasCreated: (event: Event<ArtistWasCreatedProps>) =>
@@ -35,4 +37,6 @@ export const eventTransformers = {
     new ArtistGenreWasRemoved(event.aggregateId, event.payload.genreId),
   ArtistAliasWasUpdated: (event: Event<ArtistAliasWasUpdatedProps>) =>
     new ArtistAliasWasUpdated(event.aggregateId, event.payload.alias),
+  ArtistWasDeleted: (event: ArtistWasDeleted) =>
+    new ArtistWasDeleted(event.aggregateId),
 };

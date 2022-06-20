@@ -2,6 +2,7 @@ import { ArtistAliasWasUpdatedProjection } from './artist-alias-was-updated.proj
 import { ArtistGenreWasAddedProjection } from './artist-genre-was-added.projection';
 import { ArtistGenreWasRemovedProjection } from './artist-genre-was-removed.projection';
 import { ArtistWasCreatedProjection } from './artist-was-created.projection';
+import { ArtistWasDeletedProjection } from './artist-was-deleted.projection';
 
 export * from './artist.schema';
 
@@ -10,4 +11,5 @@ export const projectionHandlers = [
   ArtistGenreWasAddedProjection,
   ArtistGenreWasRemovedProjection,
   ArtistAliasWasUpdatedProjection,
+  ArtistWasDeletedProjection,
 ];

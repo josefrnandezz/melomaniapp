@@ -10,6 +10,7 @@ import {
   Body,
   ConflictException,
   Controller,
+  Delete,
   Get,
   HttpCode,
   NotFoundException,
@@ -82,6 +83,15 @@ export class ArtistController {
   async update(@Param('id') id: string, @Body() artistDTO: EditArtistDTO) {
     try {
       await this.artistService.update(id, artistDTO);
+    } catch (e) {
+      throw catchError(e);
+    }
+  }
+
+  @Delete(':id')
+  async delete(@Param('id') id: string): Promise<void> {
+    try {
+      return await this.artistService.delete(id);
     } catch (e) {
       throw catchError(e);
     }
