@@ -16,7 +16,7 @@ export class UserCli {
   constructor(private readonly commandBus: CommandBus) {}
 
   @Command({
-    command: 'add <username> <password> <email>',
+    command: 'add <username> <email>',
     description: 'Create a new admin user',
   })
   async create(username: string, email: string) {
