@@ -20,6 +20,10 @@ import {
   ArtistSocialLinkWasAdded,
   ArtistSocialLinkWasAddedProps,
 } from './artist-social-link-was-added';
+import {
+  ArtistSocialLinkWasRemoved,
+  ArtistSocialLinkWasRemovedProps,
+} from './artist-social-link-was-removed';
 import { ArtistWasCreated, ArtistWasCreatedProps } from './artist-was-created';
 import { ArtistWasDeleted } from './artist-was-deleted';
 
@@ -52,8 +56,8 @@ export const eventTransformers = {
     new ArtistWasDeleted(event.aggregateId),
   ArtistSocialLinkWasAdded: (event: Event<ArtistSocialLinkWasAddedProps>) =>
     new ArtistSocialLinkWasAdded(event.aggregateId, event.payload.socialLink),
-  ArtistSocialLinkWasRemoved: (event: Event<ArtistSocialLinkWasAddedProps>) =>
-    new ArtistSocialLinkWasAdded(event.aggregateId, event.payload.socialLink),
+  ArtistSocialLinkWasRemoved: (event: Event<ArtistSocialLinkWasRemovedProps>) =>
+    new ArtistSocialLinkWasRemoved(event.aggregateId, event.payload.socialLink),
   ArtistPersonalInfoWasUpdated: (
     event: Event<ArtistPersonalInfoWasUpdatedProps>
   ) =>
