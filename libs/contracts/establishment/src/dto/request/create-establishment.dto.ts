@@ -1,6 +1,5 @@
+import { AddressProps } from '@melomaniapp/nestjs/common';
 import { ApiProperty } from '@nestjs/swagger';
-
-import { Address } from '..';
 
 export class CreateEstablishmentDTO {
   @ApiProperty()
@@ -19,7 +18,7 @@ export class CreateEstablishmentDTO {
   email: string;
 
   @ApiProperty({ example: { full: 'string', city: 'string' } })
-  address: Address;
+  address: AddressProps;
 
   @ApiProperty()
   genreIds: string[];

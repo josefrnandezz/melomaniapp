@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-
-import { Address } from '..';
+import { AddressProps } from '@melomaniapp/nestjs/common';
 
 interface Props {
   _id: string;
@@ -9,7 +8,7 @@ interface Props {
   alias: string;
   description: string;
   email: string;
-  address: Address;
+  address: AddressProps;
   genreIds: string[];
 }
 
@@ -37,7 +36,7 @@ export class EstablishmentDTO {
   public readonly email: string;
 
   @ApiProperty({ example: { full: 'string', city: 'string' } })
-  public readonly address: Address;
+  public readonly address: AddressProps;
 
   @ApiProperty()
   public readonly genreIds: string[];
