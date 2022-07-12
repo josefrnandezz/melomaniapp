@@ -252,6 +252,29 @@
       },
       "tags": []
     },
+    "contracts-event": {
+      "root": "libs/contracts/event",
+      "sourceRoot": "libs/contracts/event/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/contracts/event/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/contracts/event"],
+          "options": {
+            "jestConfig": "libs/contracts/event/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "contracts-genre": {
       "root": "libs/contracts/genre",
       "sourceRoot": "libs/contracts/genre/src",
@@ -507,6 +530,29 @@
           "outputs": ["coverage/libs/nestjs/establishment"],
           "options": {
             "jestConfig": "libs/nestjs/establishment/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
+    "nestjs-event": {
+      "root": "libs/nestjs/event",
+      "sourceRoot": "libs/nestjs/event/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/nestjs/event/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/nestjs/event"],
+          "options": {
+            "jestConfig": "libs/nestjs/event/jest.config.js",
             "passWithNoTests": true
           }
         }

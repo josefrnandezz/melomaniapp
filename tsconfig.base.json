@@ -20,6 +20,7 @@
       "@melomaniapp/contracts/establishment": [
         "libs/contracts/establishment/src/index.ts"
       ],
+      "@melomaniapp/contracts/event": ["libs/contracts/event/src/index.ts"],
       "@melomaniapp/contracts/genre": ["libs/contracts/genre/src/index.ts"],
       "@melomaniapp/contracts/user": ["libs/contracts/user/src/index.ts"],
       "@melomaniapp/domain": ["libs/domain/src/index.ts"],
@@ -30,6 +31,7 @@
       "@melomaniapp/nestjs/establishment": [
         "libs/nestjs/establishment/src/index.ts"
       ],
+      "@melomaniapp/nestjs/event": ["libs/nestjs/event/src/index.ts"],
       "@melomaniapp/nestjs/genre": ["libs/nestjs/genre/src/index.ts"],
       "@melomaniapp/nestjs/user": ["libs/nestjs/user/src/index.ts"],
       "@melomaniapp/ui": ["libs/ui/src/index.ts"]
