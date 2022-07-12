@@ -3,6 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 
 interface Props {
   _id: string;
+  userId: string;
   name: string;
   description: string;
   startsAt: Date;
@@ -20,6 +21,9 @@ export class EventDTO {
 
   @ApiProperty()
   public readonly _id: string;
+
+  @ApiProperty()
+  public readonly userId: string;
 
   @ApiProperty()
   public readonly name: string;

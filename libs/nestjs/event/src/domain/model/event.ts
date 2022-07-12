@@ -5,9 +5,11 @@ import { Address, Description } from '@melomaniapp/nestjs/common';
 import { ArtistId } from './artist-id';
 import { EstablishmentId } from './establishment-id';
 import { GenreId } from './genre-id';
+import { UserId } from './user-id';
 
 export class Event extends AggregateRoot {
   private readonly _id: EventId;
+  private readonly _userId: UserId;
   private readonly _name: EventName;
   private readonly _description: Description;
   private readonly _startsAt: Date;
