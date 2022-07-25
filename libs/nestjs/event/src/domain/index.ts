@@ -1,1 +1,2 @@
-export * from './model/event';
+export * from './model';
+export * from './event';
