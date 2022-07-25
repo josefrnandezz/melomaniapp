@@ -32,7 +32,7 @@ export class ArtistController {
 
   @Post()
   @UseRoles({
-    resource: Resource.Establishment,
+    resource: Resource.Artist,
     action: 'create',
     possession: 'any',
   })
