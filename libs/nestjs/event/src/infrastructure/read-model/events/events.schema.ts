@@ -5,7 +5,7 @@ export const EVENTS_PROJECTION = 'establishments';
 
 export type EventDocument = EventDTO & Document;
 
-export const EvemtSchema = new Schema(
+export const EventSchema = new Schema(
   {
     _id: String,
     userId: String,

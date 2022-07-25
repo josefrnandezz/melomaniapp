@@ -1,1 +1,1 @@
-export * from './infrastructure/event.module';
+export * from './infrastructure';
