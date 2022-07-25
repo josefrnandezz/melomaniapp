@@ -1,14 +1,17 @@
+import { AddressProps } from '@melomaniapp/nestjs/common';
 import { ICommand } from '@nestjs/cqrs';
 
 export class CreateEventCommand implements ICommand {
   constructor(
-    private readonly id: string,
-    private readonly userId: string,
-    private readonly name: string,
-    private readonly description,
-    private readonly startsAt: Date,
-    private readonly endsAt: string,
-    private readonly location: string,
-    private readonly isCancelled: boolean
+    public readonly id: string,
+    public readonly userId: string,
+    public readonly name: string,
+    public readonly description: string,
+    public readonly startsAt: Date,
+    public readonly endsAt: Date,
+    public readonly address: AddressProps,
+    public readonly artistIds: string[],
+    public readonly establishmentId: string,
+    public readonly genreIds: string[]
   ) {}
 }

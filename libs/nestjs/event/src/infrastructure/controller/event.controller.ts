@@ -1,6 +1,6 @@
 import { Controller } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
-import { EventService } from '../services/event.service';
+import { EventService } from '../services';
 
 @ApiBearerAuth()
 @Controller('events')
