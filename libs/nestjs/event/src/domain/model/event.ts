@@ -104,13 +104,16 @@ export class Event extends AggregateRoot {
   }
 
   public changeDate(startsAt: Date, endsAt: Date): void {
+    if (this._startsAt === startsAt && this._endsAt === endsAt) {
+      return;
+    }
     Event.verifyDateIsValid(startsAt, endsAt);
 
     this.apply(new EventDateWasChanged(this.aggregateId(), startsAt, endsAt));
   }
 
   private static verifyDateIsValid(startsAt: Date, endsAt: Date): void {
-    if (endsAt < startsAt) {
+    if (endsAt < startsAt || startsAt === endsAt) {
       throw EventDateError.with(startsAt, endsAt);
     }
   }
