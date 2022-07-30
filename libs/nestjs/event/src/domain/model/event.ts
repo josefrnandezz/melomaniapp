@@ -10,9 +10,11 @@ import { EventWasCreated } from '../event/event-was-created.event';
 import {
   ArtistWasAdded,
   ArtistWasRemoved,
+  EventDateWasChanged,
   GenreWasAdded,
   GenreWasRemoved,
 } from '../event';
+import { EventDateError } from '../exception';
 
 export class Event extends AggregateRoot {
   private _id: EventId;
@@ -42,6 +44,8 @@ export class Event extends AggregateRoot {
     address: Address;
   }): Event {
     const event = new Event();
+
+    Event.verifyDateIsValid(args.startsAt, args.endsAt);
 
     event.apply(
       new EventWasCreated(
@@ -99,6 +103,18 @@ export class Event extends AggregateRoot {
     this.apply(new GenreWasRemoved(this.aggregateId(), genreId.value));
   }
 
+  public changeDate(startsAt: Date, endsAt: Date): void {
+    Event.verifyDateIsValid(startsAt, endsAt);
+
+    this.apply(new EventDateWasChanged(this.aggregateId(), startsAt, endsAt));
+  }
+
+  private static verifyDateIsValid(startsAt: Date, endsAt: Date): void {
+    if (endsAt < startsAt) {
+      throw EventDateError.with(startsAt, endsAt);
+    }
+  }
+
   private onEventWasCreated(event: EventWasCreated): void {
     this._id = EventId.fromString(event.id);
     this._userId = EventId.fromString(event.userId);
@@ -127,5 +143,10 @@ export class Event extends AggregateRoot {
 
   private onGenreWasRemoved(event: GenreWasRemoved): void {
     this._genres.filter((id) => !id.equals(GenreId.fromString(event.genreId)));
+  }
+
+  private onEventDateWasChanged(event: EventDateWasChanged): void {
+    this._startsAt = event.startsAt;
+    this._endsAt = event.endsAt;
   }
 }

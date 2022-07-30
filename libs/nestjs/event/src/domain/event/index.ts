@@ -13,9 +13,14 @@ import {
   GenreWasRemoved,
   GenreWasRemovedProps,
 } from './genre-was-removed.event';
+import {
+  EventDateWasChanged,
+  EventDateWasChangedProps,
+} from './event-date-was-changed.event';
 
 export * from './artist-was-added.event';
 export * from './artist-was-removed.event';
+export * from './event-date-was-changed.event';
 export * from './event-was-created.event';
 export * from './genre-was-added.event';
 export * from './genre-was-removed.event';
@@ -40,4 +45,10 @@ export const eventTransformers = {
     new GenreWasAdded(event.aggregateId, event.payload.genreId),
   GenreWasRemoved: (event: Event<GenreWasRemovedProps>) =>
     new GenreWasRemoved(event.aggregateId, event.payload.genreId),
+  EventDateWasChanged: (event: Event<EventDateWasChangedProps>) =>
+    new EventDateWasChanged(
+      event.aggregateId,
+      event.payload.startsAt,
+      event.payload.endsAt
+    ),
 };

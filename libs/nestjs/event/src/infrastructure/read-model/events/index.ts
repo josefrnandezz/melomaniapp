@@ -1,5 +1,6 @@
 import { ArtistWasAddedProjection } from './artist-was-added.projection';
 import { ArtistWasRemovedProjection } from './artist-was-removed.projection';
+import { EventDateWasChangedProjection } from './event-date-was-changed.projection';
 import { EventWasCreatedProjection } from './event-was-created.projection';
 import { GenreWasAddedProjection } from './genre-was-added.projection';
 import { GenreWasRemovedProjection } from './genre-was-removed.event';
@@ -12,4 +13,5 @@ export const projectionHandlers = [
   GenreWasAddedProjection,
   GenreWasRemovedProjection,
   EventWasCreatedProjection,
+  EventDateWasChangedProjection,
 ];
