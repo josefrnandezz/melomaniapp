@@ -17,10 +17,15 @@ import {
   EventDateWasChanged,
   EventDateWasChangedProps,
 } from './event-date-was-changed.event';
+import {
+  EventInfoWasUpdated,
+  EventInfoWasUpdatedProps,
+} from './event-info-was-updated.event';
 
 export * from './artist-was-added.event';
 export * from './artist-was-removed.event';
 export * from './event-date-was-changed.event';
+export * from './event-info-was-updated.event';
 export * from './event-was-created.event';
 export * from './genre-was-added.event';
 export * from './genre-was-removed.event';
@@ -50,5 +55,11 @@ export const eventTransformers = {
       event.aggregateId,
       event.payload.startsAt,
       event.payload.endsAt
+    ),
+  EventInfoWasUpdated: (event: Event<EventInfoWasUpdatedProps>) =>
+    new EventInfoWasUpdated(
+      event.aggregateId,
+      event.payload.name,
+      event.payload.description
     ),
 };

@@ -11,6 +11,7 @@ import {
   ArtistWasAdded,
   ArtistWasRemoved,
   EventDateWasChanged,
+  EventInfoWasUpdated,
   GenreWasAdded,
   GenreWasRemoved,
 } from '../event';
@@ -107,9 +108,20 @@ export class Event extends AggregateRoot {
     if (this._startsAt === startsAt && this._endsAt === endsAt) {
       return;
     }
+
     Event.verifyDateIsValid(startsAt, endsAt);
 
     this.apply(new EventDateWasChanged(this.aggregateId(), startsAt, endsAt));
+  }
+
+  public updateInfo(name: EventName, description: Description): void {
+    if (this._name.equals(name) && this._description.equals(description)) {
+      return;
+    }
+
+    this.apply(
+      new EventInfoWasUpdated(this.aggregateId(), name.value, description.value)
+    );
   }
 
   private static verifyDateIsValid(startsAt: Date, endsAt: Date): void {
@@ -151,5 +163,10 @@ export class Event extends AggregateRoot {
   private onEventDateWasChanged(event: EventDateWasChanged): void {
     this._startsAt = event.startsAt;
     this._endsAt = event.endsAt;
+  }
+
+  private onEventInfoWasUpdated(event: EventInfoWasUpdated): void {
+    this._name = EventName.fromString(event.name);
+    this._description = Description.fromString(event.description);
   }
 }
