@@ -1,3 +1,4 @@
+import { EventWasCancelled } from '../../../domain';
 import { ArtistWasAddedProjection } from './artist-was-added.projection';
 import { ArtistWasRemovedProjection } from './artist-was-removed.projection';
 import { EventDateWasChangedProjection } from './event-date-was-changed.projection';
@@ -16,4 +17,5 @@ export const projectionHandlers = [
   EventWasCreatedProjection,
   EventDateWasChangedProjection,
   EventInfoWasUpdatedProjection,
+  EventWasCancelled,
 ];

@@ -12,6 +12,7 @@ import {
   ArtistWasRemoved,
   EventDateWasChanged,
   EventInfoWasUpdated,
+  EventWasCancelled,
   GenreWasAdded,
   GenreWasRemoved,
 } from '../event';
@@ -124,6 +125,10 @@ export class Event extends AggregateRoot {
     );
   }
 
+  public cancel(): void {
+    this.apply(new EventWasCancelled(this.aggregateId()));
+  }
+
   private static verifyDateIsValid(startsAt: Date, endsAt: Date): void {
     if (endsAt < startsAt || startsAt === endsAt) {
       throw EventDateError.with(startsAt, endsAt);
@@ -168,5 +173,9 @@ export class Event extends AggregateRoot {
   private onEventInfoWasUpdated(event: EventInfoWasUpdated): void {
     this._name = EventName.fromString(event.name);
     this._description = Description.fromString(event.description);
+  }
+
+  private onEventWasCancelled(event: EventWasCancelled): void {
+    this._isCancelled = true;
   }
 }

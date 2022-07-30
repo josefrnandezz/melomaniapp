@@ -21,11 +21,13 @@ import {
   EventInfoWasUpdated,
   EventInfoWasUpdatedProps,
 } from './event-info-was-updated.event';
+import { EventWasCancelled } from './event-was-cancelled.event';
 
 export * from './artist-was-added.event';
 export * from './artist-was-removed.event';
 export * from './event-date-was-changed.event';
 export * from './event-info-was-updated.event';
+export * from './event-was-cancelled.event';
 export * from './event-was-created.event';
 export * from './genre-was-added.event';
 export * from './genre-was-removed.event';
@@ -62,4 +64,5 @@ export const eventTransformers = {
       event.payload.name,
       event.payload.description
     ),
+  EventWasCancelled: (event: Event) => new EventWasCancelled(event.aggregateId),
 };
