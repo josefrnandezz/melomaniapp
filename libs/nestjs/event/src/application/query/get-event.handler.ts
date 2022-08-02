@@ -1,4 +1,5 @@
 import { IdNotFoundError } from '@aulasoftwarelibre/nestjs-eventstore';
+import { EventDTO } from '@melomaniapp/contracts/event';
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { EventId } from '../../domain';
@@ -12,7 +13,7 @@ export class GetEventHandler implements IQueryHandler<GetEventQuery> {
     private readonly finder: IEventFinder
   ) {}
 
-  async execute(query: GetEventQuery): Promise<any> {
+  async execute(query: GetEventQuery): Promise<EventDTO> {
     const id = EventId.fromString(query.id);
 
     const event = await this.finder.find(id);

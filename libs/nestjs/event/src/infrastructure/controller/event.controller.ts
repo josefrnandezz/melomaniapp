@@ -9,6 +9,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
@@ -56,11 +57,18 @@ export class EventController {
     try {
       return await this.eventService.findOne(id);
     } catch (e) {
-      if (e instanceof IdAlreadyRegisteredError) {
-        throw new NotFoundException('Event not found');
-      } else {
-        throw catchError(e);
-      }
+      throw catchError(e);
+    }
+  }
+
+  @Get()
+  async findByEstablishment(
+    @Query('establishmentId') establishmentId: string
+  ): Promise<EventDTO[]> {
+    try {
+      return await this.eventService.findByEstablishment(establishmentId);
+    } catch (e) {
+      throw catchError(e);
     }
   }
 
