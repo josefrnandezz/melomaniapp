@@ -1,12 +1,24 @@
-import { CreateEventDTO, EventDTO } from '@melomaniapp/contracts/event';
+import {
+  CreateEventDTO,
+  EditEventDTO,
+  EventDTO,
+} from '@melomaniapp/contracts/event';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
-import { CreateEventCommand } from '../../application';
+import {
+  CancelEventCommand,
+  CreateEventCommand,
+  GetEventQuery,
+  UpdateEventCommand,
+} from '../../application';
 
 @Injectable()
 export class EventService {
-  constructor(private readonly commandBus: CommandBus) {}
+  constructor(
+    private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus
+  ) {}
 
   async create(userId: string, event: CreateEventDTO): Promise<EventDTO> {
     const {
@@ -37,5 +49,33 @@ export class EventService {
     );
 
     return new EventDTO({ userId, ...event });
+  }
+
+  async findOne(eventId: string): Promise<EventDTO> {
+    return await this.queryBus.execute(new GetEventQuery(eventId));
+  }
+
+  async update(id: string, event: EditEventDTO): Promise<EventDTO> {
+    const { name, description, startsAt, endsAt, artistIds, genreIds } = event;
+
+    await this.commandBus.execute(
+      new UpdateEventCommand(
+        id,
+        name,
+        description,
+        startsAt,
+        endsAt,
+        artistIds,
+        genreIds
+      )
+    );
+
+    const updatedEvent = await this.queryBus.execute(new GetEventQuery(id));
+
+    return new EventDTO({ ...updatedEvent });
+  }
+
+  async cancel(id: string): Promise<void> {
+    return await this.commandBus.execute(new CancelEventCommand(id));
   }
 }

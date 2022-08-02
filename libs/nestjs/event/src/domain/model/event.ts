@@ -35,6 +35,14 @@ export class Event extends AggregateRoot {
     return this._id.value;
   }
 
+  public get genres(): GenreId[] {
+    return this._genres;
+  }
+
+  public get artists(): ArtistId[] {
+    return this._artists;
+  }
+
   public static add(args: {
     id: ArtistId;
     userId: UserId;
