@@ -2,14 +2,24 @@ import {
   Body,
   ConflictException,
   Controller,
+  Delete,
+  Get,
+  HttpCode,
+  NotFoundException,
+  Param,
   Post,
+  Put,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { EventService } from '../services';
 import { ACGuard, UseRoles } from 'nest-access-control';
 import { catchError, Resource, User } from '@melomaniapp/nestjs/common';
-import { CreateEventDTO, EventDTO } from '@melomaniapp/contracts/event';
+import {
+  CreateEventDTO,
+  EditEventDTO,
+  EventDTO,
+} from '@melomaniapp/contracts/event';
 import { UserDto } from '@melomaniapp/contracts/user';
 import { IdAlreadyRegisteredError } from '@aulasoftwarelibre/nestjs-eventstore';
 import { EventGuard } from '../auth';
@@ -38,6 +48,41 @@ export class EventController {
       } else {
         throw catchError(e);
       }
+    }
+  }
+
+  @Get(':id')
+  async findOne(@Param('id') id: string): Promise<EventDTO> {
+    try {
+      return await this.eventService.findOne(id);
+    } catch (e) {
+      if (e instanceof IdAlreadyRegisteredError) {
+        throw new NotFoundException('Event not found');
+      } else {
+        throw catchError(e);
+      }
+    }
+  }
+
+  @Put(':id')
+  @HttpCode(204)
+  async update(
+    @Param('id') id: string,
+    @Body() eventDTO: EditEventDTO
+  ): Promise<void> {
+    try {
+      await this.eventService.update(id, eventDTO);
+    } catch (e) {
+      throw catchError(e);
+    }
+  }
+
+  @Delete(':id')
+  async cancel(@Param('id') id: string): Promise<void> {
+    try {
+      return await this.eventService.cancel(id);
+    } catch (e) {
+      throw catchError(e);
     }
   }
 }
