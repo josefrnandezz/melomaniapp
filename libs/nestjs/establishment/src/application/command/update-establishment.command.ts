@@ -1,4 +1,4 @@
-import { Address } from '@melomaniapp/contracts/establishment';
+import { AddressProps } from '@melomaniapp/nestjs/common';
 import { ICommand } from '@nestjs/cqrs';
 
 export class UpdateEstablishmentCommand implements ICommand {
@@ -8,7 +8,7 @@ export class UpdateEstablishmentCommand implements ICommand {
     public readonly alias: string,
     public readonly description: string,
     public readonly email: string,
-    public readonly address: Address,
+    public readonly address: AddressProps,
     public readonly genres: string[]
   ) {}
 }
