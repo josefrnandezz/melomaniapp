@@ -36,4 +36,4 @@ import { queryHandlers } from '../application/query';
   ],
   exports: [],
 })
-export class NestjsEventModule {}
+export class EventModule {}
