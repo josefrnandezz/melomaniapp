@@ -20,13 +20,17 @@ export class GenreFinder implements IGenreFinder {
     return genres.map((genre) => new GenreDTO(genre));
   }
 
-  async find(id: GenreId): Promise<GenreDTO> {
+  async find(id: GenreId): Promise<GenreDTO | null> {
     const genre = await this.genres.findById(id.value).lean();
+
+    if (!genre) {
+      return null;
+    }
 
     return new GenreDTO(genre);
   }
 
-  async findOneByName(name: GenreName): Promise<GenreDTO> {
+  async findOneByName(name: GenreName): Promise<GenreDTO | null> {
     const genre = await this.genres.findOne({ name: name.value }).lean();
 
     if (!genre) {
