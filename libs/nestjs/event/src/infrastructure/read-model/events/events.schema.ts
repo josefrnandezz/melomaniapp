@@ -1,7 +1,7 @@
 import { EventDTO } from '@melomaniapp/contracts/event';
 import { Document, Schema } from 'mongoose';
 
-export const EVENTS_PROJECTION = 'establishments';
+export const EVENTS_PROJECTION = 'events';
 
 export type EventDocument = EventDTO & Document;
 
