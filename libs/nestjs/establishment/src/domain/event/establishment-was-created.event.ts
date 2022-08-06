@@ -1,8 +1,6 @@
 import { Event } from '@aulasoftwarelibre/nestjs-eventstore';
-import {
-  Address,
-  CreateEstablishmentDTO,
-} from '@melomaniapp/contracts/establishment';
+import { CreateEstablishmentDTO } from '@melomaniapp/contracts/establishment';
+import { AddressProps } from '@melomaniapp/nestjs/common';
 
 export interface EstablishmentWasCreatedProps extends CreateEstablishmentDTO {
   ownerId: string;
@@ -16,7 +14,7 @@ export class EstablishmentWasCreated extends Event<EstablishmentWasCreatedProps>
     public readonly alias: string,
     public readonly description: string,
     public readonly email: string,
-    public readonly address: Address
+    public readonly address: AddressProps
   ) {
     super(id, {
       _id: id,

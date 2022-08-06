@@ -1,8 +1,8 @@
 import { DomainError, ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
-import { Address } from '@melomaniapp/contracts/establishment';
+import { AddressProps } from '@melomaniapp/nestjs/common';
 
 interface Props {
-  value: Address;
+  value: AddressProps;
 }
 
 export class EstablishmentAddress extends ValueObject<Props> {
@@ -16,7 +16,7 @@ export class EstablishmentAddress extends ValueObject<Props> {
     });
   }
 
-  get value(): Readonly<Address> {
+  get value(): Readonly<AddressProps> {
     return this.props.value;
   }
 
