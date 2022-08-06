@@ -16,7 +16,7 @@ import {
   GenreId,
   UserId,
 } from '../../domain';
-import { IEventFinder } from '../services';
+import { EVENT_FINDER, IEventFinder } from '../services';
 import { CreateEventCommand } from './create-event.command';
 
 @CommandHandler(CreateEventCommand)
@@ -24,7 +24,7 @@ export class CreateEventHandler implements ICommandHandler<CreateEventCommand> {
   constructor(
     @InjectAggregateRepository(Event)
     private readonly repository: AggregateRepository<Event, EventId>,
-    @Inject()
+    @Inject(EVENT_FINDER)
     private readonly finder: IEventFinder
   ) {}
 
