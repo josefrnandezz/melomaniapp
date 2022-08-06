@@ -21,21 +21,4 @@ export class FollowFinder implements IFollowFinder {
 
     return new FollowDTO({ ...follow });
   }
-
-  async findActiveFollow(
-    fromId: FollowedFromId,
-    toId: FollowedToId
-  ): Promise<FollowDTO> {
-    const activeFollow = await this.follows.findOne({
-      followedFromId: fromId.value,
-      followedToId: toId.value,
-      isDeleted: false,
-    });
-
-    if (!activeFollow) {
-      return null;
-    }
-
-    return new FollowDTO({ ...activeFollow });
-  }
 }
