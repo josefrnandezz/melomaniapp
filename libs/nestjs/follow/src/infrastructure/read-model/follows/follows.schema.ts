@@ -10,8 +10,8 @@ export const FollowSchema = new Schema(
     _id: String,
     followedToId: String,
     followedToType: Number,
-    followedFromId: String,
-    followedFromType: Number,
+    followedById: String,
+    followedByType: Number,
   },
   {
     versionKey: false,

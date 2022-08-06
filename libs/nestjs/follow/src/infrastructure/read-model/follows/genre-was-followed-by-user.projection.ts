@@ -1,3 +1,4 @@
+import { FollowType } from '@melomaniapp/contracts/follow';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -14,7 +15,13 @@ export class GenreWasFollowedByUserProjection
   ) {}
 
   async handle(event: GenreWasFollowedByUser) {
-    const follow = new this.follows({ ...event.payload });
+    const follow = new this.follows({
+      _id: event.payload._id,
+      followedById: event.payload.followedById,
+      followedByType: FollowType.User,
+      followedToId: event.payload.followedToId,
+      followedToType: FollowType.Genre,
+    });
 
     await follow.save();
   }

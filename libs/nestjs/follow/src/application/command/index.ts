@@ -1,5 +1,5 @@
-import { FollowGenreFromUserHandler } from './follow-genre-from-user.handler';
+import { FollowGenreByUserHandler } from './follow-genre-by-user.handler';
 
-export * from './follow-genre-from-user.command';
+export * from './follow-genre-by-user.command';
 
-export const commandHandlers = [FollowGenreFromUserHandler];
+export const commandHandlers = [FollowGenreByUserHandler];

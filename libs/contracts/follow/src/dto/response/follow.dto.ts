@@ -10,10 +10,10 @@ export enum FollowType {
 
 interface Props {
   _id: string;
+  followedById: string;
+  followedByType: FollowType;
   followedToId: string;
   followedToType: FollowType;
-  followedFromId: string;
-  followedFromType: FollowType;
 }
 
 export class FollowDTO {
@@ -25,14 +25,14 @@ export class FollowDTO {
   public readonly _id: string;
 
   @ApiProperty()
+  public readonly followedById: string;
+
+  @ApiProperty()
+  public readonly followedByType: FollowType;
+
+  @ApiProperty()
   public readonly followedToId: string;
 
   @ApiProperty()
   public readonly followedToType: FollowType;
-
-  @ApiProperty()
-  public readonly followedFromId: string;
-
-  @ApiProperty()
-  public readonly followedFromType: FollowType;
 }

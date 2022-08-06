@@ -1,7 +1,7 @@
 import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
 import { UserId } from '@melomaniapp/nestjs/user';
 import { ArtistId } from '@melomaniapp/nestjs/artist';
-import { FollowedFromId } from './followed-from-id';
+import { FollowedById } from './followed-by-id';
 import { FollowType } from '@melomaniapp/contracts/follow';
 
 interface Props {
@@ -9,20 +9,20 @@ interface Props {
   type: number;
 }
 
-type FromId = UserId | ArtistId;
+type ById = UserId | ArtistId;
 
-export class FollowedFrom extends ValueObject<Props> {
+export class FollowedBy extends ValueObject<Props> {
   constructor(
-    public readonly _id: FollowedFromId,
+    public readonly _id: FollowedById,
     public readonly _type: FollowType
   ) {
     super({ id: _id.value, type: _type });
   }
 
-  public static with(fromId: FromId, type: FollowType): FollowedFrom {
-    const id = FollowedFromId.fromString(fromId.value);
+  public static with(byId: ById, type: FollowType): FollowedBy {
+    const id = FollowedById.fromString(byId.value);
 
-    return new FollowedFrom(id, type);
+    return new FollowedBy(id, type);
   }
 
   public get id(): string {
