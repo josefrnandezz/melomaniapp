@@ -1,6 +1,6 @@
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UnfollowGenreByUserCommand } from './unfollow-genre-from-user.command';
+import { UnfollowGenreByUserCommand } from './unfollow-genre-by-user.command';
 import { GenreId, GENRE_FINDER, IGenreFinder } from '@melomaniapp/nestjs/genre';
 import { IUserFinder, UserId, USER_FINDER } from '@melomaniapp/nestjs/user';
 import {
