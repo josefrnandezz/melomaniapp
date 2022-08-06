@@ -1,10 +1,10 @@
 import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
 import { GenreId } from '@melomaniapp/nestjs/genre';
-import { FollowType } from './follow-type.';
 import { FollowedToId } from './followed-to-id';
 import { EventId } from '@melomaniapp/nestjs/event';
 import { EstablishmentId } from '@melomaniapp/nestjs/establishment';
 import { ArtistId } from '@melomaniapp/nestjs/artist';
+import { FollowType } from '@melomaniapp/contracts/follow';
 
 interface Props {
   id: string;

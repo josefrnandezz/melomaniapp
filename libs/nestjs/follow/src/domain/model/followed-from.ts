@@ -1,8 +1,8 @@
 import { ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
 import { UserId } from '@melomaniapp/nestjs/user';
 import { ArtistId } from '@melomaniapp/nestjs/artist';
-import { FollowType } from './follow-type.';
 import { FollowedFromId } from './followed-from-id';
+import { FollowType } from '@melomaniapp/contracts/follow';
 
 interface Props {
   id: string;

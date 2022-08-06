@@ -1,19 +1,20 @@
 import { Event } from '@aulasoftwarelibre/nestjs-eventstore';
+import { CreateFollowDTO, FollowType } from '@melomaniapp/contracts/follow';
 
-export interface GenreWasFollowedByUserProps {
-  userId: string;
-  genreId: string;
-}
-
-export class GenreWasFollowedByUser extends Event<GenreWasFollowedByUserProps> {
+export class GenreWasFollowedByUser extends Event<CreateFollowDTO> {
   constructor(
     public readonly id: string,
-    public readonly userId: string,
-    public readonly genreId: string
+    public readonly followedFromId: string,
+    public readonly followedFromType: FollowType,
+    public readonly followedToId: string,
+    public readonly followedToType: FollowType
   ) {
     super(id, {
-      userId,
-      genreId,
+      _id: id,
+      followedFromId,
+      followedFromType,
+      followedToId,
+      followedToType,
     });
   }
 }

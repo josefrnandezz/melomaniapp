@@ -1,10 +1,4 @@
-export enum FollowType {
-  User = 1,
-  Artist = 2,
-  Genre = 3,
-  Establishment = 4,
-  Event = 5,
-}
+import { FollowType } from '@melomaniapp/contracts/follow';
 
 export const allowedFollows = [
   {

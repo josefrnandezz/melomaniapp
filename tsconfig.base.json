@@ -21,6 +21,7 @@
         "libs/contracts/establishment/src/index.ts"
       ],
       "@melomaniapp/contracts/event": ["libs/contracts/event/src/index.ts"],
+      "@melomaniapp/contracts/follow": ["libs/contracts/follow/src/index.ts"],
       "@melomaniapp/contracts/genre": ["libs/contracts/genre/src/index.ts"],
       "@melomaniapp/contracts/user": ["libs/contracts/user/src/index.ts"],
       "@melomaniapp/domain": ["libs/domain/src/index.ts"],

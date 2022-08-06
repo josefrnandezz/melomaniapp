@@ -1,10 +1,11 @@
 import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
 import { GenreId } from '@melomaniapp/nestjs/genre';
 import { UserId } from '@melomaniapp/nestjs/user';
+import { FollowType } from '@melomaniapp/contracts/follow';
 import { GenreWasFollowedByUser, GenreWasUnfollowedByUser } from '../events';
 import { InvalidFollowError } from '../exceptions';
 import { FollowId } from './follow-id';
-import { allowedFollows, FollowType } from './follow-type.';
+import { allowedFollows } from './follow-types';
 import { FollowedFrom } from './followed-from';
 import { FollowedFromId } from './followed-from-id';
 import { FollowedTo } from './followed-to';
@@ -20,19 +21,22 @@ export class Follow extends AggregateRoot {
     return this._id.value;
   }
 
-  public static createFromUserToGenre(args: {
+  public static createFromUserToGenre({
+    id,
+    from,
+    to,
+  }: {
     id: FollowId;
-    userId: UserId;
-    genreId: GenreId;
+    from: FollowedFrom;
+    to: FollowedTo;
   }): Follow {
-    const from = FollowedFrom.with(args.userId, FollowType.User);
-    const to = FollowedTo.with(args.genreId, FollowType.Genre);
-
     Follow.verifyCanFollow(from, to);
 
     const follow = new Follow();
 
-    follow.apply(new GenreWasFollowedByUser(args.id.value, from.id, to.id));
+    follow.apply(
+      new GenreWasFollowedByUser(id.value, from.id, from.type, to.id, to.type)
+    );
 
     return follow;
   }
@@ -48,12 +52,12 @@ export class Follow extends AggregateRoot {
   }
 
   private onGenreWasFollowedByUser(event: GenreWasFollowedByUser): void {
-    const fromId = FollowedFromId.fromString(event.userId);
-    const toId = FollowedToId.fromString(event.genreId);
+    const fromId = FollowedFromId.fromString(event.followedFromId);
+    const toId = FollowedToId.fromString(event.followedToId);
 
     this._id = FollowId.fromString(event.id);
-    this._from = FollowedFrom.with(fromId, FollowType.User);
-    this._to = FollowedTo.with(toId, FollowType.Genre);
+    this._from = FollowedFrom.with(fromId, event.followedFromType);
+    this._to = FollowedTo.with(toId, event.followedToType);
     this._isDeleted = false;
   }
 
