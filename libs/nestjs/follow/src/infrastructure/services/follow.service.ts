@@ -86,4 +86,26 @@ export class FollowService {
       new UnfollowArtistByUserCommand(_id, userId, establishmentId)
     );
   }
+
+  async followEventByUser(follow: CreateFollowDTO): Promise<FollowDTO> {
+    const { _id, followedById: userId, followedToId: eventId } = follow;
+
+    await this.commandBus.execute(
+      new FollowArtistByUserCommand(_id, userId, eventId)
+    );
+
+    return new FollowDTO({
+      ...follow,
+      followedByType: FollowType.User,
+      followedToType: FollowType.Event,
+    });
+  }
+
+  async unfollowEventIdByUser(follow: UnfollowDTO): Promise<void> {
+    const { _id, unfollowedById: userId, unfollowedToId: eventId } = follow;
+
+    return await this.commandBus.execute(
+      new UnfollowArtistByUserCommand(_id, userId, eventId)
+    );
+  }
 }

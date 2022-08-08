@@ -7,6 +7,8 @@ import {
   GenreWasFollowedByUser,
   EstablishmentWasFollowedByUser,
   GenreWasUnfollowedByUser,
+  EventWasFollowedByUser,
+  EventWasUnfollowedByUser,
 } from '../events';
 import { InvalidFollowError } from '../exceptions';
 import { FollowId } from './follow-id';
@@ -120,7 +122,41 @@ export class Follow extends AggregateRoot {
     followedTo: FollowedTo;
   }): void {
     this.apply(
-      new EstablishmentWasFollowedByUser(
+      new EstablishmentWasUnfollowedByUser(
+        args.id.value,
+        args.followedBy.id,
+        args.followedTo.id
+      )
+    );
+  }
+
+  public static byUserToEvent(args: {
+    id: FollowId;
+    followedBy: FollowedBy;
+    followedTo: FollowedTo;
+  }): Follow {
+    Follow.verifyCanFollow(args.followedBy, args.followedTo);
+
+    const follow = new Follow();
+
+    follow.apply(
+      new EventWasFollowedByUser(
+        args.id.value,
+        args.followedBy.id,
+        args.followedTo.id
+      )
+    );
+
+    return follow;
+  }
+
+  public unfollowByUserToEvent(args: {
+    id: FollowId;
+    followedBy: FollowedBy;
+    followedTo: FollowedTo;
+  }): void {
+    this.apply(
+      new EventWasUnfollowedByUser(
         args.id.value,
         args.followedBy.id,
         args.followedTo.id
@@ -175,6 +211,22 @@ export class Follow extends AggregateRoot {
   }
 
   private onEstablishmentWasUnfollowedByUser(
+    event: EstablishmentWasUnfollowedByUser
+  ): void {
+    this._isDeleted = true;
+  }
+
+  private onEventWasFollowedByUser(event: EventWasFollowedByUser): void {
+    const byId = FollowedById.fromString(event.userId);
+    const toId = FollowedToId.fromString(event.eventId);
+
+    this._id = FollowId.fromString(event.id);
+    this._followedBy = FollowedBy.with(byId, FollowType.User);
+    this._followedTo = FollowedTo.with(toId, FollowType.Event);
+    this._isDeleted = false;
+  }
+
+  private onEventWasUnfollowedByUser(
     event: EstablishmentWasUnfollowedByUser
   ): void {
     this._isDeleted = true;
