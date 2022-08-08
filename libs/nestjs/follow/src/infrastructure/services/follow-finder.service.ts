@@ -5,6 +5,7 @@ import { FollowId } from '../../domain';
 import { Model } from 'mongoose';
 import { FollowDTO } from '@melomaniapp/contracts/follow';
 import { Injectable } from '@nestjs/common';
+import { EventId } from '@melomaniapp/nestjs/event';
 
 @Injectable()
 export class FollowFinder implements IFollowFinder {
@@ -21,5 +22,15 @@ export class FollowFinder implements IFollowFinder {
     }
 
     return new FollowDTO({ ...follow });
+  }
+
+  async findFollowersByEvent(id: EventId): Promise<FollowDTO[]> {
+    const follows = await this.follows.find({ followedToId: id.value });
+
+    if (!follows) {
+      return [];
+    }
+
+    return follows.map((follow) => new FollowDTO({ ...follow }));
   }
 }

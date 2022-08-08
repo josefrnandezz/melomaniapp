@@ -1,4 +1,5 @@
-import { Controller, Delete, Param, Post, Query } from '@nestjs/common';
+import { FollowDTO } from '@melomaniapp/contracts/follow';
+import { Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
 import { catchError } from 'rxjs';
 import { v4 } from 'uuid';
 import { FollowService } from '../services/follow.service';
@@ -169,6 +170,17 @@ export class FollowController {
         unfollowedById: byArtistId,
         unfollowedToId: toArtistId,
       });
+    } catch (error) {
+      throw catchError(error);
+    }
+  }
+
+  @Get('events/:eventId')
+  async getFollowersByEvent(
+    @Param('eventId') eventId: string
+  ): Promise<FollowDTO[]> {
+    try {
+      return await this.followService.getFollowersByEvent(eventId);
     } catch (error) {
       throw catchError(error);
     }
