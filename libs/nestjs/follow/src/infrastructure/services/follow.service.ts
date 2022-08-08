@@ -76,7 +76,7 @@ export class FollowService {
     });
   }
 
-  async unfollowEstablishmentIdByUser(follow: UnfollowDTO): Promise<void> {
+  async unfollowEstablishmentByUser(follow: UnfollowDTO): Promise<void> {
     const {
       _id,
       unfollowedById: userId,
@@ -102,7 +102,7 @@ export class FollowService {
     });
   }
 
-  async unfollowEventIdByUser(follow: UnfollowDTO): Promise<void> {
+  async unfollowEventByUser(follow: UnfollowDTO): Promise<void> {
     const { _id, unfollowedById: userId, unfollowedToId: eventId } = follow;
 
     return await this.commandBus.execute(
