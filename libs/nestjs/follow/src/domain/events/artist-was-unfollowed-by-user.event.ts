@@ -1,16 +1,16 @@
 import { Event } from '@aulasoftwarelibre/nestjs-eventstore';
 import { UnfollowDTO } from '@melomaniapp/contracts/follow';
 
-export class GenreWasUnfollowedByUser extends Event<UnfollowDTO> {
+export class ArtistWasUnfollowedByUser extends Event<UnfollowDTO> {
   constructor(
     public readonly id: string,
     public readonly userId: string,
-    public readonly genreId: string
+    public readonly artistId: string
   ) {
     super(id, {
       _id: id,
       unfollowedById: userId,
-      unfollowedToId: genreId,
+      unfollowedToId: artistId,
     });
   }
 }
