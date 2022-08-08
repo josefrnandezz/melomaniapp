@@ -6,3 +6,5 @@ export * from './domain/exception';
 export * from './domain/model/user-id';
 export * from './infrastructure/user.module';
 export * from './application/services/user-finder.interface';
+export * from './infrastructure/services/user-finder.service';
+export * from './/infrastructure/read-model';
