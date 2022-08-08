@@ -11,6 +11,7 @@ import {
   FollowArtistByUserCommand,
   UnfollowGenreByUserCommand,
   UnfollowArtistByUserCommand,
+  FollowArtistByArtistCommand,
 } from '../../application';
 
 @Injectable()
@@ -106,6 +107,36 @@ export class FollowService {
 
     return await this.commandBus.execute(
       new UnfollowArtistByUserCommand(_id, userId, eventId)
+    );
+  }
+
+  async followArtistByArtist(follow: CreateFollowDTO): Promise<FollowDTO> {
+    const {
+      _id,
+      followedById: fromArtistId,
+      followedToId: toArtistId,
+    } = follow;
+
+    await this.commandBus.execute(
+      new FollowArtistByArtistCommand(_id, fromArtistId, toArtistId)
+    );
+
+    return new FollowDTO({
+      ...follow,
+      followedByType: FollowType.Artist,
+      followedToType: FollowType.Artist,
+    });
+  }
+
+  async unfollowArtistByArtist(follow: UnfollowDTO): Promise<void> {
+    const {
+      _id,
+      unfollowedById: fromArtistId,
+      unfollowedToId: toArtistId,
+    } = follow;
+
+    return await this.commandBus.execute(
+      new UnfollowArtistByUserCommand(_id, fromArtistId, toArtistId)
     );
   }
 }

@@ -8,6 +8,8 @@ import { EstablishmentWasFollowedByUser } from './establishment-was-followed-by-
 import { EstablishmentWasUnfollowedByUser } from './establishment-was-unfollowed-by-user.event';
 import { EventWasFollowedByUser } from './event-was-followed-by-user.event';
 import { EventWasUnfollowedByUser } from './event-was-unfollowed-by-user.event';
+import { ArtistWasFollowedByArtist } from './artist-was-followed-by-artist.event';
+import { ArtistWasUnfollowedByArtist } from './artist-was-unfollowed-by-artist.event';
 
 export * from './artist-was-followed-by-user.event';
 export * from './artist-was-unfollowed-by-user.event';
@@ -17,6 +19,8 @@ export * from './event-was-followed-by-user.event';
 export * from './event-was-unfollowed-by-user.event';
 export * from './genre-was-followed-by-user.event';
 export * from './genre-was-unfollowed-by-user.event';
+export * from './artist-was-followed-by-artist.event';
+export * from './artist-was-unfollowed-by-artist.event';
 
 export const eventTransformers = {
   GenreWasFollowedByUser: (event: Event<CreateFollowDTO>) =>
@@ -63,6 +67,18 @@ export const eventTransformers = {
     ),
   EventWasUnfollowedByUser: (event: Event<UnfollowDTO>) =>
     new EventWasUnfollowedByUser(
+      event.aggregateId,
+      event.payload.unfollowedById,
+      event.payload.unfollowedToId
+    ),
+  ArtistWasFollowedByArtist: (event: Event<CreateFollowDTO>) =>
+    new ArtistWasFollowedByArtist(
+      event.aggregateId,
+      event.payload.followedById,
+      event.payload.followedToId
+    ),
+  ArtistWasUnfollowedByArtist: (event: Event<UnfollowDTO>) =>
+    new ArtistWasUnfollowedByArtist(
       event.aggregateId,
       event.payload.unfollowedById,
       event.payload.unfollowedToId
