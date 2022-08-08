@@ -40,10 +40,10 @@ export class FollowService {
   }
 
   async followArtistByUser(follow: CreateFollowDTO): Promise<FollowDTO> {
-    const { _id, followedById: userId, followedToId: artistid } = follow;
+    const { _id, followedById: userId, followedToId: artistId } = follow;
 
     await this.commandBus.execute(
-      new FollowArtistByUserCommand(_id, userId, artistid)
+      new FollowArtistByUserCommand(_id, userId, artistId)
     );
 
     return new FollowDTO({
@@ -58,6 +58,32 @@ export class FollowService {
 
     return await this.commandBus.execute(
       new UnfollowArtistByUserCommand(_id, userId, artistId)
+    );
+  }
+
+  async followEstablishmentByUser(follow: CreateFollowDTO): Promise<FollowDTO> {
+    const { _id, followedById: userId, followedToId: establishmentId } = follow;
+
+    await this.commandBus.execute(
+      new FollowArtistByUserCommand(_id, userId, establishmentId)
+    );
+
+    return new FollowDTO({
+      ...follow,
+      followedByType: FollowType.User,
+      followedToType: FollowType.Establishment,
+    });
+  }
+
+  async unfollowEstablishmentIdByUser(follow: UnfollowDTO): Promise<void> {
+    const {
+      _id,
+      unfollowedById: userId,
+      unfollowedToId: establishmentId,
+    } = follow;
+
+    return await this.commandBus.execute(
+      new UnfollowArtistByUserCommand(_id, userId, establishmentId)
     );
   }
 }

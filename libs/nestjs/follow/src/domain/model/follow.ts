@@ -3,7 +3,9 @@ import { FollowType } from '@melomaniapp/contracts/follow';
 import {
   ArtistWasFollowedByUser,
   ArtistWasUnfollowedByUser,
+  EstablishmentWasUnfollowedByUser,
   GenreWasFollowedByUser,
+  EstablishmentWasFollowedByUser,
   GenreWasUnfollowedByUser,
 } from '../events';
 import { InvalidFollowError } from '../exceptions';
@@ -92,6 +94,40 @@ export class Follow extends AggregateRoot {
     );
   }
 
+  public static byUserToEstablishment(args: {
+    id: FollowId;
+    followedBy: FollowedBy;
+    followedTo: FollowedTo;
+  }): Follow {
+    Follow.verifyCanFollow(args.followedBy, args.followedTo);
+
+    const follow = new Follow();
+
+    follow.apply(
+      new EstablishmentWasFollowedByUser(
+        args.id.value,
+        args.followedBy.id,
+        args.followedTo.id
+      )
+    );
+
+    return follow;
+  }
+
+  public unfollowByUserToEstablishment(args: {
+    id: FollowId;
+    followedBy: FollowedBy;
+    followedTo: FollowedTo;
+  }): void {
+    this.apply(
+      new EstablishmentWasFollowedByUser(
+        args.id.value,
+        args.followedBy.id,
+        args.followedTo.id
+      )
+    );
+  }
+
   private static verifyCanFollow(by: FollowedBy, to: FollowedTo): void {
     if (!allowedFollows.includes({ by: by.type, to: to.type })) {
       throw InvalidFollowError.becauseFollowIsNotAllowed(by.type, to.type);
@@ -123,6 +159,24 @@ export class Follow extends AggregateRoot {
   }
 
   private onArtistWasUnfollowedByUser(event: ArtistWasUnfollowedByUser): void {
+    this._isDeleted = true;
+  }
+
+  private onEstablishmentWasFollowedByUser(
+    event: EstablishmentWasFollowedByUser
+  ): void {
+    const byId = FollowedById.fromString(event.userId);
+    const toId = FollowedToId.fromString(event.establishmentId);
+
+    this._id = FollowId.fromString(event.id);
+    this._followedBy = FollowedBy.with(byId, FollowType.User);
+    this._followedTo = FollowedTo.with(toId, FollowType.Establishment);
+    this._isDeleted = false;
+  }
+
+  private onEstablishmentWasUnfollowedByUser(
+    event: EstablishmentWasUnfollowedByUser
+  ): void {
     this._isDeleted = true;
   }
 }
