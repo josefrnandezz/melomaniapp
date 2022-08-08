@@ -4,7 +4,9 @@ import { EstablishmentId, EventId } from '../../domain';
 import { InjectModel } from '@nestjs/mongoose';
 import { EVENTS_PROJECTION, EventDocument } from '../read-model';
 import { EventDTO } from '@melomaniapp/contracts/event';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class EventFinder implements IEventFinder {
   constructor(
     @InjectModel(EVENTS_PROJECTION)

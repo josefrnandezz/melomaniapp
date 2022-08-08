@@ -1,5 +1,6 @@
 import { ArtistDTO } from '@melomaniapp/contracts/artist';
 import { Alias } from '@melomaniapp/nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -7,6 +8,7 @@ import { IArtistFinder } from '../../application';
 import { ArtistId } from '../../domain';
 import { ArtistDocument, ARTISTS_PROJECTION } from '../read-model';
 
+@Injectable()
 export class ArtistFinder implements IArtistFinder {
   constructor(
     @InjectModel(ARTISTS_PROJECTION)

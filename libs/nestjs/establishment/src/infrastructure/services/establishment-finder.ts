@@ -1,5 +1,6 @@
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import { Alias } from '@melomaniapp/nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -15,6 +16,7 @@ import {
   ESTABLISHMENTS_PROJECTION,
 } from '../read-model';
 
+@Injectable()
 export class EstablishmentFinder implements IEstablishmentFinder {
   constructor(
     @InjectModel(ESTABLISHMENTS_PROJECTION)

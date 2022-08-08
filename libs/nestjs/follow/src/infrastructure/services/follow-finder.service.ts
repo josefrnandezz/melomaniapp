@@ -4,7 +4,9 @@ import { IFollowFinder } from '../../application/services/follow-finder.interfac
 import { FollowId } from '../../domain';
 import { Model } from 'mongoose';
 import { FollowDTO } from '@melomaniapp/contracts/follow';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class FollowFinder implements IFollowFinder {
   constructor(
     @InjectModel(FOLLOWS_PROJECTION)
