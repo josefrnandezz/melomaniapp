@@ -41,7 +41,7 @@ export class EventGuard extends AuthGuard('jwt') {
       return anonymousUser();
     }
 
-    const event: EventDocument = context.switchToHttp().getRequest().artist;
+    const event: EventDocument = context.switchToHttp().getRequest().event;
 
     if (event && event.userId === user?._id) {
       user?.roles.push(Role.EventOwner);
