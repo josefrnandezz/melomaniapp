@@ -22,8 +22,8 @@ export class UserService {
     private readonly queryBus: QueryBus
   ) {}
 
-  async findOne(id: string): Promise<UserDto> {
-    return this.queryBus.execute(new GetUserByUsernameQuery(id));
+  async findOne(username: string): Promise<UserDto> {
+    return this.queryBus.execute(new GetUserByUsernameQuery(username));
   }
 
   async findAll(): Promise<UserDto[]> {

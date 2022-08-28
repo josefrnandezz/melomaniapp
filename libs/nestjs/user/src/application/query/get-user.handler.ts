@@ -17,7 +17,7 @@ export class GetUserHandler implements IQueryHandler<GetUserQuery> {
   async execute(query: GetUserQuery): Promise<UserDto> {
     const userId = UserId.fromString(query.id);
 
-    const user = await this.finder.find(userId);
+    const user = await this.finder.findOneByUsername(userId);
 
     if (!user) {
       throw IdNotFoundError.withId(userId);

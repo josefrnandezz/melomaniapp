@@ -22,11 +22,11 @@ export class UserGuard extends AuthGuard('jwt') {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const req = context.switchToHttp().getRequest();
 
-    const { id } = req?.params;
+    const { username } = req?.query;
 
-    if (id) {
-      req.establishment = await this.queryBus.execute(
-        new GetUserByUsernameQuery(id)
+    if (username) {
+      req.user = await this.queryBus.execute(
+        new GetUserByUsernameQuery(username)
       );
     }
 
@@ -38,9 +38,7 @@ export class UserGuard extends AuthGuard('jwt') {
       throw err || new UnauthorizedException();
     }
 
-    const document: UserDocument = context
-      .switchToHttp()
-      .getRequest().establishment;
+    const document: UserDocument = context.switchToHttp().getRequest().user;
 
     if (document && document._id === user?._id) {
       user?.roles.push(Role.UserOwner);

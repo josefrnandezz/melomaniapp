@@ -19,6 +19,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -63,16 +64,16 @@ export class UserController {
     }
   }
 
-  @Get(':id')
+  @Get('?username')
   @UseRoles({
     resource: Resource.User,
     action: 'read',
     possession: 'own',
   })
   @UseGuards(UserGuard, ACGuard)
-  async findOne(@Param('id') id: string): Promise<UserDto> {
+  async findOne(@Query('username') username: string): Promise<UserDto> {
     try {
-      return this.userService.findOne(id);
+      return this.userService.findOne(username);
     } catch (e) {
       if (e instanceof IdNotFoundError) {
         throw new NotFoundException('User not found');
