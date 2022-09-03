@@ -3,9 +3,12 @@ import { FOLLOWS_PROJECTION, FollowDocument } from '../read-model';
 import { IFollowFinder } from '../../application/services/follow-finder.interface';
 import { FollowId } from '../../domain';
 import { Model } from 'mongoose';
-import { FollowDTO } from '@melomaniapp/contracts/follow';
+import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
 import { Injectable } from '@nestjs/common';
 import { EventId } from '@melomaniapp/nestjs/event';
+import { ArtistId } from '@melomaniapp/nestjs/artist';
+import { EstablishmentId } from 'libs/nestjs/event/src/domain';
+import { GenreId } from '@melomaniapp/nestjs/genre';
 
 @Injectable()
 export class FollowFinder implements IFollowFinder {
@@ -25,7 +28,51 @@ export class FollowFinder implements IFollowFinder {
   }
 
   async findFollowersByEvent(id: EventId): Promise<FollowDTO[]> {
-    const follows = await this.follows.find({ followedToId: id.value });
+    const follows = await this.follows.find({
+      followedToId: id.value,
+      followedToType: FollowType.Event,
+    });
+
+    if (!follows) {
+      return [];
+    }
+
+    return follows.map((follow) => new FollowDTO({ ...follow }));
+  }
+
+  async findFollowersByArtist(id: ArtistId): Promise<FollowDTO[]> {
+    const follows = await this.follows.find({
+      followedToId: id.value,
+      followedToType: FollowType.Artist,
+    });
+
+    if (!follows) {
+      return [];
+    }
+
+    return follows.map((follow) => new FollowDTO({ ...follow }));
+  }
+
+  async findFollowersByEstablishment(
+    id: EstablishmentId
+  ): Promise<FollowDTO[]> {
+    const follows = await this.follows.find({
+      followedToId: id.value,
+      followedToType: FollowType.Establishment,
+    });
+
+    if (!follows) {
+      return [];
+    }
+
+    return follows.map((follow) => new FollowDTO({ ...follow }));
+  }
+
+  async findFollowersByGenre(id: GenreId): Promise<FollowDTO[]> {
+    const follows = await this.follows.find({
+      followedToId: id.value,
+      followedToType: FollowType.Genre,
+    });
 
     if (!follows) {
       return [];

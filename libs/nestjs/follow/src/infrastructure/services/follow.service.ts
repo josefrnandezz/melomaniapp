@@ -4,7 +4,6 @@ import {
   FollowType,
   UnfollowDTO,
 } from '@melomaniapp/contracts/follow';
-import { EventId } from '@melomaniapp/nestjs/event';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
@@ -14,6 +13,9 @@ import {
   UnfollowArtistByUserCommand,
   FollowArtistByArtistCommand,
   GetEventFollowersQuery,
+  GetEstablishmentFollowersQuery,
+  GetArtistFollowersQuery,
+  GetGenreFollowersQuery,
 } from '../../application';
 
 @Injectable()
@@ -147,5 +149,21 @@ export class FollowService {
 
   async getFollowersByEvent(eventId: string): Promise<FollowDTO[]> {
     return await this.queryBus.execute(new GetEventFollowersQuery(eventId));
+  }
+
+  async getFollowersByEstablishment(
+    establishmentId: string
+  ): Promise<FollowDTO[]> {
+    return await this.queryBus.execute(
+      new GetEstablishmentFollowersQuery(establishmentId)
+    );
+  }
+
+  async getFollowersByArtist(artistId: string): Promise<FollowDTO[]> {
+    return await this.queryBus.execute(new GetArtistFollowersQuery(artistId));
+  }
+
+  async getFollowersByGenre(genreId: string): Promise<FollowDTO[]> {
+    return await this.queryBus.execute(new GetGenreFollowersQuery(genreId));
   }
 }

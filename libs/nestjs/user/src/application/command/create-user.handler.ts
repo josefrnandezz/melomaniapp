@@ -47,6 +47,6 @@ export class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
     const user = User.add(userId, username, email);
     command.roles.map((role: string) => user.addRole(Role.fromString(role)));
 
-    await this.users.save(user);
+    this.users.save(user);
   }
 }

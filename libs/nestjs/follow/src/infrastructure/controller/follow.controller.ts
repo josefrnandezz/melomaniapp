@@ -1,5 +1,5 @@
 import { FollowDTO } from '@melomaniapp/contracts/follow';
-import { Controller, Delete, Get, Param, Post, Query } from '@nestjs/common';
+import { Controller, Put, Get, Param, Post, Query } from '@nestjs/common';
 import { catchError } from 'rxjs';
 import { v4 } from 'uuid';
 import { FollowService } from '../services/follow.service';
@@ -24,7 +24,7 @@ export class FollowController {
     }
   }
 
-  @Delete(':followId/users/:userId/unfollows_to/genres/:genreId')
+  @Put(':followId/users/:userId/unfollows_to/genres/:genreId')
   async unfollowGenreByUser(
     @Param('followId') followId: string,
     @Param('userId') userId: string,
@@ -57,7 +57,7 @@ export class FollowController {
     }
   }
 
-  @Delete(':followId/users/:userId/unfollows_to/establishments/:artistId')
+  @Put(':followId/users/:userId/unfollows_to/establishments/:artistId')
   async unfollowArtistByUser(
     @Param('followId') followId: string,
     @Param('userId') userId: string,
@@ -90,9 +90,7 @@ export class FollowController {
     }
   }
 
-  @Delete(
-    ':followId/users/:userId/unfollows_to/establishments/:establishmentId'
-  )
+  @Put(':followId/users/:userId/unfollows_to/establishments/:establishmentId')
   async unfollowEstablishmentByUser(
     @Param('followId') followId: string,
     @Param('userId') userId: string,
@@ -125,7 +123,7 @@ export class FollowController {
     }
   }
 
-  @Delete(':followId/users/:userId/unfollows_to/events/:eventId')
+  @Put(':followId/users/:userId/unfollows_to/events/:eventId')
   async unfollowEventByUser(
     @Param('followId') followId: string,
     @Param('userId') userId: string,
@@ -158,7 +156,7 @@ export class FollowController {
     }
   }
 
-  @Delete(':followId/artists/:byArtistId/unfollows_to/artists/:toArtistId')
+  @Put(':followId/artists/:byArtistId/unfollows_to/artists/:toArtistId')
   async unfollowArtistByArtist(
     @Param('followId') followId: string,
     @Param('byArtistId') byArtistId: string,
@@ -181,6 +179,41 @@ export class FollowController {
   ): Promise<FollowDTO[]> {
     try {
       return await this.followService.getFollowersByEvent(eventId);
+    } catch (error) {
+      throw catchError(error);
+    }
+  }
+
+  @Get('establishments/:establishmentId')
+  async getFollowersByEstablishment(
+    @Param('establishmentId') establishmentId: string
+  ): Promise<FollowDTO[]> {
+    try {
+      return await this.followService.getFollowersByEstablishment(
+        establishmentId
+      );
+    } catch (error) {
+      throw catchError(error);
+    }
+  }
+
+  @Get('artists/:artistId')
+  async getFollowersByArtist(
+    @Param('artistId') artistId: string
+  ): Promise<FollowDTO[]> {
+    try {
+      return await this.followService.getFollowersByArtist(artistId);
+    } catch (error) {
+      throw catchError(error);
+    }
+  }
+
+  @Get('genres/:genreId')
+  async getFollowersByGenre(
+    @Param('genreId') genreId: string
+  ): Promise<FollowDTO[]> {
+    try {
+      return await this.followService.getFollowersByGenre(genreId);
     } catch (error) {
       throw catchError(error);
     }
