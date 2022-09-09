@@ -3,7 +3,7 @@ import {
   IdAlreadyRegisteredError,
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
-import { Alias,Description } from '@melomaniapp/nestjs/common';
+import { Alias, Description } from '@melomaniapp/nestjs/common';
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
@@ -25,7 +25,9 @@ import {
 import { CreateEstablishmentCommand } from './create-establishment.command';
 
 @CommandHandler(CreateEstablishmentCommand)
-export class CreateEstablishmentHandler implements ICommandHandler {
+export class CreateEstablishmentHandler
+  implements ICommandHandler<CreateEstablishmentCommand>
+{
   constructor(
     @InjectAggregateRepository(Establishment)
     public readonly establishments: AggregateRepository<

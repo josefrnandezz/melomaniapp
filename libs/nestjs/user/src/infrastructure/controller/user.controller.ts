@@ -64,7 +64,7 @@ export class UserController {
     }
   }
 
-  @Get('?username')
+  @Get('/:username')
   @UseRoles({
     resource: Resource.User,
     action: 'read',

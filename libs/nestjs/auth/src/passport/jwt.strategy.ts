@@ -28,20 +28,22 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate(payload: JwtPayloadInterface): Promise<UserDto> {
     let user: UserDto;
 
+    const username = payload.email.slice(0, payload.email.indexOf('@'));
+
     try {
       user = await this.queryBus.execute<GetUserByUsernameQuery, UserDto>(
-        new GetUserByUsernameQuery(payload.sub)
+        new GetUserByUsernameQuery(username)
       );
     } catch (error) {
       const userId = uuid.v4();
 
       await this.commandBus.execute(
-        new CreateUserCommand(userId, payload.sub, payload.email, [Role.User])
+        new CreateUserCommand(userId, username, payload.email, [Role.User])
       );
 
       user = new UserDto({
         _id: userId,
-        username: payload.sub,
+        username,
         email: payload.email,
         roles: [Role.User],
       });

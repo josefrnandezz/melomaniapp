@@ -14,8 +14,6 @@ import { EstablishmentDocument } from '../read-model';
 
 @Injectable()
 export class EstablishmentGuard extends AuthGuard('jwt') {
-  private readonly logger = new Logger(EstablishmentGuard.name);
-
   constructor(private readonly queryBus: QueryBus) {
     super();
   }
