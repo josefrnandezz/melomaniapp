@@ -62,6 +62,60 @@
       },
       "tags": []
     },
+    "artists": {
+      "root": "apps/artists",
+      "sourceRoot": "apps/artists",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "defaultConfiguration": "production",
+          "options": {
+            "root": "apps/artists",
+            "outputPath": "dist/apps/artists"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "artists:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "artists:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "artists:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/artists"],
+          "options": {
+            "jestConfig": "apps/artists/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/artists/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      },
+      "tags": []
+    },
     "contracts": {
       "root": "libs/contracts",
       "sourceRoot": "libs/contracts/src",
