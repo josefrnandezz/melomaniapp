@@ -364,6 +364,60 @@
       },
       "tags": []
     },
+    "establishments": {
+      "root": "apps/establishments",
+      "sourceRoot": "apps/establishments",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": ["{options.outputPath}"],
+          "defaultConfiguration": "production",
+          "options": {
+            "root": "apps/establishments",
+            "outputPath": "dist/apps/establishments"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "establishments:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "establishments:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "establishments:build:production"
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/establishments"],
+          "options": {
+            "jestConfig": "apps/establishments/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["apps/establishments/**/*.{ts,tsx,js,jsx}"]
+          }
+        }
+      },
+      "tags": []
+    },
     "fans": {
       "root": "apps/fans",
       "sourceRoot": "apps/fans",

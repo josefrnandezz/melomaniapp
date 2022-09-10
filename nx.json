@@ -61,5 +61,6 @@
         "linter": "eslint"
       }
     }
-  }
+  },
+  "defaultProject": "establishments"
 }
