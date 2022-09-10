@@ -8,6 +8,8 @@ acl
   .grant(Role.User)
     .createAny(Resource.Establishment)
     .readAny(Resource.Establishment)
+    .createAny(Resource.Artist)
+    .readAny(Resource.Artist)
   .grant(Role.EstablishmentOwner)
     .updateOwn(Resource.Establishment)
     .deleteOwn(Resource.Establishment)

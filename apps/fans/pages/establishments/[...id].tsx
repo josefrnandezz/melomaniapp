@@ -1,18 +1,23 @@
 import { useEstablishment } from '@melomaniapp/hooks';
-import { FanLayout } from '@melomaniapp/ui';
-import { Col, Row, Layout, Typography, Space } from 'antd';
+
+import { Col, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
+import { Layout } from '../../components/layout/Layout';
 
 export const EstablishmentPage = () => {
-  const [session, loading] = useSession();
+  const [session, isLoading] = useSession();
   const router = useRouter();
 
+  if (isLoading) {
+    return <Spin size="large" />;
+  }
+
   const { id } = router.query;
-  const establishment = useEstablishment(id as string);
+  const { data: establishment } = useEstablishment(id as string);
 
   return (
-    <FanLayout session={session}>
+    <Layout session={session}>
       <Row>
         <Col>
           <Typography.Title>{establishment?.name}</Typography.Title>
@@ -22,7 +27,7 @@ export const EstablishmentPage = () => {
       <Row style={{ backgroundColor: 'white', height: '100%' }}>
         <Col>{establishment?.description}</Col>
       </Row>
-    </FanLayout>
+    </Layout>
   );
 };
 

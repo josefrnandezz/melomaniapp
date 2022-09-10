@@ -16,18 +16,16 @@ export const AccountMenu = ({ session }: AccountMenuProps) => {
   const menu = (
     <Menu>
       <Menu.Item key="profile" icon={<UserOutlined />}>
-        <Link href="/profile">{session.user.name}</Link>
+        <Link href="/profile">Mi perfil</Link>
       </Menu.Item>
-      <Menu.Item key="settings" icon={<SettingOutlined />}>
-        <Link href="/profile/settings">Settings</Link>
-      </Menu.Item>
+
       <Menu.Item
         data-cy="signOutButton"
         key="logout"
         icon={<LogoutOutlined />}
         onClick={() => signOut()}
       >
-        Sign out
+        Cerrar sesión
       </Menu.Item>
     </Menu>
   );
