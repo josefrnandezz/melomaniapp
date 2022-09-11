@@ -3,6 +3,7 @@ import { ArtistDTO } from '@melomaniapp/contracts/artist';
 import { GenreDTO } from '@melomaniapp/contracts/genre';
 import { EventDTO } from '@melomaniapp/contracts/event';
 import { UserDto } from '@melomaniapp/contracts/user';
+import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
 import useSWR from 'swr';
 import { getMockEvents } from '../mocks/events';
 
@@ -188,6 +189,20 @@ export const useCities = (): Response<string[]> => {
 
   return {
     data: cities,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
+export const useFollows = (type: FollowType): Response<FollowDTO[]> => {
+  const { data, error } = useSWR([`api/follows/@me?type=${type}`], fetchURL);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    data,
     isLoading: !error && !data,
     isError: error as Error,
   };
