@@ -13,8 +13,8 @@ export const getMockEvents = (): { data: EventDTO[]; error?: any } => ({
         'F4CC582A-2EBF-4A52-A1D5-EEE67230E501',
       ],
       userId: 'e29d19e4-fec0-4b04-a9a7-65c34781afd1',
-      startsAt: new Date(),
-      endsAt: new Date(),
+      startsAt: new Date(2022, 9, 30, 22, 30),
+      endsAt: new Date(2022, 9, 31, 0, 30),
       address: {
         full: 'Av. de Chinales, 18',
         city: 'Córdoba',

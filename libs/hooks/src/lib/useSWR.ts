@@ -110,6 +110,26 @@ export const useEvents = (): Response<EventDTO[]> => {
   };
 };
 
+export const useEvent = (id: string): Response<EventDTO | undefined> => {
+  // const { data, error } = useSWR(['api/events'], fetchURL);
+  const { data, error } = getMockEvents();
+
+  console.log(data);
+
+  const events = id && data.find((event) => event._id === id[0]);
+
+  if (events)
+    if (error) {
+      console.error(error);
+    }
+
+  return {
+    data: events || undefined,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
 export const useEventsByEstablishment = (
   establishmentId: string
 ): Response<EventDTO[]> => {
