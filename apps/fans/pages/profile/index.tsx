@@ -5,8 +5,8 @@ import { useSession } from 'next-auth/client';
 
 import { GenreList } from '@melomaniapp/ui';
 
-import { Layout } from '../components/layout/Layout';
-import { FanProfileHeader } from '../components/fans/FanProfileHeader';
+import { Layout } from '../../components/layout/Layout';
+import { FanProfileHeader } from '../../components/fans/FanProfileHeader';
 
 export const ProfilePage = () => {
   const [session] = useSession();

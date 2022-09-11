@@ -2,8 +2,8 @@ import { useGenres } from '@melomaniapp/hooks';
 import { Card, List, PageHeader, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Layout } from '../components/layout/Layout';
-import { capitalizeFirstLetter } from '../utils';
+import { Layout } from '../../components/layout/Layout';
+import { capitalizeFirstLetter } from '../../utils';
 
 export const Genres: React.FC = () => {
   const [session] = useSession();

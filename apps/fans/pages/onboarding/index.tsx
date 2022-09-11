@@ -2,7 +2,7 @@ import { useGenres } from '@melomaniapp/hooks';
 import { CityDropdown, GenreFilter } from '@melomaniapp/ui';
 import { Button, Card, Col, Form, Row } from 'antd';
 import { useSession } from 'next-auth/client';
-import { Layout } from '../components/layout/Layout';
+import { Layout } from '../../components/layout/Layout';
 
 export const FanOnboarding: React.FC = () => {
   const [session] = useSession();

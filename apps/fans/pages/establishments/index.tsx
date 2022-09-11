@@ -1,12 +1,12 @@
 import { UserAddOutlined } from '@ant-design/icons';
 import { useEstablishments, useGenres } from '@melomaniapp/hooks';
 import { GenreList } from '@melomaniapp/ui';
-import { Card, Divider, List, PageHeader, Space, Spin } from 'antd';
+import { Card, Divider, List, PageHeader, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { IconText } from '../components/IconText';
-import { Layout } from '../components/layout/Layout';
+import { IconText } from '../../components/IconText';
+import { Layout } from '../../components/layout/Layout';
 
 const Establishments: React.FC = () => {
   const [session, loading] = useSession();

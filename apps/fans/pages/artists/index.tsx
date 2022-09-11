@@ -5,8 +5,8 @@ import { Card, Divider, List, PageHeader, Space, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { IconText } from '../components/IconText';
-import { Layout } from '../components/layout/Layout';
+import { IconText } from '../../components/IconText';
+import { Layout } from '../../components/layout/Layout';
 
 const Artists: React.FC = () => {
   const [session, loading] = useSession();
