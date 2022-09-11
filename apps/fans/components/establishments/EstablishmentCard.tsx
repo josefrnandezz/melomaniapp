@@ -20,9 +20,12 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
       onClick={() => router.push(`establishments/${item._id}`)}
       hoverable
       style={{
+        marginTop: '10px',
         width: 240,
         textAlign: 'center',
         background: '#cae9ff',
+        overflow: 'hidden',
+        borderRadius: '20px',
       }}
       cover={
         <img

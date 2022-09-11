@@ -1,4 +1,8 @@
-import { useEstablishment, useEvents, useGenres } from '@melomaniapp/hooks';
+import {
+  useEstablishment,
+  useEventsByEstablishment,
+  useGenres,
+} from '@melomaniapp/hooks';
 import { UserAddOutlined } from '@ant-design/icons';
 import { Card, Col, Divider, List, Row, Space, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -17,7 +21,7 @@ export const EstablishmentPage = () => {
 
   const { data: establishment, isLoading } = useEstablishment(id as string);
   const genres = useGenres();
-  const events = useEvents();
+  const events = useEventsByEstablishment(id as string);
 
   if (isLoading || genres?.isLoading || events?.isLoading) {
     return (
@@ -45,7 +49,7 @@ export const EstablishmentPage = () => {
           />
         </Col>
         <Col span={10} offset={2} style={{ margin: 'auto' }}>
-          <Card style={{ background: '#fffafa' }}>
+          <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
             <Typography.Title level={4}>Descripción</Typography.Title>
             <Typography.Paragraph>
               {establishment?.description}
@@ -69,6 +73,7 @@ export const EstablishmentPage = () => {
           background: '#fffafa',
           alignItems: 'center',
           justifyContent: 'center',
+          borderRadius: '20px',
         }}
       >
         <Typography.Title level={4}>Eventos</Typography.Title>
@@ -90,6 +95,7 @@ export const EstablishmentPage = () => {
               style={{
                 marginBottom: '20px',
                 background: '#cae9ff',
+                borderRadius: '20px',
               }}
             >
               <List.Item

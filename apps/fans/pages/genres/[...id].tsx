@@ -4,6 +4,7 @@ import { Card, Col, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { Layout } from '../../components/layout/Layout';
+import { ProfileHeader } from '../../components/ProfileHeader';
 import { capitalizeFirstLetter } from '../../utils';
 
 export const GenrePage = () => {
@@ -19,25 +20,9 @@ export const GenrePage = () => {
 
   return (
     <Layout session={session}>
-      <Card
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          textAlign: 'center',
-        }}
-      >
-        <Row>
-          <Col>
-            <Typography.Title>
-              {genre?.name && capitalizeFirstLetter(genre.name)}
-            </Typography.Title>
-          </Col>
-        </Row>
-        <Row style={{ backgroundColor: 'white' }}>
-          <FollowButton isActive={true} />
-        </Row>
-      </Card>
+      <div style={{ marginBottom: '100px' }}>
+        <ProfileHeader name={genre?.name} alias="" />
+      </div>
     </Layout>
   );
 };

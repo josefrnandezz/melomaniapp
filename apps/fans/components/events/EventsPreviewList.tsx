@@ -23,6 +23,7 @@ export const EventsPreviewList: React.FC<EventsPreviewListProps> = ({
         background: '#fffafa',
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: '20px',
       }}
     >
       <Section title="Eventos" pushTo="events" />

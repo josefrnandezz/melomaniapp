@@ -23,6 +23,7 @@ export const ArtistsPreviewList: React.FC<ArtistsPreviewListProps> = ({
         background: '#fffafa',
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: '20px',
       }}
     >
       <Section title="Artistas" pushTo="artists" />

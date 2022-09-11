@@ -18,7 +18,7 @@ export const Genres: React.FC = () => {
   return (
     <Layout session={session}>
       <PageHeader
-        style={{ margin: 'auto' }}
+        style={{ margin: 'auto', borderRadius: '20px' }}
         ghost={false}
         onBack={() => window.history.back()}
         title="Géneros"
@@ -30,7 +30,8 @@ export const Genres: React.FC = () => {
             flexDirection: 'column',
             alignItems: 'center',
             textAlign: 'center',
-            height: '100vh',
+            marginBottom: '30px',
+            // height: '100vh',
           }}
           grid={{
             xs: 1,
@@ -49,6 +50,7 @@ export const Genres: React.FC = () => {
                 width: 240,
                 margin: 'auto auto 20px auto',
                 background: '#cae9ff',
+                borderRadius: '20px',
               }}
             >
               <List.Item

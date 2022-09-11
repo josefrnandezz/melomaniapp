@@ -22,6 +22,7 @@ export const EstablishmentsPreviewList: React.FC<
         background: '#fffafa',
         alignItems: 'center',
         justifyContent: 'center',
+        borderRadius: '20px',
       }}
     >
       <Section title="Establecimientos" pushTo="establishments" />

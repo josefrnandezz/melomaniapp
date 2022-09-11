@@ -81,6 +81,20 @@ export const useArtists = (): Response<ArtistDTO[]> => {
   };
 };
 
+export const useArtist = (id: string): Response<ArtistDTO> => {
+  const { data, error } = useSWR([`api/artists/${id}`], fetchURL);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
 export const useEvents = (): Response<EventDTO[]> => {
   // const { data, error } = useSWR(['api/events'], fetchURL);
   const { data, error } = getMockEvents();
@@ -91,6 +105,33 @@ export const useEvents = (): Response<EventDTO[]> => {
 
   return {
     data,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
+export const useEventsByEstablishment = (
+  establishmentId: string
+): Response<EventDTO[]> => {
+  // const { data, error } = useSWR(['api/events'], fetchURL);
+  const { data, error } = getMockEvents();
+
+  console.log(data);
+
+  const events =
+    establishmentId &&
+    data.filter((event) => event.establishmentId === establishmentId[0]);
+
+  console.log(events);
+
+  console.log(establishmentId);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    data: events || [],
     isLoading: !error && !data,
     isError: error as Error,
   };

@@ -5,23 +5,34 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { AccountMenu } from '@melomaniapp/ui';
+import { useRouter } from 'next/router';
 
 export type HeaderProps = {
   session?: Session;
 };
 
-const Logo = () => (
-  <Row style={{ display: 'flex', alignContent: 'center' }}>
-    <Space size="small">
-      <Col flex="100px" style={{ marginTop: '10px' }}>
-        <Image src="/favicon/logo.png" alt="" width="40px" height="40px" />
-      </Col>
-      <Col flex="auto">
-        <Typography.Title level={4}>Melomaniapp Fans</Typography.Title>
-      </Col>
-    </Space>
-  </Row>
-);
+const Logo = () => {
+  const router = useRouter();
+
+  return (
+    <Row style={{ display: 'flex', alignContent: 'center' }}>
+      <Space size="small">
+        <Col flex="100px" style={{ marginTop: '10px' }}>
+          <Image
+            src="/favicon/logo.png"
+            alt=""
+            width="40px"
+            height="40px"
+            onClick={() => router.push('/')}
+          />
+        </Col>
+        <Col flex="auto">
+          <Typography.Title level={4}>Melomaniapp Fans</Typography.Title>
+        </Col>
+      </Space>
+    </Row>
+  );
+};
 
 export const Header = ({ session }: HeaderProps) => {
   return (

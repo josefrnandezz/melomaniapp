@@ -23,7 +23,7 @@ const Artists: React.FC = () => {
   return (
     <Layout session={session}>
       <PageHeader
-        style={{ margin: 'auto' }}
+        style={{ margin: 'auto', borderRadius: '20px' }}
         ghost={false}
         onBack={() => window.history.back()}
         title="Artistas"
@@ -46,6 +46,7 @@ const Artists: React.FC = () => {
               style={{
                 marginBottom: '20px',
                 background: '#cae9ff',
+                borderRadius: '20px',
               }}
             >
               <List.Item

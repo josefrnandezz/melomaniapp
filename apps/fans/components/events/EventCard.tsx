@@ -24,6 +24,8 @@ export const EventCard: React.FC<EventCardProps> = ({
         width: 240,
         textAlign: 'center',
         background: '#cae9ff',
+        overflow: 'hidden',
+        borderRadius: '20px',
       }}
       cover={
         <img
