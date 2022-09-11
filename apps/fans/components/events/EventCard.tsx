@@ -34,7 +34,9 @@ export const EventCard: React.FC<EventCardProps> = ({
     >
       <Card.Meta title={item.name} />
       <Divider />
+
       <GenreList
+        justify="center"
         genres={genres?.filter((genre) => item.genreIds.includes(genre._id))}
       />
     </Card>

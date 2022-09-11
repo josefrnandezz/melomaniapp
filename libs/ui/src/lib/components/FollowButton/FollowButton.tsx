@@ -14,8 +14,8 @@ export const FollowButton: React.FC<FollowButtonProps> = ({ isActive }) => {
 
   return (
     <Button
-      style={{ width: '150px' }}
-      type={isFollowing ? 'primary' : 'ghost'}
+      style={{ width: '100%' }}
+      type={!isFollowing ? 'primary' : 'ghost'}
       onClick={handleOnClickFollow}
     >
       {isFollowing ? 'Dejar de seguir' : 'Seguir'}
