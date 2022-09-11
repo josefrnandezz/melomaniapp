@@ -25,7 +25,9 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({ name, alias }) => {
         <div style={{ margin: 'auto', alignItems: 'center' }}>
           <Avatar size={140} icon={<UserOutlined />} />
         </div>
-        <Typography.Title>{capitalizeFirstLetter(name)}</Typography.Title>
+        <Typography.Title>
+          {name && capitalizeFirstLetter(name)}
+        </Typography.Title>
         {alias ? (
           <Typography.Paragraph>{`@${alias}`}</Typography.Paragraph>
         ) : null}
