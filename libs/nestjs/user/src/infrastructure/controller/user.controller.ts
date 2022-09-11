@@ -65,13 +65,7 @@ export class UserController {
   }
 
   @Get('/:username')
-  @UseRoles({
-    resource: Resource.User,
-    action: 'read',
-    possession: 'own',
-  })
-  @UseGuards(UserGuard, ACGuard)
-  async findOne(@Query('username') username: string): Promise<UserDto> {
+  async findOne(@Param('username') username: string): Promise<UserDto> {
     try {
       return this.userService.findOne(username);
     } catch (e) {

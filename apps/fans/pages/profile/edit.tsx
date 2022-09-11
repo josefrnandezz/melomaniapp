@@ -1,14 +1,27 @@
-import { useGenres } from '@melomaniapp/hooks';
+import { useFan, useGenres } from '@melomaniapp/hooks';
 import { CityDropdown, GenreFilter } from '@melomaniapp/ui';
-import { Button, Card, Col, Form, Row } from 'antd';
+import { Button, Card, Col, Form, Input, Row, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
-import { Layout } from '../components/layout/Layout';
+import { Layout } from '../../components/layout/Layout';
 
-export const FanOnboarding: React.FC = () => {
+export const EditFanProfile: React.FC = () => {
   const [session] = useSession();
   const { data: genres } = useGenres();
+  const username = session?.user.email.slice(
+    0,
+    session?.user.email.indexOf('@')
+  );
 
+  const { data: fan, isLoading } = useFan(username);
   const [form] = Form.useForm();
+
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Spin size="large" style={{ margin: 'auto' }} />;
+      </div>
+    );
+  }
 
   const onSubmit = () => {
     console.log('YAY');
@@ -32,17 +45,22 @@ export const FanOnboarding: React.FC = () => {
                 style={{ width: '100%' }}
                 name="city"
                 label="Ciudad"
+                initialValue={fan?.city && fan?.city}
               >
-                <CityDropdown />
+                <CityDropdown selectedCity={fan?.city} />
               </Form.Item>
 
               <Form.Item
                 required={true}
                 name="genres"
-                label="Géneros musicales"
+                label="Genres"
+                initialValue={fan?.genres.map((genre) => genre)}
                 trigger="onChangeHandler"
               >
-                <GenreFilter genres={genres} />
+                <GenreFilter
+                  genres={genres}
+                  selectedGenres={fan?.genres.map((genre) => genre)}
+                />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
@@ -57,4 +75,4 @@ export const FanOnboarding: React.FC = () => {
   );
 };
 
-export default FanOnboarding;
+export default EditFanProfile;

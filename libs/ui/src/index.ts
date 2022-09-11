@@ -6,3 +6,4 @@ export * from './lib/components/Genre/GenreList/GenreList';
 export * from './lib/components/ProfileSwitcher/ProfileSwitcher';
 export * from './lib/components/FollowButton/FollowButton';
 export * from './lib/components/SignIn/SignIn';
+export * from './lib/components/CityDropdown/CityDropdown';
