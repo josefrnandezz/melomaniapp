@@ -4,7 +4,7 @@ import {
   useGenres,
 } from '@melomaniapp/hooks';
 import { UserAddOutlined } from '@ant-design/icons';
-import { Card, Col, Divider, List, Row, Space, Spin, Typography } from 'antd';
+import { Card, Col, Divider, List, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { Layout } from '../../components/layout/Layout';

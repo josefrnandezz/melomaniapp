@@ -1,11 +1,9 @@
 import { useGenre } from '@melomaniapp/hooks';
-import { FollowButton } from '@melomaniapp/ui';
-import { Card, Col, Row, Spin, Typography } from 'antd';
+import { Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { Layout } from '../../components/layout/Layout';
 import { ProfileHeader } from '../../components/ProfileHeader';
-import { capitalizeFirstLetter } from '../../utils';
 
 export const GenrePage = () => {
   const [session, isLoading] = useSession();

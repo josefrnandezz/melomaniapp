@@ -1,10 +1,4 @@
-import {
-  useArtist,
-  useEstablishment,
-  useEvent,
-  useEvents,
-  useGenres,
-} from '@melomaniapp/hooks';
+import { useEstablishment, useEvent, useGenres } from '@melomaniapp/hooks';
 
 import { Card, Col, Divider, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -41,10 +35,9 @@ export const ArtistPage = () => {
 
   const { data: event, isLoading } = useEvent(id as string);
   const genres = useGenres();
-  const events = useEvents();
   const establishment = useEstablishment(event?.establishmentId);
 
-  if (isLoading || genres?.isLoading || events?.isLoading) {
+  if (isLoading || genres?.isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;

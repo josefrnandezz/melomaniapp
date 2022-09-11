@@ -21,7 +21,7 @@ export const GenreFilter: React.FunctionComponent<GenreFilterProps> = ({
     <Select
       data-cy="genreFilter"
       mode="multiple"
-      placeholder="Genres"
+      placeholder="Géneros musicales"
       showSearch={false}
       style={className}
       onChange={onChangeHandler}
