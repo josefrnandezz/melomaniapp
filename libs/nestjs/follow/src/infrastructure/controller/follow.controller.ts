@@ -1,4 +1,6 @@
-import { FollowDTO } from '@melomaniapp/contracts/follow';
+import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
+import { UserDto } from '@melomaniapp/contracts/user';
+import { User } from '@melomaniapp/nestjs/common';
 import { Controller, Put, Get, Param, Post, Query } from '@nestjs/common';
 import { catchError } from 'rxjs';
 import { v4 } from 'uuid';
@@ -214,6 +216,18 @@ export class FollowController {
   ): Promise<FollowDTO[]> {
     try {
       return await this.followService.getFollowersByGenre(genreId);
+    } catch (error) {
+      throw catchError(error);
+    }
+  }
+
+  @Get('@me')
+  async getFollowsByUser(
+    @User() user: UserDto,
+    @Query() type: FollowType
+  ): Promise<FollowDTO[]> {
+    try {
+      return await this.followService.getUserFollows(user._id, type);
     } catch (error) {
       throw catchError(error);
     }

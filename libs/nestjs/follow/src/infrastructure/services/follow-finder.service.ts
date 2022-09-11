@@ -9,6 +9,7 @@ import { EventId } from '@melomaniapp/nestjs/event';
 import { ArtistId } from '@melomaniapp/nestjs/artist';
 import { EstablishmentId } from 'libs/nestjs/event/src/domain';
 import { GenreId } from '@melomaniapp/nestjs/genre';
+import { UserId } from '@melomaniapp/nestjs/user';
 
 @Injectable()
 export class FollowFinder implements IFollowFinder {
@@ -72,6 +73,19 @@ export class FollowFinder implements IFollowFinder {
     const follows = await this.follows.find({
       followedToId: id.value,
       followedToType: FollowType.Genre,
+    });
+
+    if (!follows) {
+      return [];
+    }
+
+    return follows.map((follow) => new FollowDTO({ ...follow }));
+  }
+
+  async findFollows(id: UserId, type: FollowType): Promise<FollowDTO[]> {
+    const follows = await this.follows.find({
+      followedById: id.value,
+      followedByType: type,
     });
 
     if (!follows) {

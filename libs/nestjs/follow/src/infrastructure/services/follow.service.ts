@@ -16,6 +16,7 @@ import {
   GetEstablishmentFollowersQuery,
   GetArtistFollowersQuery,
   GetGenreFollowersQuery,
+  GetUserFollowsQuery,
 } from '../../application';
 
 @Injectable()
@@ -165,5 +166,9 @@ export class FollowService {
 
   async getFollowersByGenre(genreId: string): Promise<FollowDTO[]> {
     return await this.queryBus.execute(new GetGenreFollowersQuery(genreId));
+  }
+
+  async getUserFollows(userId: string, type: FollowType): Promise<FollowDTO[]> {
+    return await this.queryBus.execute(new GetUserFollowsQuery(userId, type));
   }
 }
