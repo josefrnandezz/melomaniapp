@@ -17,7 +17,9 @@ const Logo = () => (
         <Image src="/favicon/logo.png" alt="" width="40px" height="40px" />
       </Col>
       <Col flex="auto">
-        <Typography.Title level={4}>Melomaniapp Artists</Typography.Title>
+        <Typography.Title level={4} style={{ color: '#cae9ff' }}>
+          Melomaniapp for Artists
+        </Typography.Title>
       </Col>
     </Space>
   </Row>
@@ -30,7 +32,6 @@ export const Header = ({ session }: HeaderProps) => {
         position: 'fixed',
         zIndex: 1,
         width: '100%',
-        background: 'white',
       }}
     >
       <Row justify="center">
@@ -44,10 +45,7 @@ export const Header = ({ session }: HeaderProps) => {
               <Logo />
             </Col>
             <Col span={6} offset={2}>
-              <Menu mode="horizontal">
-                <Menu.Item key="genres" icon={<SearchOutlined />}>
-                  <Link href="/genres">Géneros</Link>
-                </Menu.Item>
+              <Menu mode="horizontal" theme="dark">
                 <Menu.Item key="follows" icon={<BellOutlined />}>
                   <Link href="/follows">Subscripciones</Link>
                 </Menu.Item>

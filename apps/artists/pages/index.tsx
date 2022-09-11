@@ -2,6 +2,7 @@ import { Layout } from '../components/layout/Layout';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import Home from '../components/Home';
 
 export function Index() {
   const [session, loading] = useSession();
@@ -15,7 +16,7 @@ export function Index() {
 
   return (
     <Layout session={session}>
-      <h1>Holi</h1>
+      <Home />
     </Layout>
   );
 }

@@ -7,3 +7,6 @@ export * from './lib/components/ProfileSwitcher/ProfileSwitcher';
 export * from './lib/components/FollowButton/FollowButton';
 export * from './lib/components/SignIn/SignIn';
 export * from './lib/components/CityDropdown/CityDropdown';
+export * from './lib/components/IconText/IconText';
+export * from './lib/utils';
+export * from './lib/components/ProfileHeader/ProfileHeader';

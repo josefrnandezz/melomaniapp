@@ -10,6 +10,8 @@ export const SignIn = () => {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
+        marginTop: '180px',
+        marginBottom: '180px',
       }}
     >
       <Row
