@@ -3,7 +3,7 @@
   <br>
 </h1>
 
-<h4 align="center"> Musical Events Management System built on top of <a href="https://nestjs.com/" target="_blank" style="color:#ED1543;">NestJS</a> and <a href="https://reactjs.org/" target="_blank" style="color:##0276E8;">React</a>.</h4>
+<h4 align="center"> Musical Events Management System built on top of <a href="https://nestjs.com/" target="_blank" style="color:#ED1543;">NestJS</a> and <a href="https://nextjs.org/" target="_blank" style="color:##0276E8;">NextJS</a>.</h4>
 
 ## Table of Contents
 * [About the Project](#about-the-project)
