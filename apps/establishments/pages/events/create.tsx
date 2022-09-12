@@ -15,13 +15,10 @@ import { useSession } from 'next-auth/client';
 import { Layout } from '../../components/layout/Layout';
 
 export const EditEvent: React.FC = () => {
-  const [session] = useSession();
+  const [session, isLoading] = useSession();
   const { data: genres } = useGenres();
   const { data: artists } = useArtists();
 
-  const { data: event, isLoading } = useEvent(
-    '27F6AB17-55B8-4007-9D6D-D80AE21A1CF1'
-  );
   const [form] = Form.useForm();
 
   if (isLoading) {
@@ -52,7 +49,6 @@ export const EditEvent: React.FC = () => {
                 style={{ width: '100%' }}
                 name="name"
                 label="Nombre"
-                initialValue={event?.name}
               >
                 <Input placeholder="Nombre" />
               </Form.Item>
@@ -61,7 +57,6 @@ export const EditEvent: React.FC = () => {
                 style={{ width: '100%' }}
                 name="description"
                 label="Descripción"
-                initialValue={event?.description}
               >
                 <Input placeholder="Descripción" />
               </Form.Item>
@@ -72,7 +67,6 @@ export const EditEvent: React.FC = () => {
                     style={{ width: '100%' }}
                     name="startsAt"
                     label="Fecha de inicio"
-                    initialValue={event?.startsAt}
                   >
                     <DatePicker format={['DD/MM/YYYY']} />
                   </Form.Item>
@@ -83,7 +77,6 @@ export const EditEvent: React.FC = () => {
                     style={{ width: '100%' }}
                     name="endsAt"
                     label="Fecha de fin"
-                    initialValue={event?.endsAt}
                   >
                     <DatePicker format={['DD/MM/YYYY']} />
                   </Form.Item>
@@ -97,7 +90,6 @@ export const EditEvent: React.FC = () => {
                     style={{ width: '100%' }}
                     name="city"
                     label="Ciudad"
-                    initialValue={event?.address.city}
                   >
                     <CityDropdown />
                   </Form.Item>
@@ -108,7 +100,6 @@ export const EditEvent: React.FC = () => {
                     style={{ width: '100%' }}
                     name="address"
                     label="Dirección"
-                    initialValue={event?.address.full}
                   >
                     <Input />
                   </Form.Item>
@@ -134,13 +125,9 @@ export const EditEvent: React.FC = () => {
                 required={true}
                 name="genres"
                 label="Géneros musicales"
-                initialValue={event?.genreIds.map((genre) => genre)}
                 trigger="onChangeHandler"
               >
-                <GenreFilter
-                  genres={genres}
-                  selectedGenres={event?.genreIds.map((genre) => genre)}
-                />
+                <GenreFilter genres={genres} />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">

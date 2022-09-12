@@ -10,27 +10,22 @@ import {
   Row,
   Select,
   Spin,
+  Switch,
 } from 'antd';
 import { useSession } from 'next-auth/client';
+import { useRouter } from 'next/router';
 import { Layout } from '../../../components/layout/Layout';
 
 export const EditEvent: React.FC = () => {
   const [session] = useSession();
+  const router = useRouter();
   const { data: genres } = useGenres();
   const { data: artists } = useArtists();
 
-  const { data: event, isLoading } = useEvent(
-    '27F6AB17-55B8-4007-9D6D-D80AE21A1CF1'
-  );
-  const [form] = Form.useForm();
+  const { id } = router.query;
 
-  if (isLoading) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Spin size="large" style={{ margin: 'auto' }} />;
-      </div>
-    );
-  }
+  const { data: event, isLoading } = useEvent(id as string);
+  const [form] = Form.useForm();
 
   const onSubmit = () => {
     console.log('YAY');
@@ -141,6 +136,9 @@ export const EditEvent: React.FC = () => {
                   genres={genres}
                   selectedGenres={event?.genreIds.map((genre) => genre)}
                 />
+              </Form.Item>
+              <Form.Item required={true} label="Cancelar evento">
+                <Switch defaultChecked />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
