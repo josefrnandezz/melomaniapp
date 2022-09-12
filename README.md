@@ -17,7 +17,7 @@
 ## About the project
  Here you will find my final degree thesis at University of Córdoba, Spain. This project's goal is to unify in one platform the management of musical events from each essential component of them (public a.k.a fans, establishments and artists) offering a pleasant user experience through different web apps.
 
-The purpose of this project is to learn new technologies like NestJS and React using mono-repo with Nx.dev and apply concepts about Software Desing like Event Modeling, Domain-Driven-Desing, CQRS, Event Sourcing, Clean code, etc.
+The purpose of this project is to learn new technologies like NestJS and NextJS using mono-repo with Nx.dev and apply concepts about Software Desing like Event Modeling, Domain-Driven-Desing, CQRS, Event Sourcing, Clean code, etc.
 
 ## Key Features
 
