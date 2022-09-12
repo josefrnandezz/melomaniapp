@@ -5,7 +5,6 @@ import { EventDTO } from '@melomaniapp/contracts/event';
 import { UserDto } from '@melomaniapp/contracts/user';
 import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
 import useSWR from 'swr';
-import { getMockEvents } from '../mocks/events';
 
 export type Response<T> = {
   data: T;
@@ -98,8 +97,7 @@ export const useArtist = (id: string): Response<ArtistDTO> => {
 };
 
 export const useEvents = (): Response<EventDTO[]> => {
-  // const { data, error } = useSWR(['api/events'], fetchURL);
-  const { data, error } = getMockEvents();
+  const { data, error } = useSWR(['api/events'], fetchURL);
 
   if (error) {
     console.error(error);
@@ -113,20 +111,14 @@ export const useEvents = (): Response<EventDTO[]> => {
 };
 
 export const useEvent = (id: string): Response<EventDTO | undefined> => {
-  // const { data, error } = useSWR(['api/events'], fetchURL);
-  const { data, error } = getMockEvents();
+  const { data, error } = useSWR([`api/events/${id}`], fetchURL);
 
-  console.log(data);
-
-  const events = id && data.find((event) => event._id === id[0]);
-
-  if (events)
-    if (error) {
-      console.error(error);
-    }
+  if (error) {
+    console.error(error);
+  }
 
   return {
-    data: events || undefined,
+    data,
     isLoading: !error && !data,
     isError: error as Error,
   };
@@ -135,25 +127,17 @@ export const useEvent = (id: string): Response<EventDTO | undefined> => {
 export const useEventsByEstablishment = (
   establishmentId: string
 ): Response<EventDTO[]> => {
-  // const { data, error } = useSWR(['api/events'], fetchURL);
-  const { data, error } = getMockEvents();
-
-  console.log(data);
-
-  const events =
-    establishmentId &&
-    data.filter((event) => event.establishmentId === establishmentId[0]);
-
-  console.log(events);
-
-  console.log(establishmentId);
+  const { data, error } = useSWR(
+    [`api/events?establishmentId=${establishmentId}`],
+    fetchURL
+  );
 
   if (error) {
     console.error(error);
   }
 
   return {
-    data: events || [],
+    data,
     isLoading: !error && !data,
     isError: error as Error,
   };
