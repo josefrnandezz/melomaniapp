@@ -1,4 +1,4 @@
-import { BellOutlined, SearchOutlined } from '@ant-design/icons';
+import { CustomerServiceOutlined } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Space, Typography } from 'antd';
 import { Session } from 'next-auth';
 import Image from 'next/image';
@@ -17,8 +17,8 @@ const Logo = () => (
         <Image src="/favicon/logo.png" alt="" width="40px" height="40px" />
       </Col>
       <Col flex="auto">
-        <Typography.Title level={4}>
-          Melomaniapp Establishments
+        <Typography.Title level={4} style={{ color: '#cae9ff' }}>
+          Melomaniapp for Establishments
         </Typography.Title>
       </Col>
     </Space>
@@ -32,7 +32,6 @@ export const Header = ({ session }: HeaderProps) => {
         position: 'fixed',
         zIndex: 1,
         width: '100%',
-        background: 'white',
       }}
     >
       <Row justify="center">
@@ -46,14 +45,7 @@ export const Header = ({ session }: HeaderProps) => {
               <Logo />
             </Col>
             <Col span={6} offset={2}>
-              <Menu mode="horizontal">
-                <Menu.Item key="genres" icon={<SearchOutlined />}>
-                  <Link href="/genres">Géneros</Link>
-                </Menu.Item>
-                <Menu.Item key="follows" icon={<BellOutlined />}>
-                  <Link href="/follows">Subscripciones</Link>
-                </Menu.Item>
-              </Menu>
+              <Menu mode="horizontal" theme="dark"></Menu>
             </Col>
             <Col>
               <AccountMenu session={session} />

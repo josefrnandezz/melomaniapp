@@ -1,6 +1,8 @@
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import { Button, Form, Input } from 'antd';
-import React, { useState } from 'react';
+import React from 'react';
+import { useGenres } from '@melomaniapp/hooks';
+import CityDropdown from '../../CityDropdown/CityDropdown';
 
 import GenreFilter from '../../Genre/GenreFilter/GenreFilter';
 
@@ -16,22 +18,16 @@ export const EstablishmentForm: React.FC<EstablishmentFormProps> = ({
   onSubmit,
 }) => {
   const [form] = Form.useForm();
+  const { data: genres } = useGenres();
 
   return (
     <Form form={form} layout="vertical" onFinish={onSubmit}>
-      <Form.Item
-        name="name"
-        label="Name of your establishment"
-        initialValue={establishment?.name}
-      >
+      <Form.Item name="name" label="Nombre" initialValue={establishment?.name}>
         <Input />
-      </Form.Item>
-      <Form.Item name="alias" label="Alias" initialValue={establishment?.alias}>
-        <Input placeholder="@my_establishment" />
       </Form.Item>
       <Form.Item
         name="description"
-        label="Description"
+        label="Descripción"
         initialValue={establishment?.description}
       >
         <TextArea
@@ -39,29 +35,18 @@ export const EstablishmentForm: React.FC<EstablishmentFormProps> = ({
           placeholder="Tell us a little bit about your business..."
         />
       </Form.Item>
-      <Form.Item
-        name="location"
-        label="Location"
-        initialValue={establishment?.address}
-      >
-        <Input />
+      <Form.Item name="location" label="Ciudad">
+        <CityDropdown selectedCity={establishment?.address.city} />
       </Form.Item>
-      <Form.Item name="email" label="Email" initialValue={establishment?.email}>
-        <Input />
-      </Form.Item>
+
       <Form.Item
         name="genres"
-        label="Genres"
+        label="Géneros musicales"
         initialValue={establishment?.genreIds.map((genre) => genre)}
         trigger="onChangeHandler"
       >
         <GenreFilter
-          genres={[
-            { _id: 'rock', name: 'Rock' },
-            { _id: 'rap', name: 'Rap' },
-            { _id: 'pop', name: 'Pop' },
-            { _id: 'techno', name: 'Techno' },
-          ]}
+          genres={genres}
           selectedGenres={establishment?.genreIds.map((genre) => genre)}
         />
       </Form.Item>

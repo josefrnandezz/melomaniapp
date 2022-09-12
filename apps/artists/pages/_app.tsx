@@ -15,7 +15,7 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
         }}
       >
         <Head>
-          <title>Melomaniapp Establishments</title>
+          <title>Melomaniapp Artists</title>
         </Head>
         <main className="app">
           <Component {...pageProps} />

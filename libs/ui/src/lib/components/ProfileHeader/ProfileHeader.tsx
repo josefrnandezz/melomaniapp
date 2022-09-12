@@ -1,15 +1,20 @@
-import { FollowButton } from '@melomaniapp/ui';
 import { capitalizeFirstLetter } from '../../utils';
-import { Avatar, Card, Space, Typography } from 'antd';
+import { Avatar, Button, Card, Space, Typography } from 'antd';
 
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, EditOutlined } from '@ant-design/icons';
+import Link from 'next/link';
 
 interface ProfileHeader {
   name: string;
   alias?: string;
+  path?: string;
 }
 
-export const ProfileHeader: React.FC<ProfileHeader> = ({ name, alias }) => {
+export const ProfileHeader: React.FC<ProfileHeader> = ({
+  name,
+  alias,
+  path,
+}) => {
   return (
     <Card
       bordered={false}
@@ -37,7 +42,9 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({ name, alias }) => {
             width: '100%',
           }}
         >
-          <FollowButton />
+          <Link href={path}>
+            <Button icon={<EditOutlined />}>Editar</Button>
+          </Link>
         </div>
       </Space>
     </Card>

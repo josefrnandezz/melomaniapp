@@ -19,7 +19,7 @@ export const CityDropdown: React.FC<CityDropdownProps> = ({ selectedCity }) => {
 
   return (
     <Select
-      placeholder="Ciudades"
+      placeholder="Ciudad"
       showSearch={false}
       defaultValue={selectedCity}
       showArrow

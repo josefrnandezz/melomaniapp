@@ -101,7 +101,11 @@ export const ProfilePage = () => {
         justify="center"
       >
         <Col span={12} style={{ margin: 'auto' }}>
-          <ProfileHeader name={artist?.name} alias={artist?.alias} />
+          <ProfileHeader
+            name={artist?.name}
+            alias={artist?.alias}
+            path="/profile/edit"
+          />
         </Col>
         <Col span={10} offset={2} style={{ margin: 'auto' }}>
           <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
