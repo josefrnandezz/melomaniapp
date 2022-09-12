@@ -29,7 +29,7 @@ The purpose of this project is to learn new technologies like NestJS and NextJS 
 
 ## Install, build and run!
 
-To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [yarn](https://yarnpkg.com/) installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
