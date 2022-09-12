@@ -1,90 +1,76 @@
-# melomaniapp
+<h1 align="center">
+  Melomaniapp 🎸
+  <br>
+</h1>
 
-This project was generated using [Nx](https://nx.dev).
+<h4 align="center"> Musical Events Management System built on top of <a href="https://nestjs.com/" target="_blank" style="color:#ED1543;">NestJS</a> and <a href="https://reactnative.dev/" target="_blank" style="color:##0276E8;">React Native</a>.</h4>
 
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+## Table of Contents
+* [About the Project](#about-the-project)
+* [Key Features](#key-features)
+* [Install, build and run!](#download)
+* [Built With](#build)
+* [License](#license)
+* [Contact](#contact)
 
-🔎 **Nx is a set of Extensible Dev Tools for Monorepos.**
 
-## Adding capabilities to your workspace
+## About the project
+ Here you will find my final degree thesis at University of Córdoba, Spain. This project's goal is to unify in one platform the management of musical events from each essential component of them (public a.k.a fans, establishments and artists) offering a pleasant user experience through different web apps.
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+The purpose of this project is to learn new technologies like NestJS and React using mono-repo with Nx.dev and apply concepts about Software Desing like Event Modeling, Domain-Driven-Desing, CQRS, Event Sourcing, Clean code, etc.
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+## Key Features
 
-Below are our core plugins:
+* **Design**: Event modeling.
+* **Arquitecture**: Hexagonal Arquitecture following Domain-Driven-Design concepts.
+* **Database management**: CQRS and Event Sourcing patterns.
+  * **Read model**: MongoDB.
+  * **Write model**: Event Store.
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+## Install, build and run!
 
-There are also many [community plugins](https://nx.dev/nx-community) you could add.
+To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
-## Generate an application
+```bash
+# Clone this repository
+$ git clone git@github.com:josefrnandezz/melomaniapp.git
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+# Go into the repository
+$ cd melomaniapp
 
-> You can use any of the plugins above to generate applications as well.
+# Install dependencies
+$ yarn
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+# Start docker containers (MongoDB and Event Store)
+$ docker-compose up  -d
 
-## Generate a library
+# Run the server app
+$ yarn nx run api:serve
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+# Build web app for fans 
+$ yarn nx fans:serve
 
-> You can also use any of the plugins above to generate libraries as well.
+# Build web app for artists 
+$ yarn nx artists:serve
 
-Libraries are sharable across libraries and applications. They can be imported from `@melomaniapp/mylib`.
+# Build web app for establishments 
+$ yarn nx establishments:serve
+```
 
-## Development server
+## Built With
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+This software uses the following packages:
 
-## Code scaffolding
+- [NestJS](https://nestjs.com/)
+- [Node.js](https://nodejs.org/)
+- [Typescript](https://www.typescriptlang.org/)
+- [Jest](https://jestjs.io/)
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+## License
 
-## Build
+[GNU Affero General Public License v3 (AGPL)](https://www.gnu.org/licenses/agpl-3.0.en.html)
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+## Contact
 
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-## ☁ Nx Cloud
-
-### Computation Memoization in the Cloud
-
-<p align="center"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
-
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
-
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
-
-Visit [Nx Cloud](https://nx.app/) to learn more.
+> Twitter - [Jose Fernández](https://twitter.com/jfrnandez_)
+> LinkedIn - [Jose Fernández](https://www.linkedin.com/in/josefrnandezz/)
