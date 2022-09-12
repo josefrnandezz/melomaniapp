@@ -73,4 +73,5 @@ This software uses the following packages:
 ## Contact
 
 > Twitter - [Jose Fernández](https://twitter.com/jfrnandez_)
+
 > LinkedIn - [Jose Fernández](https://www.linkedin.com/in/josefrnandezz/)
