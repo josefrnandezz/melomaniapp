@@ -9,7 +9,17 @@ import { Layout } from '../../components/layout/Layout';
 import { FanProfileHeader } from '../../components/fans/FanProfileHeader';
 
 export const ProfilePage = () => {
-  const [session] = useSession();
+  const [session, isSessionLoading] = useSession();
+
+  const genres = useGenres();
+
+  if (isSessionLoading || genres?.isLoading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Spin size="large" style={{ margin: 'auto' }} />;
+      </div>
+    );
+  }
 
   const username = session?.user.email.slice(
     0,
@@ -17,15 +27,6 @@ export const ProfilePage = () => {
   );
 
   const { data: fan, isLoading } = useFan(username);
-  const genres = useGenres();
-
-  if (isLoading || genres?.isLoading) {
-    return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Spin size="large" style={{ margin: 'auto' }} />;
-      </div>
-    );
-  }
 
   return (
     <Layout session={session}>

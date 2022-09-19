@@ -21,8 +21,8 @@ export class User extends EncryptedAggregateRoot {
   private _username: Username;
   private _email: Email;
   private _city: City;
-  private _genres: GenreId[];
-  private _roles: Role[];
+  private _genres: GenreId[] = [];
+  private _roles: Role[] = [];
   private _deleted?: Date;
 
   public static add(userId: UserId, username: Username, email: Email): User {
@@ -98,7 +98,7 @@ export class User extends EncryptedAggregateRoot {
   }
 
   updateCity(city: City): void {
-    if (this._city.equals(city)) {
+    if (this._city && this._city.equals(city)) {
       return;
     }
 

@@ -78,7 +78,6 @@ export class UserController {
   }
 
   @Put(':id')
-  @Roles(Role.Admin)
   async update(@Param('id') id: string, @Body() userDto: EditUserDto) {
     try {
       return await this.userService.update(id, userDto);

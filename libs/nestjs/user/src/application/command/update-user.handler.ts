@@ -41,9 +41,10 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
       return;
     }
 
-    user.roles.map(
-      (role) => !command.roles.includes(role.value) && user.removeRole(role)
-    );
+    user.roles &&
+      user.roles.map(
+        (role) => !command.roles.includes(role.value) && user.removeRole(role)
+      );
 
     command.roles.map((role) => user.addRole(Role.fromString(role)));
   }
@@ -53,10 +54,11 @@ export class UpdateUserHandler implements ICommandHandler<UpdateUserCommand> {
       return;
     }
 
-    user.genres.map(
-      (genre) =>
-        !command.genres.includes(genre.value) && user.removeGenre(genre)
-    );
+    user.genres &&
+      user.genres.map(
+        (genre) =>
+          !command.genres.includes(genre.value) && user.removeGenre(genre)
+      );
 
     command.genres.map((genre) => user.addGenre(GenreId.fromString(genre)));
   }

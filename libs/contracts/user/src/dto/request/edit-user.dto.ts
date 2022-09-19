@@ -3,9 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class EditUserDto {
   @ApiProperty()
-  username: string;
-
-  @ApiProperty()
   city: string;
 
   @ApiProperty()

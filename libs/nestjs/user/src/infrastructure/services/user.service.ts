@@ -47,7 +47,6 @@ export class UserService {
     await this.commandBus.execute(
       new UpdateUserCommand(
         id,
-        editUserDto.username,
         editUserDto.city,
         editUserDto.genres,
         editUserDto.roles

@@ -10,7 +10,7 @@ export class City extends ValueObject<Props> {
       throw DomainError.because('City cannot be empty');
     }
 
-    if (!/^[a-zA-ZñÑ]+$/.test(city)) {
+    if (!/^[a-zA-Z\u00C0-\u024F\s\/]+$/.test(city)) {
       throw DomainError.because('Invalid city characters');
     }
 
