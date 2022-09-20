@@ -201,7 +201,11 @@ export class Follow extends AggregateRoot {
   }
 
   private static verifyCanFollow(by: FollowedBy, to: FollowedTo): void {
-    if (!allowedFollows.includes({ by: by.type, to: to.type })) {
+    if (
+      !allowedFollows.find(
+        (follow) => follow.by === by.type && follow.to === to.type
+      )
+    ) {
       throw InvalidFollowError.becauseFollowIsNotAllowed(by.type, to.type);
     }
   }

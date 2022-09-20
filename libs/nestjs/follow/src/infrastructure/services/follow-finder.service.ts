@@ -19,7 +19,7 @@ export class FollowFinder implements IFollowFinder {
   ) {}
 
   async find(id: FollowId): Promise<FollowDTO | null> {
-    const follow = await this.follows.findById(id.value);
+    const follow = await this.follows.findById(id.value).lean<FollowDocument>();
 
     if (!follow) {
       return null;
@@ -29,10 +29,12 @@ export class FollowFinder implements IFollowFinder {
   }
 
   async findFollowersByEvent(id: EventId): Promise<FollowDTO[]> {
-    const follows = await this.follows.find({
-      followedToId: id.value,
-      followedToType: FollowType.Event,
-    });
+    const follows = await this.follows
+      .find({
+        followedToId: id.value,
+        followedToType: FollowType.Event,
+      })
+      .lean<FollowDocument[]>();
 
     if (!follows) {
       return [];
@@ -42,10 +44,12 @@ export class FollowFinder implements IFollowFinder {
   }
 
   async findFollowersByArtist(id: ArtistId): Promise<FollowDTO[]> {
-    const follows = await this.follows.find({
-      followedToId: id.value,
-      followedToType: FollowType.Artist,
-    });
+    const follows = await this.follows
+      .find({
+        followedToId: id.value,
+        followedToType: FollowType.Artist,
+      })
+      .lean<FollowDocument[]>();
 
     if (!follows) {
       return [];
@@ -57,10 +61,12 @@ export class FollowFinder implements IFollowFinder {
   async findFollowersByEstablishment(
     id: EstablishmentId
   ): Promise<FollowDTO[]> {
-    const follows = await this.follows.find({
-      followedToId: id.value,
-      followedToType: FollowType.Establishment,
-    });
+    const follows = await this.follows
+      .find({
+        followedToId: id.value,
+        followedToType: FollowType.Establishment,
+      })
+      .lean<FollowDocument[]>();
 
     if (!follows) {
       return [];
@@ -70,10 +76,12 @@ export class FollowFinder implements IFollowFinder {
   }
 
   async findFollowersByGenre(id: GenreId): Promise<FollowDTO[]> {
-    const follows = await this.follows.find({
-      followedToId: id.value,
-      followedToType: FollowType.Genre,
-    });
+    const follows = await this.follows
+      .find({
+        followedToId: id.value,
+        followedToType: FollowType.Genre,
+      })
+      .lean<FollowDocument[]>();
 
     if (!follows) {
       return [];
@@ -83,10 +91,12 @@ export class FollowFinder implements IFollowFinder {
   }
 
   async findFollows(id: UserId, type: FollowType): Promise<FollowDTO[]> {
-    const follows = await this.follows.find({
-      followedById: id.value,
-      followedByType: type,
-    });
+    const follows = await this.follows
+      .find({
+        followedById: id.value,
+        followedToType: type,
+      })
+      .lean<FollowDocument[]>();
 
     if (!follows) {
       return [];

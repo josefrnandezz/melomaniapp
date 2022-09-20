@@ -1,10 +1,12 @@
 import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
 import { UserDto } from '@melomaniapp/contracts/user';
 import { User } from '@melomaniapp/nestjs/common';
-import { Controller, Put, Get, Param, Post, Query } from '@nestjs/common';
+import { Controller, Put, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { ACGuard } from 'nest-access-control';
 import { catchError } from 'rxjs';
 import { v4 } from 'uuid';
-import { FollowService } from '../services/follow.service';
+import { FollowGuard } from '../auth';
+import { FollowService } from '../services';
 
 @Controller('follows')
 export class FollowController {
@@ -59,7 +61,7 @@ export class FollowController {
     }
   }
 
-  @Put(':followId/users/:userId/unfollows_to/establishments/:artistId')
+  @Put(':followId/users/:userId/unfollows_to/artists/:artistId')
   async unfollowArtistByUser(
     @Param('followId') followId: string,
     @Param('userId') userId: string,
@@ -221,13 +223,16 @@ export class FollowController {
     }
   }
 
-  @Get('@me')
+  @Get('@me/type/:type')
+  @UseGuards(FollowGuard, ACGuard)
   async getFollowsByUser(
     @User() user: UserDto,
-    @Query() type: FollowType
+    @Param('type') type: FollowType
   ): Promise<FollowDTO[]> {
     try {
-      return await this.followService.getUserFollows(user._id, type);
+      const userId = user._id;
+
+      return await this.followService.getUserFollows(userId, type);
     } catch (error) {
       throw catchError(error);
     }

@@ -1,14 +1,69 @@
 import { FollowButton } from '@melomaniapp/ui';
-import { Avatar, Card, Space, Typography } from 'antd';
+import { Avatar, Card, Space, Spin, Typography } from 'antd';
 
 import { UserOutlined } from '@ant-design/icons';
 import { capitalizeFirstLetter } from '../utils';
+import { Session } from 'next-auth';
+import { useFollows } from '@melomaniapp/hooks';
+import { FollowType } from '@melomaniapp/contracts/follow';
+
 interface ProfileHeader {
+  id: string;
   name: string;
   alias?: string;
+  followRoute: string;
+  unfollowRoute: string;
+  session: Session;
 }
 
-export const ProfileHeader: React.FC<ProfileHeader> = ({ name, alias }) => {
+export const ProfileHeader: React.FC<ProfileHeader> = ({
+  id,
+  name,
+  alias,
+  followRoute,
+  unfollowRoute,
+  session,
+}) => {
+  const follows = useFollows(FollowType.Artist, session);
+
+  if (follows.isLoading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Spin size="large" style={{ margin: 'auto' }} />;
+      </div>
+    );
+  }
+
+  const follow = follows?.data?.find((follow) => follow.followedToId === id);
+
+  const createFollow = () =>
+    fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
+      }/api/follows/${followRoute}`,
+      {
+        method: 'Post',
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+  const deleteFollow = () =>
+    fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
+      }/api/follows/${follow?._id}/${unfollowRoute}`,
+      {
+        method: 'Put',
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
   return (
     <Card
       bordered={false}
@@ -36,7 +91,11 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({ name, alias }) => {
             width: '100%',
           }}
         >
-          <FollowButton />
+          <FollowButton
+            isActive={!!follow}
+            createFollow={createFollow}
+            deleteFollow={deleteFollow}
+          />
         </div>
       </Space>
     </Card>

@@ -1,4 +1,4 @@
-import { useArtist, useGenres } from '@melomaniapp/hooks';
+import { useArtist, useFan, useGenres } from '@melomaniapp/hooks';
 
 import { Card, Col, Divider, List, Row, Spin, Tag, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -80,13 +80,24 @@ export const ArtistPage = () => {
   const { data: artist, isLoading } = useArtist(id as string);
   const genres = useGenres();
 
-  if (isLoading || genres?.isLoading) {
+  const username = session?.user.email.slice(
+    0,
+    session?.user.email.indexOf('@')
+  );
+
+  const fan = useFan(username);
+
+  if (isLoading || genres?.isLoading || fan?.isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
       </div>
     );
   }
+
+  const followRoute = `users/${fan.data?._id}/follows_to/artists/${artist?._id}`;
+
+  const unfollowRoute = `users/${fan.data?._id}/unfollows_to/artists/${artist?._id}`;
 
   return (
     <Layout session={session}>
@@ -101,7 +112,14 @@ export const ArtistPage = () => {
         justify="center"
       >
         <Col span={12} style={{ margin: 'auto' }}>
-          <ProfileHeader name={artist?.name} alias={artist?.alias} />
+          <ProfileHeader
+            id={artist?._id}
+            name={artist?.name}
+            alias={artist?.alias}
+            followRoute={followRoute}
+            unfollowRoute={unfollowRoute}
+            session={session}
+          />
         </Col>
         <Col span={10} offset={2} style={{ margin: 'auto' }}>
           <Card style={{ background: '#fffafa', borderRadius: '20px' }}>

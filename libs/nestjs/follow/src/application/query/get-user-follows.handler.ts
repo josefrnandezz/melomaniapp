@@ -1,5 +1,6 @@
 import { FollowDTO } from '@melomaniapp/contracts/follow';
 import { GenreId } from '@melomaniapp/nestjs/genre';
+import { UserId } from '@melomaniapp/nestjs/user';
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FOLLOW_FINDER, IFollowFinder } from '../services';
@@ -14,9 +15,11 @@ export class GetUserFollowsHandler
     private readonly followFinder: IFollowFinder
   ) {}
   async execute(query: GetUserFollowsQuery): Promise<FollowDTO[]> {
-    return await this.followFinder.findFollows(
-      GenreId.fromString(query.userId),
+    const follows = await this.followFinder.findFollows(
+      UserId.fromString(query.userId),
       query.type
     );
+
+    return follows;
   }
 }

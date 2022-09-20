@@ -5,6 +5,7 @@ import { EventDTO } from '@melomaniapp/contracts/event';
 import { UserDto } from '@melomaniapp/contracts/user';
 import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
 import useSWR from 'swr';
+import { Session } from 'next-auth';
 
 export type Response<T> = {
   data: T;
@@ -178,8 +179,14 @@ export const useCities = (): Response<string[]> => {
   };
 };
 
-export const useFollows = (type: FollowType): Response<FollowDTO[]> => {
-  const { data, error } = useSWR([`api/follows/@me?type=${type}`], fetchURL);
+export const useFollows = (
+  type: FollowType,
+  session: Session
+): Response<FollowDTO[]> => {
+  const { data, error } = useSWR(
+    [`api/follows/@me/type/${type}`, session['accessToken']],
+    fetchURL
+  );
 
   if (error) {
     console.error(error);
@@ -192,9 +199,14 @@ export const useFollows = (type: FollowType): Response<FollowDTO[]> => {
   };
 };
 
-const fetchURL = async (url: string) =>
+const fetchURL = async (url: string, token: string) =>
   fetch(`http://localhost:3333/${url}`, {
     method: 'GET',
+    credentials: 'include',
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json',
+    },
   }).then((res) => {
     if (res.ok) {
       return res.json();

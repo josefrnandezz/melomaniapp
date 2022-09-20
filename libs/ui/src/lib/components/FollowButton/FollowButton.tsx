@@ -3,13 +3,21 @@ import { useState } from 'react';
 
 interface FollowButtonProps {
   isActive?: boolean;
+  createFollow?: () => Promise<Response>;
+  deleteFollow?: () => Promise<Response>;
 }
 
-export const FollowButton: React.FC<FollowButtonProps> = ({ isActive }) => {
+export const FollowButton: React.FC<FollowButtonProps> = ({
+  isActive,
+  createFollow,
+  deleteFollow,
+}) => {
   const [isFollowing, setIsFollowing] = useState(isActive);
 
-  const handleOnClickFollow = () => {
-    setIsFollowing(!isFollowing);
+  const handleOnClickFollow = async () => {
+    const response = !isFollowing ? await createFollow() : await deleteFollow();
+
+    response.ok && setIsFollowing(!isFollowing);
   };
 
   return (
