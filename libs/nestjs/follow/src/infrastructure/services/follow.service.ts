@@ -17,6 +17,11 @@ import {
   GetArtistFollowersQuery,
   GetGenreFollowersQuery,
   GetUserFollowsQuery,
+  FollowEstablishmentByUserCommand,
+  UnfollowEstablishmentByUserCommand,
+  FollowEventByUserCommand,
+  UnfollowEventByUserCommand,
+  UnfollowArtistByArtistCommand,
 } from '../../application';
 
 @Injectable()
@@ -74,7 +79,7 @@ export class FollowService {
     const { _id, followedById: userId, followedToId: establishmentId } = follow;
 
     await this.commandBus.execute(
-      new FollowArtistByUserCommand(_id, userId, establishmentId)
+      new FollowEstablishmentByUserCommand(_id, userId, establishmentId)
     );
 
     return new FollowDTO({
@@ -92,7 +97,7 @@ export class FollowService {
     } = follow;
 
     return await this.commandBus.execute(
-      new UnfollowArtistByUserCommand(_id, userId, establishmentId)
+      new UnfollowEstablishmentByUserCommand(_id, userId, establishmentId)
     );
   }
 
@@ -100,7 +105,7 @@ export class FollowService {
     const { _id, followedById: userId, followedToId: eventId } = follow;
 
     await this.commandBus.execute(
-      new FollowArtistByUserCommand(_id, userId, eventId)
+      new FollowEventByUserCommand(_id, userId, eventId)
     );
 
     return new FollowDTO({
@@ -114,7 +119,7 @@ export class FollowService {
     const { _id, unfollowedById: userId, unfollowedToId: eventId } = follow;
 
     return await this.commandBus.execute(
-      new UnfollowArtistByUserCommand(_id, userId, eventId)
+      new UnfollowEventByUserCommand(_id, userId, eventId)
     );
   }
 
@@ -144,7 +149,7 @@ export class FollowService {
     } = follow;
 
     return await this.commandBus.execute(
-      new UnfollowArtistByUserCommand(_id, fromArtistId, toArtistId)
+      new UnfollowArtistByArtistCommand(_id, fromArtistId, toArtistId)
     );
   }
 

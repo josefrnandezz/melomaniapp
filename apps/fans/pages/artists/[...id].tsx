@@ -8,6 +8,7 @@ import { ProfileHeader } from '../../components/ProfileHeader';
 
 import { GenreList } from '@melomaniapp/ui';
 import Link from 'next/link';
+import { FollowType } from '@melomaniapp/contracts/follow';
 
 const spotifyRegex = /https:\/\/(www\.)?open\.spotify\.com\/artist\/.*/;
 const sounCloudRegex = /https:\/\/(www\.)?soundcloud\.com\/.*/;
@@ -113,6 +114,7 @@ export const ArtistPage = () => {
       >
         <Col span={12} style={{ margin: 'auto' }}>
           <ProfileHeader
+            type={FollowType.Artist}
             id={artist?._id}
             name={artist?.name}
             alias={artist?.alias}

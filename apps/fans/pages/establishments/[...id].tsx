@@ -1,6 +1,7 @@
 import {
   useEstablishment,
   useEventsByEstablishment,
+  useFan,
   useGenres,
 } from '@melomaniapp/hooks';
 import { UserAddOutlined } from '@ant-design/icons';
@@ -12,24 +13,44 @@ import { ProfileHeader } from '../../components/ProfileHeader';
 
 import { GenreList } from '@melomaniapp/ui';
 import { IconText } from '../../components/IconText';
+import { FollowType } from '@melomaniapp/contracts/follow';
 
 export const EstablishmentPage = () => {
-  const [session] = useSession();
+  const [session, isLoading] = useSession();
   const router = useRouter();
 
   const { id } = router.query;
 
-  const { data: establishment, isLoading } = useEstablishment(id as string);
+  const establishment = useEstablishment(id as string);
   const genres = useGenres();
   const events = useEventsByEstablishment(id as string);
 
-  if (isLoading || genres?.isLoading || events?.isLoading) {
+  const username = session?.user.email.slice(
+    0,
+    session?.user.email.indexOf('@')
+  );
+
+  const fan = useFan(username);
+
+  if (
+    isLoading ||
+    genres?.isLoading ||
+    events?.isLoading ||
+    fan?.isLoading ||
+    establishment?.isLoading
+  ) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
       </div>
     );
   }
+
+  const { data } = establishment;
+
+  const followRoute = `users/${fan.data?._id}/follows_to/establishments/${data?._id}`;
+
+  const unfollowRoute = `users/${fan.data?._id}/unfollows_to/establishments/${data?._id}`;
 
   return (
     <Layout session={session}>
@@ -44,26 +65,29 @@ export const EstablishmentPage = () => {
       >
         <Col span={12} style={{ margin: 'auto' }}>
           <ProfileHeader
-            name={establishment?.name}
-            alias={establishment?.alias}
+            type={FollowType.Establishment}
+            id={data?._id}
+            name={data?.name}
+            alias={data?.alias}
+            followRoute={followRoute}
+            unfollowRoute={unfollowRoute}
+            session={session}
           />
         </Col>
         <Col span={10} offset={2} style={{ margin: 'auto' }}>
           <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
             <Typography.Title level={4}>Descripción</Typography.Title>
-            <Typography.Paragraph>
-              {establishment?.description}
-            </Typography.Paragraph>
+            <Typography.Paragraph>{data?.description}</Typography.Paragraph>
             <Divider />
             <Typography.Title level={4}>Géneros</Typography.Title>
             <GenreList
               genres={genres.data?.filter((genre) =>
-                establishment?.genreIds.includes(genre._id)
+                data?.genreIds.includes(genre._id)
               )}
             />
             <Divider />
             <Typography.Title level={4}>Dirección</Typography.Title>
-            <Typography.Paragraph>{`${establishment?.address.full}, ${establishment?.address.city}`}</Typography.Paragraph>
+            <Typography.Paragraph>{`${data?.address.full}, ${data?.address.city}`}</Typography.Paragraph>
           </Card>
         </Col>
       </Row>

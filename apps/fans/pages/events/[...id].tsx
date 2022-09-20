@@ -1,4 +1,9 @@
-import { useEstablishment, useEvent, useGenres } from '@melomaniapp/hooks';
+import {
+  useEstablishment,
+  useEvent,
+  useFan,
+  useGenres,
+} from '@melomaniapp/hooks';
 
 import { Card, Col, Divider, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -7,6 +12,7 @@ import { Layout } from '../../components/layout/Layout';
 import { ProfileHeader } from '../../components/ProfileHeader';
 
 import { GenreList } from '@melomaniapp/ui';
+import { FollowType } from '@melomaniapp/contracts/follow';
 
 const formatDateTime = (date: Date) => {
   const hours =
@@ -27,7 +33,7 @@ const formatDateTime = (date: Date) => {
   );
 };
 
-export const ArtistPage = () => {
+export const EventPage = () => {
   const [session] = useSession();
   const router = useRouter();
 
@@ -37,13 +43,24 @@ export const ArtistPage = () => {
   const genres = useGenres();
   const establishment = useEstablishment(event?.establishmentId);
 
-  if (isLoading || genres?.isLoading) {
+  const username = session?.user.email.slice(
+    0,
+    session?.user.email.indexOf('@')
+  );
+
+  const fan = useFan(username);
+
+  if (isLoading || genres?.isLoading || fan?.isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
       </div>
     );
   }
+
+  const followRoute = `users/${fan.data?._id}/follows_to/events/${event?._id}`;
+
+  const unfollowRoute = `users/${fan.data?._id}/unfollows_to/events/${event?._id}`;
 
   return (
     <Layout session={session}>
@@ -57,7 +74,14 @@ export const ArtistPage = () => {
         justify="center"
       >
         <Col span={12} style={{ margin: 'auto' }}>
-          <ProfileHeader name={event?.name} />
+          <ProfileHeader
+            type={FollowType.Event}
+            id={event?._id}
+            name={event?.name}
+            session={session}
+            followRoute={followRoute}
+            unfollowRoute={unfollowRoute}
+          />
         </Col>
         <Col span={10} offset={2} style={{ margin: 'auto' }}>
           <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
@@ -97,4 +121,4 @@ export const ArtistPage = () => {
   );
 };
 
-export default ArtistPage;
+export default EventPage;

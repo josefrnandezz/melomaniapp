@@ -8,6 +8,7 @@ import { useFollows } from '@melomaniapp/hooks';
 import { FollowType } from '@melomaniapp/contracts/follow';
 
 interface ProfileHeader {
+  type: FollowType;
   id: string;
   name: string;
   alias?: string;
@@ -17,6 +18,7 @@ interface ProfileHeader {
 }
 
 export const ProfileHeader: React.FC<ProfileHeader> = ({
+  type,
   id,
   name,
   alias,
@@ -24,17 +26,17 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
   unfollowRoute,
   session,
 }) => {
-  const follows = useFollows(FollowType.Artist, session);
+  const follows = useFollows(type, session);
 
-  if (follows.isLoading) {
+  const follow = follows?.data?.find((follow) => follow.followedToId === id);
+
+  if (follows?.isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
       </div>
     );
   }
-
-  const follow = follows?.data?.find((follow) => follow.followedToId === id);
 
   const createFollow = () =>
     fetch(
