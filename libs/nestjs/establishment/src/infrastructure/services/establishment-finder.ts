@@ -1,5 +1,6 @@
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import { Alias } from '@melomaniapp/nestjs/common';
+import { UserId } from '@melomaniapp/nestjs/user';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -98,5 +99,19 @@ export class EstablishmentFinder implements IEstablishmentFinder {
     return establishments.map(
       (establishment) => new EstablishmentDTO(establishment)
     );
+  }
+
+  async findOneByUser(userId: UserId): Promise<EstablishmentDTO | undefined> {
+    const establishment = await this.establishments
+      .findOne({
+        ownerId: userId.value,
+      })
+      .lean<EstablishmentDTO>();
+
+    if (!establishment) {
+      return;
+    }
+
+    return establishment;
   }
 }

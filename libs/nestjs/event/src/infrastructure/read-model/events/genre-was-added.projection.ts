@@ -15,7 +15,7 @@ export class GenreWasAddedProjection implements IEventHandler<GenreWasAdded> {
   async handle(event: GenreWasAdded) {
     await this.events
       .findByIdAndUpdate(event.aggregateId, {
-        $push: { GenreIds: event.genreId },
+        $push: { genreIds: event.genreId },
       })
       .exec();
   }

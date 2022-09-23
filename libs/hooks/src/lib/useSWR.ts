@@ -1,7 +1,7 @@
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import { ArtistDTO } from '@melomaniapp/contracts/artist';
 import { GenreDTO } from '@melomaniapp/contracts/genre';
-import { EventDTO } from '@melomaniapp/contracts/event';
+import { EventDTO, FullEventDTO } from '@melomaniapp/contracts/event';
 import { UserDto } from '@melomaniapp/contracts/user';
 import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
 import useSWR from 'swr';
@@ -111,7 +111,7 @@ export const useEvents = (): Response<EventDTO[]> => {
   };
 };
 
-export const useEvent = (id: string): Response<EventDTO | undefined> => {
+export const useEvent = (id: string): Response<FullEventDTO | undefined> => {
   const { data, error } = useSWR([`api/events/${id}`], fetchURL);
 
   if (error) {
@@ -183,8 +183,48 @@ export const useFollows = (
   type: FollowType,
   session: Session
 ): Response<FollowDTO[]> => {
+  const params = session
+    ? [`api/follows/me/type/${type}`, session['accessToken']]
+    : null;
+
+  const { data, error } = useSWR(params, fetchURL);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
+export const useMyEstablishment = (
+  session: Session | null
+): Response<EstablishmentDTO> => {
+  const params = session
+    ? [`api/users/me/establishment`, session['accessToken']]
+    : null;
+
+  const { data, error } = useSWR(params, fetchURL);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
+export const useEstablishmentEvents = (
+  establishmentId: string
+): Response<EstablishmentDTO[]> => {
   const { data, error } = useSWR(
-    [`api/follows/@me/type/${type}`, session['accessToken']],
+    [`api/establishments/${establishmentId}/events`],
     fetchURL
   );
 

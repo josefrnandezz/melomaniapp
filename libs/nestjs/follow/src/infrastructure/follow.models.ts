@@ -27,10 +27,6 @@ export const followModels: ModelDefinition[] = [
     schema: EstablishmentSchema,
   },
   {
-    name: GENRES_PROJECTION,
-    schema: GenreSchema,
-  },
-  {
     name: ARTISTS_PROJECTION,
     schema: ArtistSchema,
   },

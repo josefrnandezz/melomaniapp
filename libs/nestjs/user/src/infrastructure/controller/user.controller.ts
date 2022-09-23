@@ -2,12 +2,13 @@ import {
   IdAlreadyRegisteredError,
   IdNotFoundError,
 } from '@aulasoftwarelibre/nestjs-eventstore';
+import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import {
   CreateUserDto,
   EditUserDto,
   UserDto,
 } from '@melomaniapp/contracts/user';
-import { catchError, Resource, Role, Roles } from '@melomaniapp/nestjs/common';
+import { catchError, Role, Roles, User } from '@melomaniapp/nestjs/common';
 import {
   Body,
   ConflictException,
@@ -19,15 +20,14 @@ import {
   Param,
   Post,
   Put,
-  Query,
   Res,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
-import { ACGuard, UseRoles } from 'nest-access-control';
-
+import { ACGuard } from 'nest-access-control';
 import { UserGuard } from '../auth';
+
 import { UserService } from '../services';
 
 @ApiBearerAuth()
@@ -105,6 +105,16 @@ export class UserController {
       } else {
         throw catchError(e);
       }
+    }
+  }
+
+  @Get('me/establishment')
+  @UseGuards(UserGuard, ACGuard)
+  async getUserEstablishent(@User() user: UserDto): Promise<EstablishmentDTO> {
+    try {
+      return this.userService.getUserEstablishment(user._id);
+    } catch (error) {
+      throw catchError(error);
     }
   }
 }

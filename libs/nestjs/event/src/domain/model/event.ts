@@ -25,9 +25,9 @@ export class Event extends AggregateRoot {
   private _description: Description;
   private _startsAt: Date;
   private _endsAt: Date;
-  private readonly _artists: ArtistId[];
+  private readonly _artists: ArtistId[] = [];
   private _establishment: EstablishmentId;
-  private readonly _genres: GenreId[];
+  private readonly _genres: GenreId[] = [];
   private _address: Address;
   private _isCancelled: boolean;
 
@@ -145,9 +145,9 @@ export class Event extends AggregateRoot {
 
   private onEventWasCreated(event: EventWasCreated): void {
     this._id = EventId.fromString(event.id);
-    this._userId = EventId.fromString(event.userId);
-    this._name = EventId.fromString(event.name);
-    this._description = EventId.fromString(event.description);
+    this._userId = UserId.fromString(event.userId);
+    this._name = EventName.fromString(event.name);
+    this._description = Description.fromString(event.description);
     this._startsAt = event.startsAt;
     this._endsAt = event.endsAt;
     this._address = Address.with(event.address.full, event.address.city);

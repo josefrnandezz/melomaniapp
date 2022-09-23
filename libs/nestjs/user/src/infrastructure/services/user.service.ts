@@ -15,6 +15,9 @@ import {
   UpdateUserCommand,
 } from '../../application';
 
+import { GetEstablishmentFromUserQuery } from '@melomaniapp/nestjs/establishment';
+import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
+
 @Injectable()
 export class UserService {
   constructor(
@@ -60,5 +63,9 @@ export class UserService {
 
   async delete(id: string) {
     await this.commandBus.execute(new DeleteUserCommand(id));
+  }
+
+  async getUserEstablishment(id: string): Promise<EstablishmentDTO> {
+    return this.queryBus.execute(new GetEstablishmentFromUserQuery(id));
   }
 }

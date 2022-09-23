@@ -15,10 +15,6 @@ export class EventWasCancelledProjection
   ) {}
 
   async handle(event: EventWasCancelled) {
-    await this.events
-      .findByIdAndUpdate(event.aggregateId, {
-        isCancelled: true,
-      })
-      .exec();
+    await this.events.findByIdAndDelete(event.aggregateId).exec();
   }
 }

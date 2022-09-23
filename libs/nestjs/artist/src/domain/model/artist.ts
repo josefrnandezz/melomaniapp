@@ -23,8 +23,8 @@ export class Artist extends AggregateRoot {
   private _name: ArtistName;
   private _alias: Alias;
   private _description: Description;
-  private _socialLinks: SocialLink[];
-  private _genreIds: GenreId[];
+  private _socialLinks: SocialLink[] = [];
+  private _genreIds: GenreId[] = [];
   private _deleted?: Date;
 
   aggregateId(): string {

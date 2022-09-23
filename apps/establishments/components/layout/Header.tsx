@@ -14,7 +14,9 @@ const Logo = () => (
   <Row style={{ display: 'flex', alignContent: 'center' }}>
     <Space size="small">
       <Col flex="100px" style={{ marginTop: '10px' }}>
-        <Image src="/favicon/logo.png" alt="" width="40px" height="40px" />
+        <Link href="/">
+          <Image src="/favicon/logo.png" alt="" width="40px" height="40px" />
+        </Link>
       </Col>
       <Col flex="auto">
         <Typography.Title level={4} style={{ color: '#cae9ff' }}>

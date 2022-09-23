@@ -1,5 +1,5 @@
 import { AggregateRoot } from '@aulasoftwarelibre/nestjs-eventstore';
-import { Alias,Description } from '@melomaniapp/nestjs/common';
+import { Alias, Description } from '@melomaniapp/nestjs/common';
 
 import {
   EstablishmentAliasWasUpdated,
@@ -26,7 +26,7 @@ export class Establishment extends AggregateRoot {
   private _description: Description;
   private _email: Email;
   private _address: EstablishmentAddress;
-  private _genreIds: GenreId[];
+  private _genreIds: GenreId[] = [];
   private _deleted?: Date;
 
   public static add(

@@ -1,5 +1,6 @@
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import { Alias } from '@melomaniapp/nestjs/common';
+import { UserId } from '@melomaniapp/nestjs/user';
 
 import {
   Email,
@@ -17,4 +18,5 @@ export interface IEstablishmentFinder {
   findOneByEmail(email: Email): Promise<EstablishmentDTO>;
   findOneByAddress(address: EstablishmentAddress): Promise<EstablishmentDTO>;
   findByGenreId(genreId: GenreId): Promise<EstablishmentDTO[]>;
+  findOneByUser(userId: UserId): Promise<EstablishmentDTO | undefined>;
 }

@@ -30,13 +30,13 @@ export const EventPage = () => {
   const [session] = useSession();
   const router = useRouter();
 
-  const { id } = router.query;
+  const { id, establishmentId } = router.query;
 
-  const { data: event, isLoading } = useEvent(id as string);
-  const genres = useGenres();
-  const establishment = useEstablishment(event?.establishmentId);
+  const { data, isLoading } = useEvent(id as string);
 
-  if (isLoading || genres?.isLoading) {
+  const establishment = useEstablishment(establishmentId as string);
+
+  if (isLoading || establishment?.isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
@@ -56,7 +56,10 @@ export const EventPage = () => {
         justify="center"
       >
         <Col span={12} style={{ margin: 'auto' }}>
-          <ProfileHeader name={event?.name} path={`${event?._id}/edit`} />
+          <ProfileHeader
+            name={data?.event?.name}
+            path={`${data?.event?._id}/edit`}
+          />
         </Col>
         <Col span={10} offset={2} style={{ margin: 'auto' }}>
           <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
@@ -67,12 +70,14 @@ export const EventPage = () => {
             <Divider />
             <Typography.Title level={4}>Fecha de inicio</Typography.Title>
             <Typography.Paragraph>
-              {event?.startsAt && formatDateTime(event?.startsAt)}
+              {data?.event?.startsAt &&
+                formatDateTime(new Date(data?.event?.startsAt))}
             </Typography.Paragraph>
             <Divider />
             <Typography.Title level={4}>Fecha de fin</Typography.Title>
             <Typography.Paragraph>
-              {event?.endsAt && formatDateTime(event?.endsAt)}
+              {data?.event?.endsAt &&
+                formatDateTime(new Date(data?.event?.endsAt))}
             </Typography.Paragraph>
           </Card>
         </Col>
@@ -80,17 +85,13 @@ export const EventPage = () => {
 
       <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
         <Typography.Title level={4}>Descripción</Typography.Title>
-        <Typography.Paragraph>{event?.description}</Typography.Paragraph>
+        <Typography.Paragraph>{data?.event?.description}</Typography.Paragraph>
         <Divider />
         <Typography.Title level={4}>Géneros</Typography.Title>
-        <GenreList
-          genres={genres.data?.filter((genre) =>
-            event?.genreIds.includes(genre._id)
-          )}
-        />
+        <GenreList genres={data?.genres} />
         <Divider />
         <Typography.Title level={4}>Dirección</Typography.Title>
-        <Typography.Paragraph>{`${event?.address.full}, ${event?.address.city}`}</Typography.Paragraph>
+        <Typography.Paragraph>{`${data?.event?.address?.full}, ${data?.event?.address?.city}`}</Typography.Paragraph>
       </Card>
     </Layout>
   );

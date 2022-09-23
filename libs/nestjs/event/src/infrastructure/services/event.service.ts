@@ -2,6 +2,7 @@ import {
   CreateEventDTO,
   EditEventDTO,
   EventDTO,
+  FullEventDTO,
 } from '@melomaniapp/contracts/event';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -10,7 +11,6 @@ import {
   CancelEventCommand,
   CreateEventCommand,
   GetEventQuery,
-  GetEventsByEstablishmentQuery,
   UpdateEventCommand,
 } from '../../application';
 
@@ -52,14 +52,8 @@ export class EventService {
     return new EventDTO({ userId, ...event });
   }
 
-  async findOne(eventId: string): Promise<EventDTO> {
+  async findOne(eventId: string): Promise<FullEventDTO> {
     return await this.queryBus.execute(new GetEventQuery(eventId));
-  }
-
-  async findByEstablishment(establishmentId: string): Promise<EventDTO[]> {
-    return await this.queryBus.execute(
-      new GetEventsByEstablishmentQuery(establishmentId)
-    );
   }
 
   async update(id: string, event: EditEventDTO): Promise<EventDTO> {

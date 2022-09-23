@@ -17,7 +17,7 @@ export class GenreWasRemovedProjection
   async handle(event: GenreWasRemoved) {
     await this.events
       .findByIdAndUpdate(event.aggregateId, {
-        $pull: { GenreIds: event.genreId },
+        $pull: { genreIds: event.genreId },
       })
       .exec();
   }

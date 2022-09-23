@@ -27,8 +27,11 @@ import { ApiBearerAuth, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ACGuard, UseRoles } from 'nest-access-control';
 
+import { EventDTO } from '@melomaniapp/contracts/event';
+
 import { EstablishmentGuard } from '../auth/establishment.guard';
 import { EstablishmentService } from '../services';
+import * as uuid from 'uuid';
 
 @ApiBearerAuth()
 @Controller('establishments')
@@ -47,7 +50,10 @@ export class EstablishmentController {
     @Body() establishmentDTO: CreateEstablishmentDTO
   ): Promise<EstablishmentDTO> {
     try {
-      return await this.establishmentService.create(user._id, establishmentDTO);
+      return await this.establishmentService.create(user._id, {
+        _id: uuid.v4(),
+        ...establishmentDTO,
+      });
     } catch (e) {
       if (e instanceof IdAlreadyRegisteredError) {
         throw new ConflictException(e.message);
@@ -126,6 +132,19 @@ export class EstablishmentController {
       } else {
         throw catchError(error);
       }
+    }
+  }
+
+  @Get(':establishmentId/events')
+  async findEventsByEstablishment(
+    @Param('establishmentId') establishmentId: string
+  ): Promise<EventDTO[]> {
+    try {
+      return await this.establishmentService.findEventsByEstablishment(
+        establishmentId
+      );
+    } catch (e) {
+      throw catchError(e);
     }
   }
 }

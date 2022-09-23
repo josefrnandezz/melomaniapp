@@ -9,6 +9,6 @@ export class UpdateEstablishmentCommand implements ICommand {
     public readonly description: string,
     public readonly email: string,
     public readonly address: AddressProps,
-    public readonly genres: string[]
+    public readonly genreIds: string[]
   ) {}
 }

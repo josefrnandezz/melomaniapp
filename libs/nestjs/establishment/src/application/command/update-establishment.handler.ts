@@ -3,7 +3,7 @@ import {
   IdNotFoundError,
   InjectAggregateRepository,
 } from '@aulasoftwarelibre/nestjs-eventstore';
-import { Alias,Description } from '@melomaniapp/nestjs/common';
+import { Alias, Description } from '@melomaniapp/nestjs/common';
 import { Inject } from '@nestjs/common';
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 
@@ -76,17 +76,17 @@ export class UpdateEstablishmentHandler implements ICommandHandler {
     establishment: Establishment,
     command: UpdateEstablishmentCommand
   ) {
-    if (command.genres === undefined) {
+    if (command.genreIds === undefined) {
       return;
     }
 
     establishment.genres.map(
       (genre) =>
-        !command.genres.includes(genre.value) &&
+        !command.genreIds.includes(genre.value) &&
         establishment.removeGenre(genre)
     );
 
-    command.genres.map((genre) =>
+    command.genreIds.map((genre) =>
       establishment.addGenre(GenreId.fromString(genre))
     );
   }

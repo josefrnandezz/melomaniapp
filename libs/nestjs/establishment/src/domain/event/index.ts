@@ -75,8 +75,8 @@ export const eventTransformers = {
   ) =>
     new EstablishmentAddressWasUpdated(
       event.aggregateId,
-      event.payload.city,
-      event.payload.full
+      event.payload.full,
+      event.payload.city
     ),
   EstablishmentWasDeleted: (event: Event) =>
     new EstablishmentWasDeleted(event.aggregateId),

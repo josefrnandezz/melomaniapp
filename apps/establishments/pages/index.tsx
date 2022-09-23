@@ -3,20 +3,22 @@ import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import Home from '../components/Home';
+import { useMyEstablishment } from '@melomaniapp/hooks';
 
 export function Index() {
-  const [session, loading] = useSession();
+  const [session, isLoading] = useSession();
+  const establishment = useMyEstablishment(session);
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !session) {
+    if (!isLoading && !session && !establishment) {
       router.push('/');
     }
-  }, [loading, session, router]);
+  }, [isLoading, session, router]);
 
   return (
     <Layout session={session}>
-      <Home />
+      <Home establishmentId={establishment.data?._id} />
     </Layout>
   );
 }

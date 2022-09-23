@@ -18,5 +18,5 @@ export class EditEstablishmentDTO {
   address?: AddressProps;
 
   @ApiProperty()
-  genres?: string[];
+  genreIds?: string[];
 }

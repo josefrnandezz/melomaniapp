@@ -223,7 +223,7 @@ export class FollowController {
     }
   }
 
-  @Get('@me/type/:type')
+  @Get('me/type/:type')
   @UseGuards(FollowGuard, ACGuard)
   async getFollowsByUser(
     @User() user: UserDto,

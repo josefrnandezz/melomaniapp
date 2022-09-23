@@ -5,25 +5,25 @@ import {
   Delete,
   Get,
   HttpCode,
-  NotFoundException,
   Param,
   Post,
   Put,
-  Query,
   UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { EventService } from '../services';
-import { ACGuard, UseRoles } from 'nest-access-control';
-import { catchError, Resource, User } from '@melomaniapp/nestjs/common';
+import { ACGuard } from 'nest-access-control';
+import { catchError, User } from '@melomaniapp/nestjs/common';
 import {
   CreateEventDTO,
   EditEventDTO,
   EventDTO,
+  FullEventDTO,
 } from '@melomaniapp/contracts/event';
 import { UserDto } from '@melomaniapp/contracts/user';
 import { IdAlreadyRegisteredError } from '@aulasoftwarelibre/nestjs-eventstore';
 import { EventGuard } from '../auth';
+import * as uuid from 'uuid';
 
 @ApiBearerAuth()
 @Controller('events')
@@ -31,18 +31,16 @@ export class EventController {
   constructor(private readonly eventService: EventService) {}
 
   @Post()
-  @UseRoles({
-    resource: Resource.Event,
-    action: 'create',
-    possession: 'any',
-  })
   @UseGuards(EventGuard, ACGuard)
   async create(
     @User() user: UserDto,
     @Body() eventDTO: CreateEventDTO
   ): Promise<EventDTO> {
     try {
-      return await this.eventService.create(user._id, eventDTO);
+      return await this.eventService.create(user._id, {
+        _id: uuid.v4(),
+        ...eventDTO,
+      });
     } catch (e) {
       if (e instanceof IdAlreadyRegisteredError) {
         throw new ConflictException(e.message);
@@ -53,20 +51,9 @@ export class EventController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string): Promise<EventDTO> {
+  async findOne(@Param('id') id: string): Promise<FullEventDTO> {
     try {
       return await this.eventService.findOne(id);
-    } catch (e) {
-      throw catchError(e);
-    }
-  }
-
-  @Get()
-  async findByEstablishment(
-    @Query('establishmentId') establishmentId: string
-  ): Promise<EventDTO[]> {
-    try {
-      return await this.eventService.findByEstablishment(establishmentId);
     } catch (e) {
       throw catchError(e);
     }

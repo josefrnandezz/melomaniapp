@@ -26,6 +26,13 @@ export const EstablishmentForm: React.FC<EstablishmentFormProps> = ({
         <Input />
       </Form.Item>
       <Form.Item
+        name="alias"
+        label="Nickname"
+        initialValue={establishment?.alias}
+      >
+        <Input placeholder="@establecimiento" />
+      </Form.Item>
+      <Form.Item
         name="description"
         label="Descripción"
         initialValue={establishment?.description}
@@ -35,12 +42,25 @@ export const EstablishmentForm: React.FC<EstablishmentFormProps> = ({
           placeholder="Tell us a little bit about your business..."
         />
       </Form.Item>
-      <Form.Item name="location" label="Ciudad">
+      <Form.Item
+        name="city"
+        label="Ciudad"
+        trigger="onChangeHandler"
+        initialValue={establishment?.address.city}
+      >
         <CityDropdown selectedCity={establishment?.address.city} />
       </Form.Item>
 
       <Form.Item
-        name="genres"
+        name="full"
+        label="Dirección"
+        initialValue={establishment?.address.full}
+      >
+        <Input placeholder="Dirección del establecimiento" />
+      </Form.Item>
+
+      <Form.Item
+        name="genreIds"
         label="Géneros musicales"
         initialValue={establishment?.genreIds.map((genre) => genre)}
         trigger="onChangeHandler"
@@ -52,7 +72,7 @@ export const EstablishmentForm: React.FC<EstablishmentFormProps> = ({
       </Form.Item>
       <Form.Item>
         <Button type="primary" htmlType="submit">
-          Submit
+          Confirmar
         </Button>
       </Form.Item>
     </Form>

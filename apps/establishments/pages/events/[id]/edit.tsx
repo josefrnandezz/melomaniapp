@@ -1,3 +1,4 @@
+import { EditEventDTO } from '@melomaniapp/contracts/event';
 import { useArtists, useEvent, useGenres } from '@melomaniapp/hooks';
 import { CityDropdown, GenreFilter } from '@melomaniapp/ui';
 import {
@@ -7,28 +8,101 @@ import {
   DatePicker,
   Form,
   Input,
+  message,
   Row,
   Select,
-  Spin,
   Switch,
 } from 'antd';
+import moment from 'moment';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { Layout } from '../../../components/layout/Layout';
 
 export const EditEvent: React.FC = () => {
+  const [form] = Form.useForm();
   const [session] = useSession();
   const router = useRouter();
-  const { data: genres } = useGenres();
-  const { data: artists } = useArtists();
 
   const { id } = router.query;
 
-  const { data: event, isLoading } = useEvent(id as string);
-  const [form] = Form.useForm();
+  const { data, isLoading } = useEvent(id as string);
 
-  const onSubmit = () => {
-    console.log('YAY');
+  const allGenres = useGenres();
+  const allArtists = useArtists();
+
+  if (isLoading || allGenres.isLoading || allArtists.isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  const handleUpdate = async (
+    values
+  ): Promise<{ isResponseOk: boolean; path: string }> => {
+    const body: EditEventDTO = {
+      ...values,
+      name: values.name,
+      description: values.description,
+      startsAt: values.date[0].toDate(),
+      endsAt: values.date[1].toDate(),
+    };
+
+    const response = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
+      }/api/events/${data.event?._id}`,
+      {
+        method: 'Put',
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ...body }),
+      }
+    );
+
+    return {
+      isResponseOk: response.ok,
+      path: `events/${data.event?._id}`,
+    };
+  };
+
+  const handleCancel = async (): Promise<{
+    isResponseOk: boolean;
+    path: string;
+  }> => {
+    const response = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
+      }/api/events/${data.event?._id}`,
+      {
+        method: 'Delete',
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+    return {
+      isResponseOk: response.ok,
+      path: '/',
+    };
+  };
+
+  const onSubmit = async (values) => {
+    const { isResponseOk, path } = values.cancelEvent
+      ? await handleCancel()
+      : await handleUpdate(values);
+
+    if (isResponseOk) {
+      message.success({ content: 'Evento actualizado!', key: 'updatable' });
+
+      setTimeout(() => router.push(path), 1000);
+    } else {
+      message.error({
+        content: 'Error al actualizar evento',
+        key: 'updatable',
+      });
+    }
   };
 
   return (
@@ -47,7 +121,7 @@ export const EditEvent: React.FC = () => {
                 style={{ width: '100%' }}
                 name="name"
                 label="Nombre"
-                initialValue={event?.name}
+                initialValue={data?.event?.name}
               >
                 <Input placeholder="Nombre" />
               </Form.Item>
@@ -56,31 +130,26 @@ export const EditEvent: React.FC = () => {
                 style={{ width: '100%' }}
                 name="description"
                 label="Descripción"
-                initialValue={event?.description}
+                initialValue={data?.event?.description}
               >
                 <Input placeholder="Descripción" />
               </Form.Item>
               <Row>
-                <Col span={12}>
+                <Col span={24}>
                   <Form.Item
                     required={true}
                     style={{ width: '100%' }}
-                    name="startsAt"
+                    name="date"
                     label="Fecha de inicio"
-                    initialValue={event?.startsAt}
+                    initialValue={[
+                      moment(data?.event.startsAt),
+                      moment(data?.event.endsAt),
+                    ]}
                   >
-                    <DatePicker format={['DD/MM/YYYY']} />
-                  </Form.Item>
-                </Col>
-                <Col span={11} offset={1}>
-                  <Form.Item
-                    required={true}
-                    style={{ width: '100%' }}
-                    name="endsAt"
-                    label="Fecha de fin"
-                    initialValue={event?.endsAt}
-                  >
-                    <DatePicker format={['DD/MM/YYYY']} />
+                    <DatePicker.RangePicker
+                      showTime
+                      format={['DD/MM/YYYY HH:mm']}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -92,9 +161,10 @@ export const EditEvent: React.FC = () => {
                     style={{ width: '100%' }}
                     name="city"
                     label="Ciudad"
-                    initialValue={event?.address.city}
+                    initialValue={data?.event.address.city}
+                    trigger="onChangeHandler"
                   >
-                    <CityDropdown />
+                    <CityDropdown selectedCity={data?.event.address.city} />
                   </Form.Item>
                 </Col>
                 <Col span={11} offset={1}>
@@ -103,7 +173,7 @@ export const EditEvent: React.FC = () => {
                     style={{ width: '100%' }}
                     name="address"
                     label="Dirección"
-                    initialValue={event?.address.full}
+                    initialValue={data?.event?.address.full}
                   >
                     <Input />
                   </Form.Item>
@@ -112,14 +182,20 @@ export const EditEvent: React.FC = () => {
               <Form.Item
                 required={true}
                 style={{ width: '100%' }}
-                name="city"
+                name="artistIds"
                 label="Artistas"
+                initialValue={data?.artists?.map((artist) => artist._id)}
               >
-                <Select placeholder="Artistas" showSearch={false} showArrow>
-                  {artists?.map((artist) => {
+                <Select
+                  placeholder="Artistas"
+                  showSearch={false}
+                  showArrow
+                  mode="multiple"
+                >
+                  {allArtists.data?.map((artist) => {
                     return (
                       <Select.Option key={artist?._id} value={artist?._id}>
-                        {artist}
+                        {artist.name}
                       </Select.Option>
                     );
                   })}
@@ -127,20 +203,25 @@ export const EditEvent: React.FC = () => {
               </Form.Item>
               <Form.Item
                 required={true}
-                name="genres"
+                name="genreIds"
                 label="Géneros musicales"
-                initialValue={event?.genreIds.map((genre) => genre)}
+                initialValue={data?.genres.map((genre) => genre._id)}
                 trigger="onChangeHandler"
               >
                 <GenreFilter
-                  genres={genres}
-                  selectedGenres={event?.genreIds.map((genre) => genre)}
+                  genres={allGenres.data}
+                  selectedGenres={data?.genres.map((genre) => genre._id)}
                 />
               </Form.Item>
-              <Form.Item required={true} label="Cancelar evento">
-                <Switch defaultChecked />
+              <Form.Item
+                initialValue={false}
+                name="cancelEvent"
+                required={true}
+                label="Cancelar evento"
+              >
+                <Switch defaultChecked={false} />
               </Form.Item>
-              <Form.Item>
+              <Form.Item trigger="onChangeHandler">
                 <Button type="primary" htmlType="submit">
                   Confirmar
                 </Button>

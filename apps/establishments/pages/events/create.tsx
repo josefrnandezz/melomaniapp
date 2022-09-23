@@ -1,4 +1,5 @@
-import { useArtists, useEvent, useGenres } from '@melomaniapp/hooks';
+import { CreateEventDTO } from '@melomaniapp/contracts/event';
+import { useArtists, useGenres, useMyEstablishment } from '@melomaniapp/hooks';
 import { CityDropdown, GenreFilter } from '@melomaniapp/ui';
 import {
   Button,
@@ -7,21 +8,30 @@ import {
   DatePicker,
   Form,
   Input,
+  message,
   Row,
   Select,
   Spin,
 } from 'antd';
 import { useSession } from 'next-auth/client';
+import router from 'next/router';
 import { Layout } from '../../components/layout/Layout';
 
-export const EditEvent: React.FC = () => {
+export const CreateEvent: React.FC = () => {
   const [session, isLoading] = useSession();
-  const { data: genres } = useGenres();
-  const { data: artists } = useArtists();
+
+  const genres = useGenres();
+  const artists = useArtists();
+  const establishment = useMyEstablishment(session);
 
   const [form] = Form.useForm();
 
-  if (isLoading) {
+  if (
+    isLoading ||
+    genres.isLoading ||
+    artists.isLoading ||
+    establishment.isLoading
+  ) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
@@ -29,8 +39,37 @@ export const EditEvent: React.FC = () => {
     );
   }
 
-  const onSubmit = () => {
-    console.log('YAY');
+  const onSubmit = async (values) => {
+    const body: CreateEventDTO = {
+      ...values,
+      establishmentId: establishment.data?._id,
+      ownerId: establishment.data?.ownerId,
+      address: { city: values.city, full: values.full },
+      startsAt: values.startsAt[0].toDate(),
+      endsAt: values.startsAt[1].toDate(),
+    };
+
+    const response = await fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
+      }/api/events`,
+      {
+        method: 'Post',
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      }
+    );
+
+    if (response.ok) {
+      message.success({ content: 'Evento creado!', key: 'updatable' });
+
+      setTimeout(() => router.push('/'), 1000);
+    } else {
+      message.error({ content: 'Error al crear evento', key: 'updatable' });
+    }
   };
 
   return (
@@ -61,24 +100,17 @@ export const EditEvent: React.FC = () => {
                 <Input placeholder="Descripción" />
               </Form.Item>
               <Row>
-                <Col span={12}>
+                <Col span={24}>
                   <Form.Item
                     required={true}
                     style={{ width: '100%' }}
                     name="startsAt"
                     label="Fecha de inicio"
                   >
-                    <DatePicker format={['DD/MM/YYYY']} />
-                  </Form.Item>
-                </Col>
-                <Col span={11} offset={1}>
-                  <Form.Item
-                    required={true}
-                    style={{ width: '100%' }}
-                    name="endsAt"
-                    label="Fecha de fin"
-                  >
-                    <DatePicker format={['DD/MM/YYYY']} />
+                    <DatePicker.RangePicker
+                      showTime
+                      format={['DD/MM/YYYY HH:mm']}
+                    />
                   </Form.Item>
                 </Col>
               </Row>
@@ -90,6 +122,7 @@ export const EditEvent: React.FC = () => {
                     style={{ width: '100%' }}
                     name="city"
                     label="Ciudad"
+                    trigger="onChangeHandler"
                   >
                     <CityDropdown />
                   </Form.Item>
@@ -98,7 +131,7 @@ export const EditEvent: React.FC = () => {
                   <Form.Item
                     required={true}
                     style={{ width: '100%' }}
-                    name="address"
+                    name="full"
                     label="Dirección"
                   >
                     <Input />
@@ -108,14 +141,19 @@ export const EditEvent: React.FC = () => {
               <Form.Item
                 required={true}
                 style={{ width: '100%' }}
-                name="city"
+                name="artistIds"
                 label="Artistas"
               >
-                <Select placeholder="Artistas" showSearch={false} showArrow>
-                  {artists?.map((artist) => {
+                <Select
+                  placeholder="Artistas"
+                  showSearch={false}
+                  showArrow
+                  mode="multiple"
+                >
+                  {artists.data?.map((artist) => {
                     return (
                       <Select.Option key={artist?._id} value={artist?._id}>
-                        {artist}
+                        {artist.name}
                       </Select.Option>
                     );
                   })}
@@ -123,11 +161,11 @@ export const EditEvent: React.FC = () => {
               </Form.Item>
               <Form.Item
                 required={true}
-                name="genres"
+                name="genreIds"
                 label="Géneros musicales"
                 trigger="onChangeHandler"
               >
-                <GenreFilter genres={genres} />
+                <GenreFilter genres={genres.data} />
               </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
@@ -142,4 +180,4 @@ export const EditEvent: React.FC = () => {
   );
 };
 
-export default EditEvent;
+export default CreateEvent;

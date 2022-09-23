@@ -1,19 +1,21 @@
-import { useEvents, useGenres } from '@melomaniapp/hooks';
-import { GenreList, IconText } from '@melomaniapp/ui';
+import { useEstablishmentEvents, useGenres } from '@melomaniapp/hooks';
+import { GenreList } from '@melomaniapp/ui';
 import { Button, Card, Col, List, Row, Space, Typography } from 'antd';
-import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import { UserAddOutlined, PlusCircleFilled } from '@ant-design/icons';
+import { PlusCircleFilled } from '@ant-design/icons';
 
 import Link from 'next/link';
-import { Layout } from './layout/Layout';
 
-export const MyEvents = () => {
-  const [session] = useSession();
-  const router = useRouter();
+interface HomeProps {
+  establishmentId: string;
+}
 
-  const events = useEvents();
+export const Home: React.FC<HomeProps> = ({ establishmentId }) => {
+  const events = useEstablishmentEvents(establishmentId);
   const genres = useGenres();
+
+  if (events.isLoading || genres.isLoading) {
+    return <h1>Loading</h1>;
+  }
 
   return (
     <>
@@ -72,34 +74,35 @@ export const MyEvents = () => {
                 borderRadius: '20px',
               }}
             >
-              <List.Item
-                onClick={() => router.push(`/events/${item._id}`)}
-                key={item._id}
-                actions={[
-                  <IconText
-                    icon={UserAddOutlined}
-                    text="156"
-                    key="list-vertical-star-o"
-                  />,
-                  <GenreList
-                    genres={genres.data?.filter((genre) =>
-                      item.genreIds.includes(genre._id)
-                    )}
-                  />,
-                ]}
-                extra={
-                  <img
-                    style={{ textAlign: 'left' }}
-                    width={272}
-                    alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                  />
-                }
+              <Link
+                href={{
+                  pathname: `/events/${item._id}`,
+                  query: { establishmentId },
+                }}
               >
-                <List.Item.Meta title={item.name} />
+                <List.Item
+                  key={item._id}
+                  actions={[
+                    <GenreList
+                      genres={genres.data?.filter((genre) =>
+                        item.genreIds.includes(genre._id)
+                      )}
+                    />,
+                  ]}
+                  extra={
+                    <img
+                      style={{ textAlign: 'left' }}
+                      width={272}
+                      alt="logo"
+                      src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+                    />
+                  }
+                >
+                  <List.Item.Meta title={item.name} />
 
-                {item.description}
-              </List.Item>
+                  {item.description}
+                </List.Item>
+              </Link>
             </Card>
           )}
         />
@@ -108,4 +111,4 @@ export const MyEvents = () => {
   );
 };
 
-export default MyEvents;
+export default Home;

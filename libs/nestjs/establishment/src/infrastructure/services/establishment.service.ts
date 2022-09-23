@@ -3,6 +3,9 @@ import {
   EditEstablishmentDTO,
   EstablishmentDTO,
 } from '@melomaniapp/contracts/establishment';
+import { EventDTO } from '@melomaniapp/contracts/event';
+import { GetEventsByEstablishmentQuery } from '@melomaniapp/nestjs/event';
+
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 
@@ -64,7 +67,7 @@ export class EstablishmentService {
         establishment.description,
         establishment.email,
         establishment.address,
-        establishment.genres
+        establishment.genreIds
       )
     );
 
@@ -74,5 +77,13 @@ export class EstablishmentService {
 
   async delete(id: string): Promise<void> {
     return await this.commandBus.execute(new DeleteEstablishmentCommand(id));
+  }
+
+  async findEventsByEstablishment(
+    establishmentId: string
+  ): Promise<EventDTO[]> {
+    return await this.queryBus.execute(
+      new GetEventsByEstablishmentQuery(establishmentId)
+    );
   }
 }
