@@ -202,10 +202,10 @@ export const useCities = (): Response<string[]> => {
   };
 };
 
-export const useFollows = (
+export const useFollows = <T>(
   type: FollowType,
   session: Session
-): Response<Follow[]> => {
+): Response<T[]> => {
   const params = session
     ? [`api/follows/me/type/${type}`, session['accessToken']]
     : null;
