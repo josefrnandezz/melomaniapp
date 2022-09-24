@@ -80,27 +80,11 @@ export const Home: React.FC<HomeProps> = ({ establishmentId }) => {
                   query: { establishmentId },
                 }}
               >
-                <List.Item
-                  key={item._id}
-                  actions={[
-                    <GenreList
-                      genres={genres.data?.filter((genre) =>
-                        item.genreIds.includes(genre._id)
-                      )}
-                    />,
-                  ]}
-                  extra={
-                    <img
-                      style={{ textAlign: 'left' }}
-                      width={272}
-                      alt="logo"
-                      src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                    />
-                  }
-                >
-                  <List.Item.Meta title={item.name} />
-
-                  {item.description}
+                <List.Item>
+                  <List.Item.Meta
+                    title={<Link href={`events/${item._id}`}>{item.name}</Link>}
+                    description={item.description}
+                  />
                 </List.Item>
               </Link>
             </Card>

@@ -1,5 +1,5 @@
 import { EstablishmentForm } from '@melomaniapp/ui';
-import { Card, message, Spin } from 'antd';
+import { Card, Col, message, Row, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { Layout } from '../components/layout/Layout';
@@ -23,6 +23,7 @@ export const Onboarding: React.FC = () => {
       ...args,
       email: session.user.email,
       address: { city: values.city, full: values.full },
+      imageUrl: session?.user.image,
     });
 
     const response = await fetch(
@@ -49,11 +50,13 @@ export const Onboarding: React.FC = () => {
   };
 
   return (
-    <Layout session={session}>
-      <Card style={{ borderRadius: '20px', marginBottom: '70px' }}>
-        <EstablishmentForm onSubmit={onSubmit} />
-      </Card>
-    </Layout>
+    <Row justify="center">
+      <Col span={12}>
+        <Card style={{ borderRadius: '20px', marginBottom: '70px' }}>
+          <EstablishmentForm onSubmit={onSubmit} />
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

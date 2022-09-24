@@ -13,7 +13,7 @@ import {
   Avatar,
 } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { HomeOutlined, FilterOutlined } from '@ant-design/icons';
+import { FilterOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 import { GenreDTO } from '@melomaniapp/contracts/genre';
 

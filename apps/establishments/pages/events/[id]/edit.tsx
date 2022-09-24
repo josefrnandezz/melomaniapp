@@ -106,131 +106,129 @@ export const EditEvent: React.FC = () => {
   };
 
   return (
-    <Layout session={session}>
-      <Row
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-        }}
-      >
-        <Col span={12} style={{ margin: 'auto' }}>
-          <Card style={{ borderRadius: '20px' }}>
-            <Form form={form} layout="vertical" onFinish={onSubmit}>
-              <Form.Item
-                required={true}
-                style={{ width: '100%' }}
-                name="name"
-                label="Nombre"
-                initialValue={data?.event?.name}
-              >
-                <Input placeholder="Nombre" />
-              </Form.Item>
-              <Form.Item
-                required={true}
-                style={{ width: '100%' }}
-                name="description"
-                label="Descripción"
-                initialValue={data?.event?.description}
-              >
-                <Input placeholder="Descripción" />
-              </Form.Item>
-              <Row>
-                <Col span={24}>
-                  <Form.Item
-                    required={true}
-                    style={{ width: '100%' }}
-                    name="date"
-                    label="Fecha de inicio"
-                    initialValue={[
-                      moment(data?.event.startsAt),
-                      moment(data?.event.endsAt),
-                    ]}
-                  >
-                    <DatePicker.RangePicker
-                      showTime
-                      format={['DD/MM/YYYY HH:mm']}
-                    />
-                  </Form.Item>
-                </Col>
-              </Row>
-
-              <Row>
-                <Col span={12}>
-                  <Form.Item
-                    required={true}
-                    style={{ width: '100%' }}
-                    name="city"
-                    label="Ciudad"
-                    initialValue={data?.event.address.city}
-                    trigger="onChangeHandler"
-                  >
-                    <CityDropdown selectedCity={data?.event.address.city} />
-                  </Form.Item>
-                </Col>
-                <Col span={11} offset={1}>
-                  <Form.Item
-                    required={true}
-                    style={{ width: '100%' }}
-                    name="address"
-                    label="Dirección"
-                    initialValue={data?.event?.address.full}
-                  >
-                    <Input />
-                  </Form.Item>
-                </Col>
-              </Row>
-              <Form.Item
-                required={true}
-                style={{ width: '100%' }}
-                name="artistIds"
-                label="Artistas"
-                initialValue={data?.artists?.map((artist) => artist._id)}
-              >
-                <Select
-                  placeholder="Artistas"
-                  showSearch={false}
-                  showArrow
-                  mode="multiple"
+    <Row
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+      }}
+    >
+      <Col xs={24} sm={24} md={12} lg={12} xl={12} style={{ margin: 'auto' }}>
+        <Card style={{ borderRadius: '20px' }}>
+          <Form form={form} layout="vertical" onFinish={onSubmit}>
+            <Form.Item
+              required={true}
+              style={{ width: '100%' }}
+              name="name"
+              label="Nombre"
+              initialValue={data?.event?.name}
+            >
+              <Input placeholder="Nombre" />
+            </Form.Item>
+            <Form.Item
+              required={true}
+              style={{ width: '100%' }}
+              name="description"
+              label="Descripción"
+              initialValue={data?.event?.description}
+            >
+              <Input placeholder="Descripción" />
+            </Form.Item>
+            <Row>
+              <Col span={24}>
+                <Form.Item
+                  required={true}
+                  style={{ width: '100%' }}
+                  name="date"
+                  label="Fecha de inicio"
+                  initialValue={[
+                    moment(data?.event.startsAt),
+                    moment(data?.event.endsAt),
+                  ]}
                 >
-                  {allArtists.data?.map((artist) => {
-                    return (
-                      <Select.Option key={artist?._id} value={artist?._id}>
-                        {artist.name}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-              <Form.Item
-                required={true}
-                name="genreIds"
-                label="Géneros musicales"
-                initialValue={data?.genres.map((genre) => genre._id)}
-                trigger="onChangeHandler"
+                  <DatePicker.RangePicker
+                    showTime
+                    format={['DD/MM/YYYY HH:mm']}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row>
+              <Col span={12}>
+                <Form.Item
+                  required={true}
+                  style={{ width: '100%' }}
+                  name="city"
+                  label="Ciudad"
+                  initialValue={data?.event.address.city}
+                  trigger="onChangeHandler"
+                >
+                  <CityDropdown selectedCity={data?.event.address.city} />
+                </Form.Item>
+              </Col>
+              <Col span={11} offset={1}>
+                <Form.Item
+                  required={true}
+                  style={{ width: '100%' }}
+                  name="address"
+                  label="Dirección"
+                  initialValue={data?.event?.address.full}
+                >
+                  <Input />
+                </Form.Item>
+              </Col>
+            </Row>
+            <Form.Item
+              required={true}
+              style={{ width: '100%' }}
+              name="artistIds"
+              label="Artistas"
+              initialValue={data?.artists?.map((artist) => artist._id)}
+            >
+              <Select
+                placeholder="Artistas"
+                showSearch={false}
+                showArrow
+                mode="multiple"
               >
-                <GenreFilter
-                  genres={allGenres.data}
-                  selectedGenres={data?.genres.map((genre) => genre._id)}
-                />
-              </Form.Item>
-              <Form.Item
-                initialValue={false}
-                name="cancelEvent"
-                required={true}
-                label="Cancelar evento"
-              >
-                <Switch defaultChecked={false} />
-              </Form.Item>
-              <Form.Item trigger="onChangeHandler">
-                <Button type="primary" htmlType="submit">
-                  Confirmar
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-    </Layout>
+                {allArtists.data?.map((artist) => {
+                  return (
+                    <Select.Option key={artist?._id} value={artist?._id}>
+                      {artist.name}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+            <Form.Item
+              required={true}
+              name="genreIds"
+              label="Géneros musicales"
+              initialValue={data?.genres.map((genre) => genre._id)}
+              trigger="onChangeHandler"
+            >
+              <GenreFilter
+                genres={allGenres.data}
+                selectedGenres={data?.genres.map((genre) => genre._id)}
+              />
+            </Form.Item>
+            <Form.Item
+              initialValue={false}
+              name="cancelEvent"
+              required={true}
+              label="Cancelar evento"
+            >
+              <Switch defaultChecked={false} />
+            </Form.Item>
+            <Form.Item trigger="onChangeHandler">
+              <Button type="primary" htmlType="submit">
+                Confirmar
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

@@ -1,7 +1,7 @@
 import { capitalizeFirstLetter } from '../../utils';
 import { Avatar, Button, Card, Space, Typography } from 'antd';
 
-import { UserOutlined, EditOutlined } from '@ant-design/icons';
+import { CustomerServiceOutlined, EditOutlined } from '@ant-design/icons';
 import Link from 'next/link';
 
 interface ProfileHeader {
@@ -32,7 +32,7 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
       <Space direction="vertical" size="middle">
         <div style={{ margin: 'auto', alignItems: 'center' }}>
           {!imageUrl ? (
-            <Avatar size={140} icon={<UserOutlined />} />
+            <Avatar size={140} icon={<CustomerServiceOutlined />} />
           ) : (
             <Avatar size={140} src={imageUrl} />
           )}

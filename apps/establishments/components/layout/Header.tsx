@@ -1,4 +1,4 @@
-import { CustomerServiceOutlined } from '@ant-design/icons';
+import { HomeOutlined } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Space, Typography } from 'antd';
 import { Session } from 'next-auth';
 import Image from 'next/image';
@@ -36,20 +36,24 @@ export const Header = ({ session }: HeaderProps) => {
         width: '100%',
       }}
     >
-      <Row justify="center">
+      <Row justify="end">
         {!session ? (
           <Col span={24}>
             <Logo />
           </Col>
         ) : (
           <>
-            <Col span={14}>
+            <Col span={17}>
               <Logo />
             </Col>
-            <Col span={6} offset={2}>
-              <Menu mode="horizontal" theme="dark"></Menu>
+            <Col span={3} offset={1}>
+              <Menu selectable={false} mode="horizontal" theme="dark">
+                <Menu.Item icon={<HomeOutlined />}>
+                  <Link href="/">Inicio</Link>
+                </Menu.Item>
+              </Menu>
             </Col>
-            <Col>
+            <Col span={3}>
               <AccountMenu session={session} />
             </Col>
           </>

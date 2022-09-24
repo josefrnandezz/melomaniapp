@@ -32,8 +32,8 @@ export class EventFinder implements IEventFinder {
           $in: event.artistIds,
         },
       })
-      .select({ _id: true, name: true })
-      .lean<{ _id: string; name: string }[]>();
+      .select({ _id: true, name: true, imageUrl: true })
+      .lean<{ _id: string; name: string; imageUrl: string }[]>();
 
     const genresDocs = await this.genres
       .find({

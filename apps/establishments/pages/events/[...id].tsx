@@ -1,11 +1,17 @@
-import { useEstablishment, useEvent, useGenres } from '@melomaniapp/hooks';
+import {
+  useArtists,
+  useEstablishment,
+  useEvent,
+  useGenres,
+  useMyEstablishment,
+} from '@melomaniapp/hooks';
 
-import { Card, Col, Divider, Row, Spin, Typography } from 'antd';
+import { Avatar, Card, Col, Divider, List, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Layout } from '../../components/layout/Layout';
 
 import { GenreList, ProfileHeader } from '@melomaniapp/ui';
+import Link from 'next/link';
 
 const formatDateTime = (date: Date) => {
   const hours =
@@ -30,11 +36,11 @@ export const EventPage = () => {
   const [session] = useSession();
   const router = useRouter();
 
-  const { id, establishmentId } = router.query;
+  const { id } = router.query;
 
   const { data, isLoading } = useEvent(id as string);
 
-  const establishment = useEstablishment(establishmentId as string);
+  const establishment = useMyEstablishment(session);
 
   if (isLoading || establishment?.isLoading) {
     return (
@@ -45,7 +51,7 @@ export const EventPage = () => {
   }
 
   return (
-    <Layout session={session}>
+    <>
       <Row
         style={{
           display: 'flex',
@@ -53,15 +59,14 @@ export const EventPage = () => {
           width: '100%',
           marginBottom: '30px',
         }}
-        justify="center"
       >
-        <Col span={12} style={{ margin: 'auto' }}>
+        <Col span={12}>
           <ProfileHeader
             name={data?.event?.name}
             path={`${data?.event?._id}/edit`}
           />
         </Col>
-        <Col span={10} offset={2} style={{ margin: 'auto' }}>
+        <Col span={11} offset={1}>
           <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
             <Typography.Title level={4}>Organización</Typography.Title>
             <Typography.Paragraph>
@@ -83,17 +88,63 @@ export const EventPage = () => {
         </Col>
       </Row>
 
-      <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
-        <Typography.Title level={4}>Descripción</Typography.Title>
-        <Typography.Paragraph>{data?.event?.description}</Typography.Paragraph>
-        <Divider />
-        <Typography.Title level={4}>Géneros</Typography.Title>
-        <GenreList genres={data?.genres} />
-        <Divider />
-        <Typography.Title level={4}>Dirección</Typography.Title>
-        <Typography.Paragraph>{`${data?.event?.address?.full}, ${data?.event?.address?.city}`}</Typography.Paragraph>
-      </Card>
-    </Layout>
+      <Row>
+        <Col span={12}>
+          <Card
+            style={{
+              background: '#fffafa',
+              borderRadius: '20px',
+              marginBottom: '30px',
+            }}
+          >
+            <Typography.Title level={4}>Artistas</Typography.Title>
+            <List
+              itemLayout="vertical"
+              size="large"
+              dataSource={data?.artists}
+              renderItem={(item) => (
+                <Card
+                  bordered={true}
+                  style={{
+                    marginBottom: '20px',
+                    background: '#cae9ff',
+                    borderRadius: '20px',
+                  }}
+                >
+                  <List.Item>
+                    <List.Item.Meta
+                      avatar={<Avatar src={item.imageUrl} size="large" />}
+                      title={item.name}
+                    />
+                  </List.Item>
+                </Card>
+              )}
+            />
+          </Card>
+        </Col>
+
+        <Col span={11} offset={1}>
+          <Card
+            style={{
+              background: '#fffafa',
+              borderRadius: '20px',
+              marginBottom: '30px',
+            }}
+          >
+            <Typography.Title level={4}>Descripción</Typography.Title>
+            <Typography.Paragraph>
+              {data?.event?.description}
+            </Typography.Paragraph>
+            <Divider />
+            <Typography.Title level={4}>Géneros</Typography.Title>
+            <GenreList genres={data?.genres} />
+            <Divider />
+            <Typography.Title level={4}>Dirección</Typography.Title>
+            <Typography.Paragraph>{`${data?.event?.address?.full}, ${data?.event?.address?.city}`}</Typography.Paragraph>
+          </Card>
+        </Col>
+      </Row>
+    </>
   );
 };
 

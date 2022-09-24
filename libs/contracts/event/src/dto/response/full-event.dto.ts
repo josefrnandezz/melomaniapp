@@ -15,14 +15,10 @@ interface EventProps {
 interface ArtistProps {
   _id: string;
   name: string;
+  imageUrl: string;
 }
 
 interface GenreProps {
-  _id: string;
-  name: string;
-}
-
-interface EstablishmentProps {
   _id: string;
   name: string;
 }

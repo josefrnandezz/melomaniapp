@@ -1,10 +1,9 @@
 import { EditEstablishmentDTO } from '@melomaniapp/contracts/establishment';
-import { useGenres, useMyEstablishment } from '@melomaniapp/hooks';
+import { useMyEstablishment } from '@melomaniapp/hooks';
 import { EstablishmentForm } from '@melomaniapp/ui';
-import { Card, message, PageHeader, Spin } from 'antd';
+import { Card, Col, message, PageHeader, Row, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Layout } from '../../components/layout/Layout';
 
 export const EditEstablishmentProfile: React.FC = () => {
   const [session] = useSession();
@@ -56,19 +55,21 @@ export const EditEstablishmentProfile: React.FC = () => {
   };
 
   return (
-    <Layout session={session}>
-      <Card style={{ borderRadius: '20px', marginBottom: '70px' }}>
-        <PageHeader
-          title="Edita tu perfil"
-          onBack={() => window.history.back()}
-        >
-          <EstablishmentForm
-            establishment={establishment}
-            onSubmit={onSubmit}
-          />
-        </PageHeader>
-      </Card>
-    </Layout>
+    <Row justify="center">
+      <Col xs={24} sm={24} md={12} lg={12} xl={12}>
+        <Card style={{ borderRadius: '20px', marginBottom: '70px' }}>
+          <PageHeader
+            title="Edita tu perfil"
+            onBack={() => window.history.back()}
+          >
+            <EstablishmentForm
+              establishment={establishment}
+              onSubmit={onSubmit}
+            />
+          </PageHeader>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

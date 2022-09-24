@@ -2,7 +2,6 @@ import { useGenres, useMyEstablishment } from '@melomaniapp/hooks';
 
 import { Card, Col, Divider, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
-import { Layout } from '../../components/layout/Layout';
 
 import { GenreList, ProfileHeader } from '@melomaniapp/ui';
 
@@ -21,20 +20,18 @@ export const ProfilePage = () => {
   }
 
   return (
-    <Layout session={session}>
-      <Row
-        style={{
-          height: '100%',
-          width: '100%',
-          marginBottom: '30px',
-          justifyContent: 'center',
-        }}
-        justify="center"
-      >
-        <Col span={12} style={{ margin: 'auto' }}>
-          <ProfileHeader name={data?.name} path="profile/edit" />;
+    <div>
+      <Row justify="center" style={{ marginBottom: '20px' }}>
+        <Col span={12}>
+          <ProfileHeader
+            name={data?.name}
+            path="profile/edit"
+            imageUrl={data?.imageUrl}
+          />
         </Col>
-        <Col span={10} offset={2} style={{ margin: 'auto' }}>
+      </Row>
+      <Row justify="center">
+        <Col span={18}>
           <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
             <Typography.Title level={4}>Descripción</Typography.Title>
             <Typography.Paragraph>{data?.description}</Typography.Paragraph>
@@ -47,11 +44,11 @@ export const ProfilePage = () => {
             />
             <Divider />
             <Typography.Title level={4}>Dirección</Typography.Title>
-            <Typography.Paragraph>{`${data?.address.full}, ${data?.address.city}`}</Typography.Paragraph>
+            <Typography.Paragraph>{`${data?.address.city}, ${data?.address.full}`}</Typography.Paragraph>
           </Card>
         </Col>
       </Row>
-    </Layout>
+    </div>
   );
 };
 
