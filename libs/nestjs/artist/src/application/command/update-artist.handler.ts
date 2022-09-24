@@ -39,8 +39,8 @@ export class UpdateArtistHandler
 
     const alias = Alias.fromString(command.alias);
 
-    if (await this.finder.findByAlias(alias)) {
-      throw ArtistAliasAlreadyTakenError.with(alias);
+    if (!artist.alias.equals(alias)) {
+      await this.verifyArtistAliasIsUnique(alias);
     }
 
     artist.updatePersonalInfo({
@@ -52,6 +52,12 @@ export class UpdateArtistHandler
     this.updateGenres(artist, command);
 
     this.artists.save(artist);
+  }
+
+  private async verifyArtistAliasIsUnique(alias: Alias) {
+    if (await this.finder.findByAlias(alias)) {
+      throw ArtistAliasAlreadyTakenError.with(alias);
+    }
   }
 
   private updateSocialLinks(artist: Artist, command: UpdateArtistCommand) {

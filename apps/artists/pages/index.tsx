@@ -1,24 +1,28 @@
-import { Layout } from '../components/layout/Layout';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import Home from '../components/Home';
+import { Home } from '../components/Home';
+import { useGenres, useMyArtist } from '@melomaniapp/hooks';
+import { Spin } from 'antd';
 
 export function Index() {
   const [session, loading] = useSession();
+  const { data, isError } = useMyArtist(session);
+  const genres = useGenres();
   const router = useRouter();
 
-  useEffect(() => {
-    if (!loading && !session) {
-      router.push('/');
-    }
-  }, [loading, session, router]);
+  if (loading || genres.isLoading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
+        <Spin size="large" style={{ margin: 'auto' }} />;
+      </div>
+    );
+  }
 
-  return (
-    <Layout session={session}>
-      <Home />
-    </Layout>
-  );
+  if (isError) {
+    router.push('/onboarding');
+  }
+
+  return <Home id={data?._id} genres={genres.data} />;
 }
 
 export default Index;

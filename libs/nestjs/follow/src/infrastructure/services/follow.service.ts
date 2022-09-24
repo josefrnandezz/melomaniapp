@@ -1,3 +1,4 @@
+import { ArtistDTO } from '@melomaniapp/contracts/artist';
 import {
   CreateFollowDTO,
   FollowDTO,
@@ -6,6 +7,7 @@ import {
 } from '@melomaniapp/contracts/follow';
 import { Injectable } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { GetArtistFromUserQuery } from 'libs/nestjs/artist/src/application';
 import {
   FollowGenreByUserCommand,
   FollowArtistByUserCommand,
@@ -14,7 +16,7 @@ import {
   FollowArtistByArtistCommand,
   GetEventFollowersQuery,
   GetEstablishmentFollowersQuery,
-  GetArtistFollowersQuery,
+  GetArtistsFollowedByArtistQuery,
   GetGenreFollowersQuery,
   GetUserFollowsQuery,
   FollowEstablishmentByUserCommand,
@@ -22,6 +24,7 @@ import {
   FollowEventByUserCommand,
   UnfollowEventByUserCommand,
   UnfollowArtistByArtistCommand,
+  GetArtistFollowersQuery,
 } from '../../application';
 
 @Injectable()
@@ -153,6 +156,10 @@ export class FollowService {
     );
   }
 
+  async getFollowersByArtist(artistId: string): Promise<FollowDTO[]> {
+    return await this.queryBus.execute(new GetArtistFollowersQuery(artistId));
+  }
+
   async getFollowersByEvent(eventId: string): Promise<FollowDTO[]> {
     return await this.queryBus.execute(new GetEventFollowersQuery(eventId));
   }
@@ -165,15 +172,24 @@ export class FollowService {
     );
   }
 
-  async getFollowersByArtist(artistId: string): Promise<FollowDTO[]> {
-    return await this.queryBus.execute(new GetArtistFollowersQuery(artistId));
-  }
-
   async getFollowersByGenre(genreId: string): Promise<FollowDTO[]> {
     return await this.queryBus.execute(new GetGenreFollowersQuery(genreId));
   }
 
   async getUserFollows(userId: string, type: FollowType): Promise<FollowDTO[]> {
     return await this.queryBus.execute(new GetUserFollowsQuery(userId, type));
+  }
+
+  async getArtistFollows(
+    userId: string,
+    type: FollowType
+  ): Promise<FollowDTO[]> {
+    const artist: ArtistDTO = await this.queryBus.execute(
+      new GetArtistFromUserQuery(userId)
+    );
+
+    return await this.queryBus.execute(
+      new GetArtistsFollowedByArtistQuery(artist._id, type)
+    );
   }
 }

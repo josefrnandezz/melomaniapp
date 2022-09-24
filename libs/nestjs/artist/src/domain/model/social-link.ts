@@ -1,12 +1,13 @@
 import { DomainError, ValueObject } from '@aulasoftwarelibre/nestjs-eventstore';
+import {
+  souncloudRegex,
+  spotifyRegex,
+  youtubeRegex,
+} from '@melomaniapp/domain';
 
 interface Props {
   value: string;
 }
-
-const spotifyRegex = /https:\/\/(www\.)?open\.spotify\.com\/artist\/.*/;
-const youtubeRegex = /https:\/\/(www\.)?youtube\.com\/c\/.*/;
-const souncloudRegex = /https:\/\/(www\.)?soundcloud\.com\/.*/;
 
 export class SocialLink extends ValueObject<Props> {
   public static fromString(link: string): SocialLink {
@@ -21,11 +22,13 @@ export class SocialLink extends ValueObject<Props> {
 
   private static validateSupportedSocialLinks(link: string) {
     if (
-      !spotifyRegex.test(link) &&
-      !youtubeRegex.test(link) &&
-      !souncloudRegex.test(link)
+      !(
+        spotifyRegex.test(link) ||
+        youtubeRegex.test(link) ||
+        souncloudRegex.test(link)
+      )
     ) {
-      throw DomainError.because('Invalid social link');
+      throw DomainError.because(`Invalid social link ${link}`);
     }
   }
 

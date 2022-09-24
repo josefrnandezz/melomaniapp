@@ -177,6 +177,17 @@ export class FollowController {
     }
   }
 
+  @Get('artists/:artistId')
+  async getFollowersByArtist(
+    @Param('artistId') artistId: string
+  ): Promise<FollowDTO[]> {
+    try {
+      return await this.followService.getFollowersByArtist(artistId);
+    } catch (error) {
+      throw catchError(error);
+    }
+  }
+
   @Get('events/:eventId')
   async getFollowersByEvent(
     @Param('eventId') eventId: string
@@ -201,17 +212,6 @@ export class FollowController {
     }
   }
 
-  @Get('artists/:artistId')
-  async getFollowersByArtist(
-    @Param('artistId') artistId: string
-  ): Promise<FollowDTO[]> {
-    try {
-      return await this.followService.getFollowersByArtist(artistId);
-    } catch (error) {
-      throw catchError(error);
-    }
-  }
-
   @Get('genres/:genreId')
   async getFollowersByGenre(
     @Param('genreId') genreId: string
@@ -223,7 +223,7 @@ export class FollowController {
     }
   }
 
-  @Get('me/type/:type')
+  @Get('users/me/type/:type')
   @UseGuards(FollowGuard, ACGuard)
   async getFollowsByUser(
     @User() user: UserDto,
@@ -233,6 +233,21 @@ export class FollowController {
       const userId = user._id;
 
       return await this.followService.getUserFollows(userId, type);
+    } catch (error) {
+      throw catchError(error);
+    }
+  }
+
+  @Get('artists/me/type/:type')
+  @UseGuards(FollowGuard, ACGuard)
+  async getFollowsByArtist(
+    @User() user: UserDto,
+    @Param('type') type: FollowType
+  ): Promise<FollowDTO[]> {
+    try {
+      const userId = user._id;
+
+      return await this.followService.getArtistFollows(userId, type);
     } catch (error) {
       throw catchError(error);
     }

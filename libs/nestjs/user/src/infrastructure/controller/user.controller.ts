@@ -3,6 +3,7 @@ import {
   IdNotFoundError,
 } from '@aulasoftwarelibre/nestjs-eventstore';
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
+import { ArtistDTO } from '@melomaniapp/contracts/artist';
 import {
   CreateUserDto,
   EditUserDto,
@@ -110,6 +111,16 @@ export class UserController {
   async getUserEstablishent(@User() user: UserDto): Promise<EstablishmentDTO> {
     try {
       return this.userService.getUserEstablishment(user._id);
+    } catch (error) {
+      throw catchError(error);
+    }
+  }
+
+  @Get('me/artist')
+  @UseGuards(UserGuard, ACGuard)
+  async getUserArtist(@User() user: UserDto): Promise<ArtistDTO> {
+    try {
+      return this.userService.getUserArtist(user._id);
     } catch (error) {
       throw catchError(error);
     }

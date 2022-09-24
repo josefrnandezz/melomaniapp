@@ -1,86 +1,33 @@
-import { useArtist, useGenres } from '@melomaniapp/hooks';
-
-import { Card, Col, Divider, List, Row, Spin, Tag, Typography } from 'antd';
+import {
+  useArtist,
+  useArtistFollows,
+  useGenres,
+  useMyArtist,
+} from '@melomaniapp/hooks';
+import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Card, Col, Divider, Row, Space, Spin, Typography } from 'antd';
+import {
+  capitalizeFirstLetter,
+  FollowButton,
+  GenreList,
+} from '@melomaniapp/ui';
+import { useRouter } from 'next/router';
+import { SocialLinks } from '../../components/SocialLinks';
+import { FollowType } from '@melomaniapp/contracts/follow';
 import { useSession } from 'next-auth/client';
 
-import { GenreList, ProfileHeader } from '@melomaniapp/ui';
-
-import { Layout } from '../../components/layout/Layout';
-import Link from 'next/link';
-import { useRouter } from 'next/router';
-
-const spotifyRegex = /https:\/\/(www\.)?open\.spotify\.com\/artist\/.*/;
-const sounCloudRegex = /https:\/\/(www\.)?soundcloud\.com\/.*/;
-const youtubeRegex = /https:\/\/(www\.)?youtube\.com\/c\/.*/;
-
-const SpotifyTag: React.FC<{ link: string }> = ({ link }) => {
-  return (
-    <Tag color="green">
-      <Link href={link}>
-        <a target="_blank">Spotify</a>
-      </Link>
-    </Tag>
-  );
-};
-
-const SoundCloudTag: React.FC<{ link: string }> = ({ link }) => {
-  return (
-    <Tag color="orange">
-      <Link href={link}>
-        <a target="_blank">SoundCloud</a>
-      </Link>
-    </Tag>
-  );
-};
-
-const YoutubeTag: React.FC<{ link: string }> = ({ link }) => {
-  return (
-    <Tag color="red">
-      <Link href={link}>
-        <a target="_blank">Youtube</a>
-      </Link>
-    </Tag>
-  );
-};
-
-const getTag = (link: string) => {
-  if (spotifyRegex.test(link)) {
-    return <SpotifyTag link={link} />;
-  }
-
-  if (sounCloudRegex.test(link)) {
-    return <SoundCloudTag link={link} />;
-  }
-
-  if (youtubeRegex.test(link)) {
-    return <YoutubeTag link={link} />;
-  }
-};
-
-const SocialLinks: React.FC<{ links: string[] }> = ({ links }) => {
-  return (
-    <List>
-      <Row gutter={{ xs: 8, sm: 16, md: 24 }}>
-        {links.map((link) => (
-          <List.Item>
-            <Col>{getTag(link)}</Col>
-          </List.Item>
-        ))}
-      </Row>
-    </List>
-  );
-};
-
-export const ProfilePage = () => {
+export const ArtistPage = () => {
   const [session] = useSession();
   const router = useRouter();
-
-  const { id } = router.query;
-
-  const { data: artist, isLoading } = useArtist(id as string);
   const genres = useGenres();
 
-  if (isLoading || genres?.isLoading) {
+  const id = router.query.id as string;
+
+  const { data: myArtist } = useMyArtist(session);
+  const follows = useArtistFollows(FollowType.Artist, session);
+  const artist = useArtist(id);
+
+  if (follows?.isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
@@ -88,46 +35,117 @@ export const ProfilePage = () => {
     );
   }
 
+  if (artist?.isLoading || genres?.isLoading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center' }}>
+        <Spin size="large" style={{ margin: 'auto' }} />;
+      </div>
+    );
+  }
+
+  const follow = follows.data?.find(
+    (follow) => follow.followedToId === artist.data?._id
+  );
+
+  const createFollow = () =>
+    fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
+      }/api/follows/artists/${myArtist?._id}/follows_to/artists/${
+        artist.data?._id
+      }`,
+      {
+        method: 'Post',
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
+  const deleteFollow = () =>
+    fetch(
+      `${
+        process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
+      }/api/follows/${follow?._id}/artists/${
+        myArtist?._id
+      }/unfollows_to/artists/${artist.data?._id}`,
+      {
+        method: 'Put',
+        headers: {
+          Authorization: `Bearer ${session.accessToken}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+
   return (
-    <Layout session={session}>
-      <Row
-        style={{
-          display: 'flex',
-          height: '100%',
-          width: '100%',
-          marginBottom: '140px',
-          marginTop: '100px',
-        }}
-        justify="center"
-      >
-        <Col span={12} style={{ margin: 'auto' }}>
-          <ProfileHeader name={artist?.name} alias={artist?.alias} />
-        </Col>
-        <Col span={10} offset={2} style={{ margin: 'auto' }}>
-          <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
-            <Typography.Title level={4}>Descripción</Typography.Title>
-            <Typography.Paragraph>{artist?.description}</Typography.Paragraph>
-            <Divider />
-            <Typography.Title level={4}>Géneros</Typography.Title>
-            <GenreList
-              genres={genres.data?.filter((genre) =>
-                artist?.genreIds.includes(genre._id)
-              )}
+    <Row
+      style={{
+        display: 'flex',
+        height: '100%',
+        width: '100%',
+        marginBottom: '140px',
+        marginTop: '100px',
+      }}
+      justify="center"
+    >
+      <Col span={12} style={{ margin: 'auto' }}>
+        <Card
+          bordered={false}
+          style={{
+            margin: 'auto',
+            background: '#fffafa',
+            display: 'flex',
+            justifyContent: 'center',
+            textAlign: 'center',
+            borderRadius: '20px',
+          }}
+        >
+          <Space direction="vertical" size="middle">
+            <div style={{ margin: 'auto', alignItems: 'center' }}>
+              <Avatar size={140} icon={<UserOutlined />} />
+            </div>
+            <Typography.Title>
+              {artist.data?.name && capitalizeFirstLetter(artist.data?.name)}
+            </Typography.Title>
+
+            <Typography.Paragraph>{`@${artist.data?.alias}`}</Typography.Paragraph>
+
+            <FollowButton
+              isActive={!!follow}
+              createFollow={createFollow}
+              deleteFollow={deleteFollow}
             />
-            {artist?.socialLinks ? (
-              <>
-                <Divider />
-                <Typography.Title level={4}>
-                  Enlaces de interés
-                </Typography.Title>
-                <SocialLinks links={artist.socialLinks} />
-              </>
-            ) : null}
-          </Card>
-        </Col>
-      </Row>
-    </Layout>
+          </Space>
+        </Card>
+      </Col>
+      <Col span={10} offset={2} style={{ margin: 'auto' }}>
+        <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
+          <Typography.Title level={4}>Descripción</Typography.Title>
+          <Typography.Paragraph>
+            {artist.data?.description}
+          </Typography.Paragraph>
+          <Divider />
+          <Typography.Title level={4}>Géneros</Typography.Title>
+          <GenreList
+            genres={genres.data?.filter((genre) =>
+              artist.data?.genreIds.includes(genre._id)
+            )}
+          />
+          {artist.data?.socialLinks ? (
+            <>
+              <Divider />
+              <Typography.Title level={4}>Enlaces de interés</Typography.Title>
+              <SocialLinks
+                links={artist.data?.socialLinks.filter((link) => link)}
+              />
+            </>
+          ) : null}
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
-export default ProfilePage;
+export default ArtistPage;

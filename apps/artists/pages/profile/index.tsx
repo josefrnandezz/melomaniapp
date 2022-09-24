@@ -1,17 +1,14 @@
-import { useArtist, useGenres } from '@melomaniapp/hooks';
+import { useGenres, useMyArtist } from '@melomaniapp/hooks';
+import {
+  souncloudRegex,
+  spotifyRegex,
+  youtubeRegex,
+} from '@melomaniapp/domain';
 
 import { Card, Col, Divider, List, Row, Spin, Tag, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
-
 import { GenreList, ProfileHeader } from '@melomaniapp/ui';
-
-import { Layout } from '../../components/layout/Layout';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-
-const spotifyRegex = /https:\/\/(www\.)?open\.spotify\.com\/artist\/.*/;
-const sounCloudRegex = /https:\/\/(www\.)?soundcloud\.com\/.*/;
-const youtubeRegex = /https:\/\/(www\.)?youtube\.com\/c\/.*/;
 
 const SpotifyTag: React.FC<{ link: string }> = ({ link }) => {
   return (
@@ -48,7 +45,7 @@ const getTag = (link: string) => {
     return <SpotifyTag link={link} />;
   }
 
-  if (sounCloudRegex.test(link)) {
+  if (souncloudRegex.test(link)) {
     return <SoundCloudTag link={link} />;
   }
 
@@ -73,11 +70,8 @@ const SocialLinks: React.FC<{ links: string[] }> = ({ links }) => {
 
 export const ProfilePage = () => {
   const [session] = useSession();
-  const router = useRouter();
 
-  const { id } = router.query;
-
-  const { data: artist, isLoading } = useArtist(id as string);
+  const { data: artist, isLoading } = useMyArtist(session);
   const genres = useGenres();
 
   if (isLoading || genres?.isLoading) {
@@ -89,48 +83,44 @@ export const ProfilePage = () => {
   }
 
   return (
-    <Layout session={session}>
-      <Row
-        style={{
-          display: 'flex',
-          height: '100%',
-          width: '100%',
-          marginBottom: '140px',
-          marginTop: '100px',
-        }}
-        justify="center"
-      >
-        <Col span={12} style={{ margin: 'auto' }}>
-          <ProfileHeader
-            name={artist?.name}
-            alias={artist?.alias}
-            path="/profile/edit"
+    <Row
+      style={{
+        display: 'flex',
+        height: '100%',
+        width: '100%',
+        marginBottom: '140px',
+        marginTop: '100px',
+      }}
+      justify="center"
+    >
+      <Col span={12} style={{ margin: 'auto' }}>
+        <ProfileHeader
+          name={artist?.name}
+          alias={artist?.alias}
+          path="/profile/edit"
+        />
+      </Col>
+      <Col span={10} offset={2} style={{ margin: 'auto' }}>
+        <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
+          <Typography.Title level={4}>Descripción</Typography.Title>
+          <Typography.Paragraph>{artist?.description}</Typography.Paragraph>
+          <Divider />
+          <Typography.Title level={4}>Géneros</Typography.Title>
+          <GenreList
+            genres={genres.data?.filter((genre) =>
+              artist?.genreIds.includes(genre._id)
+            )}
           />
-        </Col>
-        <Col span={10} offset={2} style={{ margin: 'auto' }}>
-          <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
-            <Typography.Title level={4}>Descripción</Typography.Title>
-            <Typography.Paragraph>{artist?.description}</Typography.Paragraph>
-            <Divider />
-            <Typography.Title level={4}>Géneros</Typography.Title>
-            <GenreList
-              genres={genres.data?.filter((genre) =>
-                artist?.genreIds.includes(genre._id)
-              )}
-            />
-            {artist?.socialLinks ? (
-              <>
-                <Divider />
-                <Typography.Title level={4}>
-                  Enlaces de interés
-                </Typography.Title>
-                <SocialLinks links={artist.socialLinks} />
-              </>
-            ) : null}
-          </Card>
-        </Col>
-      </Row>
-    </Layout>
+          {artist?.socialLinks ? (
+            <>
+              <Divider />
+              <Typography.Title level={4}>Enlaces de interés</Typography.Title>
+              <SocialLinks links={artist.socialLinks} />
+            </>
+          ) : null}
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

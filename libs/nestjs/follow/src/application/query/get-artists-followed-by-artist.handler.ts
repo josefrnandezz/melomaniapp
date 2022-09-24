@@ -3,11 +3,11 @@ import { ArtistId } from '@melomaniapp/nestjs/artist';
 import { Inject } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { FOLLOW_FINDER, IFollowFinder } from '../services';
-import { GetArtistFollowersQuery } from './get-artist-followers.query';
+import { GetArtistsFollowedByArtistQuery } from './get-artists-followed-by-artist.query';
 
-@QueryHandler(GetArtistFollowersQuery)
-export class GetArtistFollowersHandler
-  implements IQueryHandler<GetArtistFollowersQuery>
+@QueryHandler(GetArtistsFollowedByArtistQuery)
+export class GetArtistsFollowedByArtistHandler
+  implements IQueryHandler<GetArtistsFollowedByArtistQuery>
 {
   constructor(
     @Inject(FOLLOW_FINDER)
@@ -15,9 +15,9 @@ export class GetArtistFollowersHandler
   ) {}
 
   async execute(
-    query: GetArtistFollowersQuery
+    query: GetArtistsFollowedByArtistQuery
   ): Promise<FollowArtistArtistDTO[]> {
-    return await this.followFinder.findFollowersByArtist(
+    return await this.followFinder.findArtistArtistFollows(
       ArtistId.fromString(query.artistId)
     );
   }

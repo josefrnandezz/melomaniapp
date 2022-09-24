@@ -5,7 +5,19 @@ import { UserOutlined } from '@ant-design/icons';
 import { capitalizeFirstLetter } from '../utils';
 import { Session } from 'next-auth';
 import { useFollows } from '@melomaniapp/hooks';
-import { FollowType } from '@melomaniapp/contracts/follow';
+import {
+  FollowType,
+  FollowUserArtistDTO,
+  FollowUserEstablishmentDTO,
+  FollowUserEventDTO,
+  FollowUserGenreDTO,
+} from '@melomaniapp/contracts/follow';
+
+type Follow =
+  | FollowUserArtistDTO
+  | FollowUserEstablishmentDTO
+  | FollowUserEventDTO
+  | FollowUserGenreDTO;
 
 interface ProfileHeader {
   type: FollowType;
@@ -26,7 +38,7 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
   unfollowRoute,
   session,
 }) => {
-  const follows = useFollows(type, session);
+  const follows = useFollows<Follow>(type, session);
 
   if (follows?.isLoading) {
     return (

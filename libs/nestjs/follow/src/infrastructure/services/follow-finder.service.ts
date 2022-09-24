@@ -81,19 +81,20 @@ export class FollowFinder implements IFollowFinder {
     return follows.map((follow) => new FollowDTO({ ...follow }));
   }
 
-  async findFollowersByArtist(id: ArtistId): Promise<FollowDTO[]> {
-    const follows = await this.follows
+  async findFollowersByArtist(
+    artistId: ArtistId
+  ): Promise<FollowArtistArtistDTO[]> {
+    const follows = await this.followsArtistArtist
       .find({
-        followedToId: id.value,
-        followedToType: FollowType.Artist,
+        followedToId: artistId.value,
       })
-      .lean<FollowDocument[]>();
+      .lean();
 
     if (!follows) {
       return [];
     }
 
-    return follows.map((follow) => new FollowDTO({ ...follow }));
+    return follows.map((follow) => new FollowArtistArtistDTO({ ...follow }));
   }
 
   async findFollowersByEstablishment(

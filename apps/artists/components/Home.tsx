@@ -1,81 +1,117 @@
-import { UserAddOutlined } from '@ant-design/icons';
-import { useArtists, useGenres } from '@melomaniapp/hooks';
-import { GenreList, IconText } from '@melomaniapp/ui';
-import { Card, List, Spin } from 'antd';
-import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import React from 'react';
+import { useArtists } from '@melomaniapp/hooks';
+import { GenreFilter, IconText } from '@melomaniapp/ui';
+import {
+  Button,
+  Card,
+  Col,
+  List,
+  PageHeader,
+  Row,
+  Spin,
+  Modal,
+  Form,
+  Avatar,
+} from 'antd';
+import React, { useEffect, useState } from 'react';
+import { HomeOutlined, FilterOutlined } from '@ant-design/icons';
+import Link from 'next/link';
+import { GenreDTO } from '@melomaniapp/contracts/genre';
 
-const Artists: React.FC = () => {
-  const [session, loading] = useSession();
+interface HomeProps {
+  id: string;
+  genres: GenreDTO[];
+}
 
+export const Home: React.FC<HomeProps> = ({ id, genres }) => {
   const artists = useArtists();
-  const genres = useGenres();
 
-  if (artists?.isLoading || genres?.isLoading) {
+  const [filteredGenres, setFilteredGenres] = useState(
+    genres?.map(({ _id }) => _id)
+  );
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setFilteredGenres(filteredGenres);
+  }, [filteredGenres]);
+
+  if (artists?.isLoading) {
     return <Spin size="large" />;
   }
 
-  const router = useRouter();
+  const filteredArtists = artists.data
+    ?.filter((artist) => artist._id !== id)
+    .filter((artist) =>
+      filteredGenres.length > 0
+        ? artist.genreIds.some((genre) => filteredGenres?.includes(genre))
+        : artist
+    );
 
   return (
-    <Card style={{ borderRadius: '20px' }}>
-      <List
-        itemLayout="vertical"
-        size="large"
-        pagination={{
-          onChange: (page) => {
-            console.log(page);
-          },
-          pageSize: 4,
-        }}
-        dataSource={artists?.data}
-        renderItem={(item) => (
-          <Card
-            bordered={true}
-            hoverable
-            style={{
-              marginBottom: '20px',
-              background: '#cae9ff',
-              borderRadius: '20px',
+    <Row justify="center">
+      <Col span={18}>
+        <PageHeader
+          style={{ borderRadius: '20px' }}
+          title="Inicio"
+          ghost={false}
+        >
+          <Row justify="center">
+            <Col>
+              <Button onClick={() => setOpen(true)}>
+                <IconText text="Filtro" icon={FilterOutlined} />
+              </Button>
+              <Modal
+                visible={open}
+                title="Filtra por género musical"
+                onOk={() => setOpen(false)}
+                onCancel={() => setOpen(false)}
+              >
+                <Form.Item>
+                  <GenreFilter
+                    genres={genres}
+                    onChangeHandler={(values) => setFilteredGenres(values)}
+                  />
+                </Form.Item>
+              </Modal>
+            </Col>
+          </Row>
+          <List
+            style={{ marginTop: '20px' }}
+            itemLayout="vertical"
+            size="large"
+            pagination={{
+              pageSize: 5,
             }}
-          >
-            <List.Item
-              onClick={() => router.push(`/artists/${item._id}`)}
-              key={item._id}
-              actions={[
-                <IconText
-                  icon={UserAddOutlined}
-                  text="156"
-                  key="list-vertical-star-o"
-                />,
-                <GenreList
-                  genres={genres.data?.filter((genre) =>
-                    item.genreIds.includes(genre._id)
-                  )}
-                />,
-              ]}
-              extra={
-                <img
-                  style={{ textAlign: 'left' }}
-                  width={272}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
-              }
-            >
-              <List.Item.Meta
-                title={item.name}
-                description={`@${item.alias}`}
-              />
-
-              {item.description}
-            </List.Item>
-          </Card>
-        )}
-      />
-    </Card>
+            dataSource={filteredArtists}
+            renderItem={(item) => (
+              <Card
+                bordered={true}
+                hoverable
+                style={{
+                  marginBottom: '20px',
+                  background: '#cae9ff',
+                  borderRadius: '20px',
+                }}
+              >
+                <List.Item>
+                  <List.Item.Meta
+                    avatar={
+                      <Avatar
+                        src="https://joeschmoe.io/api/v1/random"
+                        size="large"
+                      />
+                    }
+                    title={
+                      <Link href={`artists/${item._id}`}>{item.name}</Link>
+                    }
+                    description={item.description}
+                  />
+                </List.Item>
+              </Card>
+            )}
+          />
+        </PageHeader>
+      </Col>
+    </Row>
   );
 };
-
-export default Artists;

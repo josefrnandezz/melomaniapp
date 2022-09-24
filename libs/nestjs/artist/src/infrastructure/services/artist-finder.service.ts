@@ -5,7 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { IArtistFinder } from '../../application';
-import { ArtistId } from '../../domain';
+import { ArtistId, UserId } from '../../domain';
 import { ArtistDocument, ARTISTS_PROJECTION } from '../read-model';
 
 @Injectable()
@@ -47,5 +47,15 @@ export class ArtistFinder implements IArtistFinder {
     }
 
     return artist;
+  }
+
+  async findOneByUser(id: UserId): Promise<ArtistDTO | null> {
+    const artist = await this.artists.findOne({ userId: id.value }).lean();
+
+    if (!artist) {
+      return null;
+    }
+
+    return new ArtistDTO({ ...artist });
   }
 }

@@ -10,9 +10,11 @@ import { GenreList } from '@melomaniapp/ui';
 import Link from 'next/link';
 import { FollowType } from '@melomaniapp/contracts/follow';
 
-const spotifyRegex = /https:\/\/(www\.)?open\.spotify\.com\/artist\/.*/;
-const sounCloudRegex = /https:\/\/(www\.)?soundcloud\.com\/.*/;
-const youtubeRegex = /https:\/\/(www\.)?youtube\.com\/c\/.*/;
+import {
+  souncloudRegex,
+  spotifyRegex,
+  youtubeRegex,
+} from '@melomaniapp/domain';
 
 const SpotifyTag: React.FC<{ link: string }> = ({ link }) => {
   return (
@@ -49,7 +51,7 @@ const getTag = (link: string) => {
     return <SpotifyTag link={link} />;
   }
 
-  if (sounCloudRegex.test(link)) {
+  if (souncloudRegex.test(link)) {
     return <SoundCloudTag link={link} />;
   }
 

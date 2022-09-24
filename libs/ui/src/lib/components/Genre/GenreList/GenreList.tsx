@@ -6,7 +6,7 @@ import GenreItem from '../GenreItem/GenreItem';
 
 export interface GenreListProps {
   genres: GenreDTO[];
-  justify?: 'center';
+  justify?: 'center' | 'start';
 }
 
 export const GenreList: React.FunctionComponent<GenreListProps> = ({

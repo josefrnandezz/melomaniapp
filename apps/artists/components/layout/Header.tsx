@@ -1,4 +1,4 @@
-import { BellOutlined, SearchOutlined } from '@ant-design/icons';
+import { ApiOutlined, HomeOutlined } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Space, Typography } from 'antd';
 import { Session } from 'next-auth';
 import Image from 'next/image';
@@ -13,9 +13,11 @@ export type HeaderProps = {
 const Logo = () => (
   <Row style={{ display: 'flex', alignContent: 'center' }}>
     <Space size="small">
-      <Col flex="100px" style={{ marginTop: '10px' }}>
-        <Image src="/favicon/logo.png" alt="" width="40px" height="40px" />
-      </Col>
+      <Link href="/">
+        <Col flex="100px" style={{ marginTop: '10px' }}>
+          <Image src="/favicon/logo.png" alt="" width="40px" height="40px" />
+        </Col>
+      </Link>
       <Col flex="auto">
         <Typography.Title level={4} style={{ color: '#cae9ff' }}>
           Melomaniapp for Artists
@@ -45,9 +47,12 @@ export const Header = ({ session }: HeaderProps) => {
               <Logo />
             </Col>
             <Col span={6} offset={2}>
-              <Menu mode="horizontal" theme="dark">
-                <Menu.Item key="follows" icon={<BellOutlined />}>
-                  <Link href="/follows">Subscripciones</Link>
+              <Menu selectable={false} mode="horizontal" theme="dark">
+                <Menu.Item key="home" icon={<HomeOutlined />}>
+                  <Link href="/">Inicio</Link>
+                </Menu.Item>
+                <Menu.Item key="follows" icon={<ApiOutlined />}>
+                  <Link href="/follows">Conexiones</Link>
                 </Menu.Item>
               </Menu>
             </Col>

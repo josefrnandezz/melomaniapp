@@ -21,6 +21,7 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth } from '@nestjs/swagger';
 import { ACGuard, UseRoles } from 'nest-access-control';
+import * as uuid from 'uuid';
 
 import { ArtistGuard } from '../auth';
 import { ArtistService } from '../services';
@@ -42,7 +43,10 @@ export class ArtistController {
     @Body() artistDTO: CreateArtistDTO
   ): Promise<ArtistDTO> {
     try {
-      return await this.artistService.create(user._id, artistDTO);
+      return await this.artistService.create(user._id, {
+        _id: uuid.v4(),
+        ...artistDTO,
+      });
     } catch (e) {
       if (e instanceof IdAlreadyRegisteredError) {
         throw new ConflictException(e.message);

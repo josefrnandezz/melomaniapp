@@ -18,11 +18,11 @@ export const FOLLOW_FINDER = 'FOLLOW_FINDER';
 
 export interface IFollowFinder {
   find(id: FollowId): Promise<FollowDTO | null>;
+  findFollowersByArtist(artistId: ArtistId): Promise<FollowArtistArtistDTO[]>;
   findFollowersByEvent(eventId: EventId): Promise<FollowDTO[]>;
   findFollowersByEstablishment(
     establishmentId: EstablishmentId
   ): Promise<FollowDTO[]>;
-  findFollowersByArtist(artistId: ArtistId): Promise<FollowDTO[]>;
   findFollowersByGenre(artistId: GenreId): Promise<FollowDTO[]>;
   findUserEstablishmentFollows(
     userId: UserId

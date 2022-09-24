@@ -207,7 +207,28 @@ export const useFollows = <T>(
   session: Session
 ): Response<T[]> => {
   const params = session
-    ? [`api/follows/me/type/${type}`, session['accessToken']]
+    ? [`api/follows/users/me/type/${type}`, session['accessToken']]
+    : null;
+
+  const { data, error } = useSWR(params, fetchURL);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
+export const useArtistFollows = (
+  type: FollowType,
+  session: Session
+): Response<FollowArtistArtistDTO[]> => {
+  const params = session
+    ? [`api/follows/artists/me/type/${type}`, session['accessToken']]
     : null;
 
   const { data, error } = useSWR(params, fetchURL);
@@ -250,6 +271,45 @@ export const useEstablishmentEvents = (
     [`api/establishments/${establishmentId}/events`],
     fetchURL
   );
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
+export const useMyArtist = (session: Session | null): Response<ArtistDTO> => {
+  const params = session
+    ? [`api/users/me/artist`, session['accessToken']]
+    : null;
+
+  const { data, error } = useSWR(params, fetchURL);
+
+  if (error) {
+    console.error(error);
+  }
+
+  return {
+    data,
+    isLoading: !error && !data,
+    isError: error as Error,
+  };
+};
+
+export const useArtistFollowers = (
+  session: Session | null,
+  id: string
+): Response<FollowArtistArtistDTO[]> => {
+  const params = session
+    ? [`api/follows/artists/${id}`, session['accessToken']]
+    : null;
+
+  const { data, error } = useSWR(params, fetchURL);
 
   if (error) {
     console.error(error);

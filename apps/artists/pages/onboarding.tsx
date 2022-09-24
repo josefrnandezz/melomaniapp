@@ -1,25 +1,20 @@
-import { useGenres, useMyArtist } from '@melomaniapp/hooks';
+import { useGenres } from '@melomaniapp/hooks';
 import { GenreFilter } from '@melomaniapp/ui';
 import { Button, Card, Col, Form, Input, message, Row, Spin } from 'antd';
+import { useForm } from 'antd/lib/form/Form';
+import TextArea from 'antd/lib/input/TextArea';
 import { useSession } from 'next-auth/client';
-
-import {
-  souncloudRegex,
-  spotifyRegex,
-  youtubeRegex,
-} from '@melomaniapp/domain';
 import { useRouter } from 'next/router';
 
-export const EditFanProfile: React.FC = () => {
-  const [session] = useSession();
+export const Onboarding: React.FC = () => {
+  const [session, isLoading] = useSession();
   const { data: genres } = useGenres();
-  const { data: artist, isLoading } = useMyArtist(session);
-  const [form] = Form.useForm();
   const router = useRouter();
+  const [form] = useForm();
 
   if (isLoading) {
     return (
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
       </div>
     );
@@ -40,9 +35,9 @@ export const EditFanProfile: React.FC = () => {
     const response = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
-      }/api/artists/${artist?._id}`,
+      }/api/artists`,
       {
-        method: 'Put',
+        method: 'Post',
         headers: {
           Authorization: `Bearer ${session.accessToken}`,
           'Content-Type': 'application/json',
@@ -50,29 +45,14 @@ export const EditFanProfile: React.FC = () => {
         body,
       }
     );
+
     if (response.ok) {
       message.success({ content: 'Perfil actualizado!', key: 'updatable' });
-      setTimeout(() => router.push('/profile'), 1000);
+      setTimeout(() => router.push('/'), 1000);
     } else {
       message.error({ content: 'Error al actualizar!', key: 'updatable' });
     }
   };
-
-  const getLinks = () => {
-    const spotify = artist?.socialLinks.find((link) => spotifyRegex.test(link));
-    const soundCloud = artist?.socialLinks.find((link) =>
-      souncloudRegex.test(link)
-    );
-    const youtube = artist?.socialLinks.find((link) => youtubeRegex.test(link));
-
-    return {
-      spotify,
-      soundCloud,
-      youtube,
-    };
-  };
-
-  const links = getLinks();
 
   return (
     <Row
@@ -89,16 +69,10 @@ export const EditFanProfile: React.FC = () => {
               style={{ width: '100%' }}
               name="name"
               label="Nombre"
-              initialValue={artist?.name}
             >
               <Input placeholder="Nombre" />
             </Form.Item>
-            <Form.Item
-              required={true}
-              name="alias"
-              label="Nickname"
-              initialValue={artist?.alias}
-            >
+            <Form.Item required={true} name="alias" label="Nickname">
               <Input placeholder="@artista" />
             </Form.Item>
             <Form.Item
@@ -106,29 +80,23 @@ export const EditFanProfile: React.FC = () => {
               style={{ width: '100%' }}
               name="description"
               label="Descripción"
-              initialValue={artist?.description}
             >
-              <Input placeholder="Descripción" />
+              <TextArea autoSize placeholder="Cuéntanos un poco sobre ti" />
             </Form.Item>
 
             <Form.Item
               required={true}
-              name="genres"
+              name="genreIds"
               label="Géneros musicales"
-              initialValue={artist?.genreIds.map((genre) => genre)}
               trigger="onChangeHandler"
             >
-              <GenreFilter
-                genres={genres}
-                selectedGenres={artist?.genreIds.map((genre) => genre)}
-              />
+              <GenreFilter genres={genres} />
             </Form.Item>
 
             <Form.Item
               style={{ width: '100%' }}
               name="spotifyLink"
               label="Link de Spotify"
-              initialValue={links.spotify}
             >
               <Input placeholder="Link de Spotify" />
             </Form.Item>
@@ -137,7 +105,6 @@ export const EditFanProfile: React.FC = () => {
               style={{ width: '100%' }}
               name="soundCloudLink"
               label="Link de SoundCloud"
-              initialValue={links.soundCloud}
             >
               <Input placeholder="Link de SoundCloud" />
             </Form.Item>
@@ -146,7 +113,6 @@ export const EditFanProfile: React.FC = () => {
               style={{ width: '100%' }}
               name="youtubeLink"
               label="Link de Youtube"
-              initialValue={links.youtube}
             >
               <Input placeholder="Link de Youtube" />
             </Form.Item>
@@ -163,4 +129,4 @@ export const EditFanProfile: React.FC = () => {
   );
 };
 
-export default EditFanProfile;
+export default Onboarding;

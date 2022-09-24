@@ -17,6 +17,8 @@ import {
 
 import { GetEstablishmentFromUserQuery } from '@melomaniapp/nestjs/establishment';
 import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
+import { ArtistDTO } from '@melomaniapp/contracts/artist';
+import { GetArtistFromUserQuery } from 'libs/nestjs/artist/src/application';
 
 @Injectable()
 export class UserService {
@@ -71,5 +73,9 @@ export class UserService {
 
   async getUserEstablishment(id: string): Promise<EstablishmentDTO> {
     return this.queryBus.execute(new GetEstablishmentFromUserQuery(id));
+  }
+
+  async getUserArtist(id: string): Promise<ArtistDTO> {
+    return this.queryBus.execute(new GetArtistFromUserQuery(id));
   }
 }

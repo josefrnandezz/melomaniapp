@@ -4,6 +4,7 @@ import React from 'react';
 
 import Header from './Header';
 import { SignIn } from '@melomaniapp/ui';
+import { useSession } from 'next-auth/client';
 
 const { Content, Footer } = AntLayout;
 
@@ -11,10 +12,9 @@ export type LayoutProps = {
   session?: Session;
 };
 
-export const Layout: React.FunctionComponent<LayoutProps> = ({
-  session,
-  children,
-}) => {
+export const Layout: React.FunctionComponent<LayoutProps> = ({ children }) => {
+  const [session] = useSession();
+
   return (
     <AntLayout>
       <Header session={session} />
@@ -23,13 +23,13 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
           padding: '0 50px',
           marginTop: '60px',
           backgroundColor: '#dee2e6',
-          height: '100%',
         }}
       >
         <div
           style={{
-            minHeight: '280px',
+            minHeight: '100vh',
             padding: '24px',
+            height: '100%',
           }}
         >
           {session ? children : <SignIn />}
@@ -45,7 +45,6 @@ export const Layout: React.FunctionComponent<LayoutProps> = ({
           style={{
             textAlign: 'center',
             zIndex: 1,
-            background: 'white',
           }}
         >
           <Typography.Title level={5}>

@@ -4,6 +4,7 @@ import { Provider } from 'next-auth/client';
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 import { SWRConfig } from 'swr';
+import { Layout } from '../components/layout/Layout';
 
 function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
   return (
@@ -18,7 +19,9 @@ function App({ Component, pageProps: { session, ...pageProps } }: AppProps) {
           <title>Melomaniapp Artists</title>
         </Head>
         <main className="app">
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </main>
       </SWRConfig>
     </Provider>

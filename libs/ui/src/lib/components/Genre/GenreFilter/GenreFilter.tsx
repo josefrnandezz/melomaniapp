@@ -1,6 +1,7 @@
 import { GenreDTO } from '@melomaniapp/contracts/genre';
 import { Select } from 'antd';
 import React from 'react';
+import { capitalizeFirstLetter } from '../../../utils';
 
 const { Option } = Select;
 
@@ -19,6 +20,7 @@ export const GenreFilter: React.FunctionComponent<GenreFilterProps> = ({
 }) => {
   return (
     <Select
+      allowClear
       data-cy="genreFilter"
       mode="multiple"
       placeholder="Géneros musicales"
@@ -30,7 +32,7 @@ export const GenreFilter: React.FunctionComponent<GenreFilterProps> = ({
     >
       {genres?.map((genre) => (
         <Option key={genre._id} data-cy={genre.name} value={genre._id}>
-          {genre.name}
+          {capitalizeFirstLetter(genre.name)}
         </Option>
       ))}
     </Select>
