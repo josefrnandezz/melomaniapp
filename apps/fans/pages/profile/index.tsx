@@ -1,4 +1,4 @@
-import { useGenres, useUser } from '@melomaniapp/hooks';
+import { useFollows, useUser } from '@melomaniapp/hooks';
 
 import { Card, Col, Divider, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -7,14 +7,18 @@ import { GenreList } from '@melomaniapp/ui';
 
 import { Layout } from '../../components/layout/Layout';
 import { FanProfileHeader } from '../../components/fans/FanProfileHeader';
+import { FollowType, FollowUserGenreDTO } from '@melomaniapp/contracts/follow';
 
 export const ProfilePage = () => {
   const [session, isSessionLoading] = useSession();
 
-  const genres = useGenres();
   const { data: user } = useUser(session);
+  const { data: follows } = useFollows<FollowUserGenreDTO>(
+    FollowType.Genre,
+    session
+  );
 
-  if (isSessionLoading || genres?.isLoading) {
+  if (isSessionLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
@@ -44,9 +48,10 @@ export const ProfilePage = () => {
             <Divider />
             <Typography.Title level={4}>Géneros</Typography.Title>
             <GenreList
-              genres={genres.data?.filter((genre) =>
-                user?.genres.includes(genre._id)
-              )}
+              genres={follows?.map((follow) => ({
+                _id: follow.followedToId,
+                name: follow.genre.name,
+              }))}
             />
           </Card>
         </Col>

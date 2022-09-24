@@ -1,17 +1,22 @@
+import { FollowType, FollowUserGenreDTO } from '@melomaniapp/contracts/follow';
 import { EditUserDto } from '@melomaniapp/contracts/user';
-import { useGenres, useUser } from '@melomaniapp/hooks';
-import { CityDropdown, GenreFilter } from '@melomaniapp/ui';
+import { useFollows, useUser } from '@melomaniapp/hooks';
+import { CityDropdown } from '@melomaniapp/ui';
 import { Button, Card, Col, Form, message, Row, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { Layout } from '../../components/layout/Layout';
 
 export const EditFanProfile: React.FC = () => {
-  const [session] = useSession();
+  const [form] = Form.useForm();
+  const [session, isLoading] = useSession();
   const router = useRouter();
+  const { data: follows } = useFollows<FollowUserGenreDTO>(
+    FollowType.Genre,
+    session
+  );
 
   const { data: user } = useUser(session);
-  const { data: genres, isLoading } = useGenres();
 
   if (isLoading) {
     return (
@@ -21,9 +26,9 @@ export const EditFanProfile: React.FC = () => {
     );
   }
 
-  const [form] = Form.useForm();
-
   const onSubmit = async (data: EditUserDto) => {
+    const genres = follows?.map(({ followedToId }) => followedToId);
+
     const response = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
@@ -34,7 +39,7 @@ export const EditFanProfile: React.FC = () => {
           Authorization: `Bearer ${session.accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...data, roles: user?.roles }),
+        body: JSON.stringify({ ...data, roles: user?.roles, genres }),
       }
     );
 
@@ -71,18 +76,6 @@ export const EditFanProfile: React.FC = () => {
                 <CityDropdown selectedCity={user?.city} />
               </Form.Item>
 
-              <Form.Item
-                required={true}
-                name="genres"
-                label="Genres"
-                initialValue={user?.genres.map((genre) => genre)}
-                trigger="onChangeHandler"
-              >
-                <GenreFilter
-                  genres={genres}
-                  selectedGenres={user?.genres.map((genre) => genre)}
-                />
-              </Form.Item>
               <Form.Item>
                 <Button type="primary" htmlType="submit">
                   Confirmar
