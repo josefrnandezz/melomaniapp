@@ -14,6 +14,7 @@ export const ArtistSchema = new Schema(
     description: String,
     socialLinks: [String],
     genreIds: [String],
+    imageUrl: String,
   },
   {
     versionKey: false,

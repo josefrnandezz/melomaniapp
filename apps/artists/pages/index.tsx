@@ -18,7 +18,7 @@ export function Index() {
     );
   }
 
-  if (isError) {
+  if (!data && isError) {
     router.push('/onboarding');
   }
 

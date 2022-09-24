@@ -22,7 +22,8 @@ export class ArtistService {
   ) {}
 
   async create(userId: string, artist: CreateArtistDTO): Promise<ArtistDTO> {
-    const { _id, name, alias, description, socialLinks, genreIds } = artist;
+    const { _id, name, alias, description, socialLinks, genreIds, imageUrl } =
+      artist;
 
     await this.commandBus.execute(
       new CreateArtistCommand(
@@ -32,7 +33,8 @@ export class ArtistService {
         alias,
         description,
         socialLinks,
-        genreIds
+        genreIds,
+        imageUrl
       )
     );
 

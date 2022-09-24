@@ -2,6 +2,7 @@ interface EstablishmentProps {
   name: string;
   alias: string;
   description: string;
+  imageUrl: string;
 }
 
 interface Props {

@@ -18,4 +18,7 @@ export class CreateArtistDTO {
 
   @ApiProperty()
   public readonly genreIds: string[];
+
+  @ApiProperty()
+  public readonly imageUrl: string;
 }

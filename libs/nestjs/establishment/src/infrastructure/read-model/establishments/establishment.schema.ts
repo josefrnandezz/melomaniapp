@@ -18,6 +18,7 @@ export const EstablishmentSchema = new Schema(
       city: String,
     },
     genreIds: [String],
+    imageUrl: String,
   },
   {
     versionKey: false,

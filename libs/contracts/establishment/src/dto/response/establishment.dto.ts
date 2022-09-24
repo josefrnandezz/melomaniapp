@@ -10,6 +10,7 @@ interface Props {
   email: string;
   address: AddressProps;
   genreIds: string[];
+  imageUrl: string;
 }
 
 export class EstablishmentDTO {
@@ -40,4 +41,7 @@ export class EstablishmentDTO {
 
   @ApiProperty()
   public readonly genreIds: string[];
+
+  @ApiProperty()
+  public readonly imageUrl: string;
 }

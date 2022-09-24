@@ -30,6 +30,7 @@ export const Onboarding: React.FC = () => {
     const body = JSON.stringify({
       ...rest,
       socialLinks,
+      imageUrl: session.user.image,
     });
 
     const response = await fetch(

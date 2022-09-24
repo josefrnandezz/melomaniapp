@@ -95,12 +95,7 @@ export const Home: React.FC<HomeProps> = ({ id, genres }) => {
               >
                 <List.Item>
                   <List.Item.Meta
-                    avatar={
-                      <Avatar
-                        src="https://joeschmoe.io/api/v1/random"
-                        size="large"
-                      />
-                    }
+                    avatar={<Avatar src={item.imageUrl} size="large" />}
                     title={
                       <Link href={`artists/${item._id}`}>{item.name}</Link>
                     }

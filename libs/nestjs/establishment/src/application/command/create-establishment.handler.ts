@@ -71,7 +71,8 @@ export class CreateEstablishmentHandler
       alias,
       description,
       email,
-      address
+      address,
+      command.imageUrl
     );
 
     command.genreIds.map((genreId: string) =>

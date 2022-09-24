@@ -25,7 +25,13 @@ export class EstablishmentWasFollowedByUserProjection
   async handle(event: EstablishmentWasFollowedByUser) {
     const establishment = await this.establishments
       .findById(event.payload.followedToId)
-      .select({ _id: true, name: true, alias: true, description: true })
+      .select({
+        _id: true,
+        name: true,
+        alias: true,
+        description: true,
+        imageUrl: true,
+      })
       .lean();
 
     const follow = new this.follows({
@@ -36,6 +42,7 @@ export class EstablishmentWasFollowedByUserProjection
         name: establishment.name,
         alias: establishment.alias,
         description: establishment.description,
+        imageUrl: establishment.imageUrl,
       },
     });
 

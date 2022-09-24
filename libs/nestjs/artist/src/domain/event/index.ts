@@ -44,7 +44,8 @@ export const eventTransformers = {
       event.payload.name,
       event.payload.alias,
       event.payload.description,
-      event.payload.socialLinks
+      event.payload.socialLinks,
+      event.payload.imageUrl
     ),
   ArtistGenreWasAdded: (event: Event<ArtistGenreWasAddedProps>) =>
     new ArtistGenreWasAdded(event.aggregateId, event.payload.genreId),

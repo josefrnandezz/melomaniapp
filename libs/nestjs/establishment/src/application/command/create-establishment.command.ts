@@ -10,6 +10,7 @@ export class CreateEstablishmentCommand implements ICommand {
     public readonly description: string,
     public readonly email: string,
     public readonly address: AddressProps,
-    public readonly genreIds: string[]
+    public readonly genreIds: string[],
+    public readonly imageUrl: string
   ) {}
 }

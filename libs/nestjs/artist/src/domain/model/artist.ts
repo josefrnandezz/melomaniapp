@@ -66,6 +66,7 @@ export class Artist extends AggregateRoot {
     alias: Alias;
     description: Description;
     socialLinks: SocialLink[];
+    imageUrl: string;
   }): Artist {
     const artist = new Artist();
 
@@ -78,7 +79,8 @@ export class Artist extends AggregateRoot {
         args.name.value,
         args.alias.value,
         args.description.value,
-        socialLinks
+        socialLinks,
+        args.imageUrl
       )
     );
 

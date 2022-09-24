@@ -28,8 +28,16 @@ export class EstablishmentService {
     ownerId: string,
     establishmentDTO: CreateEstablishmentDTO
   ): Promise<EstablishmentDTO> {
-    const { _id, name, alias, description, email, address, genreIds } =
-      establishmentDTO;
+    const {
+      _id,
+      name,
+      alias,
+      description,
+      email,
+      address,
+      genreIds,
+      imageUrl,
+    } = establishmentDTO;
 
     await this.commandBus.execute(
       new CreateEstablishmentCommand(
@@ -40,7 +48,8 @@ export class EstablishmentService {
         description,
         email,
         address,
-        genreIds
+        genreIds,
+        imageUrl
       )
     );
 

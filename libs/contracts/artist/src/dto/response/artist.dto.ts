@@ -8,6 +8,7 @@ interface Props {
   description: string;
   socialLinks: string[];
   genreIds: string[];
+  imageUrl: string;
 }
 
 export class ArtistDTO {
@@ -35,4 +36,7 @@ export class ArtistDTO {
 
   @ApiProperty()
   public readonly genreIds: string[];
+
+  @ApiProperty()
+  public readonly imageUrl: string;
 }

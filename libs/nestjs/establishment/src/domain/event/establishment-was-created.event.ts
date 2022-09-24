@@ -14,7 +14,8 @@ export class EstablishmentWasCreated extends Event<EstablishmentWasCreatedProps>
     public readonly alias: string,
     public readonly description: string,
     public readonly email: string,
-    public readonly address: AddressProps
+    public readonly address: AddressProps,
+    public readonly imageUrl: string
   ) {
     super(id, {
       _id: id,
@@ -25,6 +26,7 @@ export class EstablishmentWasCreated extends Event<EstablishmentWasCreatedProps>
       email,
       address: address,
       genreIds: [],
+      imageUrl,
     });
   }
 }

@@ -95,6 +95,7 @@ export const ProfilePage = () => {
     >
       <Col span={12} style={{ margin: 'auto' }}>
         <ProfileHeader
+          imageUrl={artist?.imageUrl}
           name={artist?.name}
           alias={artist?.alias}
           path="/profile/edit"

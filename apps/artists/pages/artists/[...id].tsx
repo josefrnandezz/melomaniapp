@@ -104,7 +104,11 @@ export const ArtistPage = () => {
         >
           <Space direction="vertical" size="middle">
             <div style={{ margin: 'auto', alignItems: 'center' }}>
-              <Avatar size={140} icon={<UserOutlined />} />
+              {!artist.data?.imageUrl ? (
+                <Avatar size={140} icon={<UserOutlined />} />
+              ) : (
+                <Avatar size={140} src={artist.data?.imageUrl} />
+              )}
             </div>
             <Typography.Title>
               {artist.data?.name && capitalizeFirstLetter(artist.data?.name)}

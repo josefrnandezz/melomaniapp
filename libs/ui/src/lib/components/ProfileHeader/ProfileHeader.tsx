@@ -8,12 +8,14 @@ interface ProfileHeader {
   name: string;
   alias?: string;
   path?: string;
+  imageUrl?: string;
 }
 
 export const ProfileHeader: React.FC<ProfileHeader> = ({
   name,
   alias,
   path,
+  imageUrl,
 }) => {
   return (
     <Card
@@ -29,7 +31,11 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
     >
       <Space direction="vertical" size="middle">
         <div style={{ margin: 'auto', alignItems: 'center' }}>
-          <Avatar size={140} icon={<UserOutlined />} />
+          {!imageUrl ? (
+            <Avatar size={140} icon={<UserOutlined />} />
+          ) : (
+            <Avatar size={140} src={imageUrl} />
+          )}
         </div>
         <Typography.Title>
           {name && capitalizeFirstLetter(name)}

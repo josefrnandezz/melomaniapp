@@ -48,7 +48,8 @@ export const eventTransformers = {
       event.payload.alias,
       event.payload.description,
       event.payload.email,
-      event.payload.address
+      event.payload.address,
+      event.payload.imageUrl
     ),
   EstablishmentGenreWasAdded: (event: Event<EstablishmentGenreWasAddedProps>) =>
     new EstablishmentGenreWasAdded(event.aggregateId, event.payload.genreId),

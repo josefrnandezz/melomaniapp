@@ -36,7 +36,8 @@ export class Establishment extends AggregateRoot {
     alias: Alias,
     description: Description,
     email: Email,
-    address: EstablishmentAddress
+    address: EstablishmentAddress,
+    imageUrl: string
   ): Establishment {
     const establishment = new Establishment();
 
@@ -48,7 +49,8 @@ export class Establishment extends AggregateRoot {
         alias.value,
         description.value,
         email.value,
-        address.value
+        address.value,
+        imageUrl
       )
     );
 

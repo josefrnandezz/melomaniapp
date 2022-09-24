@@ -12,7 +12,8 @@ export class ArtistWasCreated extends Event<ArtistWasCreatedProps> {
     public readonly name: string,
     public readonly alias: string,
     public readonly description: string,
-    public readonly socialLinks: string[]
+    public readonly socialLinks: string[],
+    public readonly imageUrl: string
   ) {
     super(id, {
       _id: id,
@@ -22,6 +23,7 @@ export class ArtistWasCreated extends Event<ArtistWasCreatedProps> {
       description,
       socialLinks,
       genreIds: [],
+      imageUrl,
     });
   }
 }

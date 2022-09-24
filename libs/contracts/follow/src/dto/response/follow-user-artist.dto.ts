@@ -2,6 +2,7 @@ interface ArtistProps {
   name: string;
   alias: string;
   description: string;
+  imageUrl: string;
 }
 
 interface Props {

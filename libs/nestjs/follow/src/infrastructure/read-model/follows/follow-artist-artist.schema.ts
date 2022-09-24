@@ -14,6 +14,7 @@ export const FollowArtistArtistSchema = new Schema(
       name: String,
       alias: String,
       description: String,
+      imageUrl: String,
     },
   },
   {

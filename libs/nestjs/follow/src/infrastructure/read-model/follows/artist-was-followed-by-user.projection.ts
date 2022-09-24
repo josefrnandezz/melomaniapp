@@ -22,7 +22,13 @@ export class ArtistWasFollowedByUserProjection
   async handle(event: ArtistWasFollowedByUser) {
     const artist = await this.artists
       .findById(event.payload.followedToId)
-      .select({ _id: true, name: true, alias: true, description: true })
+      .select({
+        _id: true,
+        name: true,
+        alias: true,
+        description: true,
+        imageUrl: true,
+      })
       .lean();
 
     const follow = new this.follows({
@@ -33,6 +39,7 @@ export class ArtistWasFollowedByUserProjection
         name: artist.name,
         alias: artist.alias,
         description: artist.description,
+        imageUrl: artist.imageUrl,
       },
     });
 

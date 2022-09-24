@@ -22,4 +22,7 @@ export class CreateEstablishmentDTO {
 
   @ApiProperty()
   genreIds: string[];
+
+  @ApiProperty()
+  imageUrl: string;
 }

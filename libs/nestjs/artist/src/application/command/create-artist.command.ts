@@ -8,6 +8,7 @@ export class CreateArtistCommand implements ICommand {
     public readonly alias: string,
     public readonly description: string,
     public readonly socialLinks: string[],
-    public readonly genreIds: string[]
+    public readonly genreIds: string[],
+    public readonly imageUrl: string
   ) {}
 }

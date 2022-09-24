@@ -16,6 +16,7 @@ export const FollowUserEstablishmentSchema = new Schema(
       name: String,
       alias: String,
       description: String,
+      imageUrl: String,
     },
   },
   {
