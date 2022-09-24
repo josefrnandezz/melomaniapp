@@ -53,6 +53,10 @@ export class EventFinder implements IEventFinder {
     });
   }
 
+  async findByCity(city: string): Promise<EventDTO[]> {
+    return this.events.find({ 'address.city': city }).lean<EventDTO[]>();
+  }
+
   async findByEstablishment(
     establishmentId: EstablishmentId
   ): Promise<EventDTO[]> {

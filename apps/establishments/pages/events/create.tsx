@@ -123,6 +123,7 @@ export const CreateEvent: React.FC = () => {
                     name="city"
                     label="Ciudad"
                     trigger="onChangeHandler"
+                    initialValue={establishment.data?.address.city}
                   >
                     <CityDropdown />
                   </Form.Item>
@@ -133,6 +134,7 @@ export const CreateEvent: React.FC = () => {
                     style={{ width: '100%' }}
                     name="full"
                     label="Dirección"
+                    initialValue={establishment.data?.address.full}
                   >
                     <Input />
                   </Form.Item>

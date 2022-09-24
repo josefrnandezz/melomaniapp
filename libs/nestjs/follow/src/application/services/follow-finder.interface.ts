@@ -1,5 +1,13 @@
 import { FollowId } from '../../domain';
-import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
+import {
+  FollowArtistArtistDTO,
+  FollowDTO,
+  FollowType,
+  FollowUserArtistDTO,
+  FollowUserEstablishmentDTO,
+  FollowUserEventDTO,
+  FollowUserGenreDTO,
+} from '@melomaniapp/contracts/follow';
 import { EventId } from '@melomaniapp/nestjs/event';
 import { EstablishmentId } from '@melomaniapp/nestjs/establishment';
 import { ArtistId } from '@melomaniapp/nestjs/artist';
@@ -16,5 +24,11 @@ export interface IFollowFinder {
   ): Promise<FollowDTO[]>;
   findFollowersByArtist(artistId: ArtistId): Promise<FollowDTO[]>;
   findFollowersByGenre(artistId: GenreId): Promise<FollowDTO[]>;
-  findFollows(userId: UserId, type: FollowType): Promise<FollowDTO[]>;
+  findUserEstablishmentFollows(
+    userId: UserId
+  ): Promise<FollowUserEstablishmentDTO[]>;
+  findUserGenreFollows(userId: UserId): Promise<FollowUserGenreDTO[]>;
+  findUserEventFollows(userId: UserId): Promise<FollowUserEventDTO[]>;
+  findUserArtistFollows(userId: UserId): Promise<FollowUserArtistDTO[]>;
+  findArtistArtistFollows(artistId: ArtistId): Promise<FollowArtistArtistDTO[]>;
 }

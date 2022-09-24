@@ -1,24 +1,22 @@
-import { UserAddOutlined } from '@ant-design/icons';
-
 import {
   useArtists,
   useEstablishments,
   useEvents,
   useGenres,
 } from '@melomaniapp/hooks';
-import { GenreList } from '@melomaniapp/ui';
+
 import { Card, List, PageHeader, Spin, Tabs } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import React from 'react';
-import { IconText } from '../../components/IconText';
+
 import { Layout } from '../../components/layout/Layout';
 import { capitalizeFirstLetter } from '../../utils';
 
 const Follows: React.FC = () => {
   const [session, loading] = useSession();
 
-  const events = useEvents();
+  const events = useEvents('Córdoba', session);
   const artists = useArtists();
   const genres = useGenres();
   const establishments = useEstablishments();

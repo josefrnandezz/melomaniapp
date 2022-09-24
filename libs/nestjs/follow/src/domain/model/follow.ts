@@ -154,14 +154,14 @@ export class Follow extends AggregateRoot {
 
   public unfollowByUserToEvent(args: {
     id: FollowId;
-    followedBy: FollowedBy;
-    followedTo: FollowedTo;
+    unfollowedBy: FollowedBy;
+    unfollowedTo: FollowedTo;
   }): void {
     this.apply(
       new EventWasUnfollowedByUser(
         args.id.value,
-        args.followedBy.id,
-        args.followedTo.id
+        args.unfollowedBy.id,
+        args.unfollowedTo.id
       )
     );
   }

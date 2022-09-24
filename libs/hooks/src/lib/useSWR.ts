@@ -3,9 +3,23 @@ import { ArtistDTO } from '@melomaniapp/contracts/artist';
 import { GenreDTO } from '@melomaniapp/contracts/genre';
 import { EventDTO, FullEventDTO } from '@melomaniapp/contracts/event';
 import { UserDto } from '@melomaniapp/contracts/user';
-import { FollowDTO, FollowType } from '@melomaniapp/contracts/follow';
+import {
+  FollowArtistArtistDTO,
+  FollowType,
+  FollowUserArtistDTO,
+  FollowUserEstablishmentDTO,
+  FollowUserEventDTO,
+  FollowUserGenreDTO,
+} from '@melomaniapp/contracts/follow';
 import useSWR from 'swr';
 import { Session } from 'next-auth';
+
+type Follow =
+  | FollowUserArtistDTO
+  | FollowUserEstablishmentDTO
+  | FollowUserGenreDTO
+  | FollowUserEventDTO
+  | FollowArtistArtistDTO;
 
 export type Response<T> = {
   data: T;
@@ -97,8 +111,15 @@ export const useArtist = (id: string): Response<ArtistDTO> => {
   };
 };
 
-export const useEvents = (): Response<EventDTO[]> => {
-  const { data, error } = useSWR(['api/events'], fetchURL);
+export const useEvents = (
+  city: string,
+  session: Session
+): Response<EventDTO[]> => {
+  const params = session
+    ? [`api/events/at/${city}`, session['accessToken']]
+    : null;
+
+  const { data, error } = useSWR(params, fetchURL);
 
   if (error) {
     console.error(error);
@@ -129,7 +150,7 @@ export const useEventsByEstablishment = (
   establishmentId: string
 ): Response<EventDTO[]> => {
   const { data, error } = useSWR(
-    [`api/events?establishmentId=${establishmentId}`],
+    [`api/establishments/${establishmentId}/events`],
     fetchURL
   );
 
@@ -144,8 +165,10 @@ export const useEventsByEstablishment = (
   };
 };
 
-export const useFan = (username: string): Response<UserDto> => {
-  const { data, error } = useSWR([`api/users/${username}`], fetchURL);
+export const useUser = (session: Session): Response<UserDto> => {
+  const param = session ? [`api/users/me`, session['accessToken']] : null;
+
+  const { data, error } = useSWR(param, fetchURL);
 
   if (error) {
     console.error(error);
@@ -182,7 +205,7 @@ export const useCities = (): Response<string[]> => {
 export const useFollows = (
   type: FollowType,
   session: Session
-): Response<FollowDTO[]> => {
+): Response<Follow[]> => {
   const params = session
     ? [`api/follows/me/type/${type}`, session['accessToken']]
     : null;

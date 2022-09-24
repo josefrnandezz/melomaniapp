@@ -1,4 +1,4 @@
-import { useArtist, useFan, useGenres } from '@melomaniapp/hooks';
+import { useArtist, useGenres, useUser } from '@melomaniapp/hooks';
 
 import { Card, Col, Divider, List, Row, Spin, Tag, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -81,14 +81,9 @@ export const ArtistPage = () => {
   const { data: artist, isLoading } = useArtist(id as string);
   const genres = useGenres();
 
-  const username = session?.user.email.slice(
-    0,
-    session?.user.email.indexOf('@')
-  );
+  const { data: user } = useUser(session);
 
-  const fan = useFan(username);
-
-  if (isLoading || genres?.isLoading || fan?.isLoading) {
+  if (isLoading || genres?.isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
@@ -96,9 +91,9 @@ export const ArtistPage = () => {
     );
   }
 
-  const followRoute = `users/${fan.data?._id}/follows_to/artists/${artist?._id}`;
+  const followRoute = `users/${user?._id}/follows_to/artists/${artist?._id}`;
 
-  const unfollowRoute = `users/${fan.data?._id}/unfollows_to/artists/${artist?._id}`;
+  const unfollowRoute = `users/${user?._id}/unfollows_to/artists/${artist?._id}`;
 
   return (
     <Layout session={session}>

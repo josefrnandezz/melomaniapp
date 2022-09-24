@@ -45,8 +45,8 @@ export class UnfollowEventByUserHandler
 
     follow.unfollowByUserToEvent({
       id,
-      followedBy: FollowedBy.with(userId, FollowType.User),
-      followedTo: FollowedTo.with(eventId, FollowType.Event),
+      unfollowedBy: FollowedBy.with(userId, FollowType.User),
+      unfollowedTo: FollowedTo.with(eventId, FollowType.Event),
     });
 
     this.repository.save(follow);

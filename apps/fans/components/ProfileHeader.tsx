@@ -28,8 +28,6 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
 }) => {
   const follows = useFollows(type, session);
 
-  const follow = follows?.data?.find((follow) => follow.followedToId === id);
-
   if (follows?.isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -37,6 +35,8 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
       </div>
     );
   }
+
+  const follow = follows?.data?.find((follow) => follow.followedToId === id);
 
   const createFollow = () =>
     fetch(
@@ -88,17 +88,12 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
         {alias ? (
           <Typography.Paragraph>{`@${alias}`}</Typography.Paragraph>
         ) : null}
-        <div
-          style={{
-            width: '100%',
-          }}
-        >
-          <FollowButton
-            isActive={!!follow}
-            createFollow={createFollow}
-            deleteFollow={deleteFollow}
-          />
-        </div>
+
+        <FollowButton
+          isActive={!!follow}
+          createFollow={createFollow}
+          deleteFollow={deleteFollow}
+        />
       </Space>
     </Card>
   );

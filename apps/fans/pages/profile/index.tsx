@@ -1,4 +1,4 @@
-import { useFan, useGenres } from '@melomaniapp/hooks';
+import { useGenres, useUser } from '@melomaniapp/hooks';
 
 import { Card, Col, Divider, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -12,6 +12,7 @@ export const ProfilePage = () => {
   const [session, isSessionLoading] = useSession();
 
   const genres = useGenres();
+  const { data: user } = useUser(session);
 
   if (isSessionLoading || genres?.isLoading) {
     return (
@@ -20,13 +21,6 @@ export const ProfilePage = () => {
       </div>
     );
   }
-
-  const username = session?.user.email.slice(
-    0,
-    session?.user.email.indexOf('@')
-  );
-
-  const { data: fan, isLoading } = useFan(username);
 
   return (
     <Layout session={session}>
@@ -46,12 +40,12 @@ export const ProfilePage = () => {
         <Col span={10} offset={2} style={{ margin: 'auto' }}>
           <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
             <Typography.Title level={4}>Ciudad</Typography.Title>
-            <Typography.Paragraph>{fan?.city}</Typography.Paragraph>
+            <Typography.Paragraph>{user?.city}</Typography.Paragraph>
             <Divider />
             <Typography.Title level={4}>Géneros</Typography.Title>
             <GenreList
               genres={genres.data?.filter((genre) =>
-                fan?.genres.includes(genre._id)
+                user?.genres.includes(genre._id)
               )}
             />
           </Card>

@@ -3,10 +3,13 @@ import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Home } from '../components/Home';
+import { useUser } from '@melomaniapp/hooks';
 
 export function Index() {
   const [session, loading] = useSession();
   const router = useRouter();
+
+  const { data: user } = useUser(session);
 
   useEffect(() => {
     if (!loading && !session) {
@@ -16,7 +19,7 @@ export function Index() {
 
   return (
     <Layout session={session}>
-      <Home />
+      <Home city={user?.city} session={session} />
     </Layout>
   );
 }

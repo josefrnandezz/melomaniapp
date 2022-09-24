@@ -50,6 +50,16 @@ export class EventController {
     }
   }
 
+  @Get('at/:city')
+  async findByCity(@Param('city') city: string): Promise<EventDTO[]> {
+    try {
+      const decodedCity = decodeURIComponent(city);
+      return await this.eventService.findByCity(decodedCity);
+    } catch (e) {
+      throw catchError(e);
+    }
+  }
+
   @Get(':id')
   async findOne(@Param('id') id: string): Promise<FullEventDTO> {
     try {

@@ -1,9 +1,4 @@
-import {
-  useEstablishment,
-  useEvent,
-  useFan,
-  useGenres,
-} from '@melomaniapp/hooks';
+import { useEstablishment, useEvent, useUser } from '@melomaniapp/hooks';
 
 import { Card, Col, Divider, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -39,18 +34,13 @@ export const EventPage = () => {
 
   const { id } = router.query;
 
-  const { data: event, isLoading } = useEvent(id as string);
-  const genres = useGenres();
-  const establishment = useEstablishment(event?.establishmentId);
+  const { data, isLoading } = useEvent(id as string);
 
-  const username = session?.user.email.slice(
-    0,
-    session?.user.email.indexOf('@')
-  );
+  const establishment = useEstablishment(data?.event.establishmentId);
 
-  const fan = useFan(username);
+  const { data: user } = useUser(session);
 
-  if (isLoading || genres?.isLoading || fan?.isLoading) {
+  if (isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
@@ -58,9 +48,9 @@ export const EventPage = () => {
     );
   }
 
-  const followRoute = `users/${fan.data?._id}/follows_to/events/${event?._id}`;
+  const followRoute = `users/${user?._id}/follows_to/events/${data?.event._id}`;
 
-  const unfollowRoute = `users/${fan.data?._id}/unfollows_to/events/${event?._id}`;
+  const unfollowRoute = `users/${user?._id}/unfollows_to/events/${data?.event._id}`;
 
   return (
     <Layout session={session}>
@@ -76,8 +66,8 @@ export const EventPage = () => {
         <Col span={12} style={{ margin: 'auto' }}>
           <ProfileHeader
             type={FollowType.Event}
-            id={event?._id}
-            name={event?.name}
+            id={data?.event._id}
+            name={data?.event.name}
             session={session}
             followRoute={followRoute}
             unfollowRoute={unfollowRoute}
@@ -92,12 +82,14 @@ export const EventPage = () => {
             <Divider />
             <Typography.Title level={4}>Fecha de inicio</Typography.Title>
             <Typography.Paragraph>
-              {event?.startsAt && formatDateTime(event?.startsAt)}
+              {data?.event?.startsAt &&
+                formatDateTime(new Date(data?.event?.startsAt))}
             </Typography.Paragraph>
             <Divider />
             <Typography.Title level={4}>Fecha de fin</Typography.Title>
             <Typography.Paragraph>
-              {event?.endsAt && formatDateTime(event?.endsAt)}
+              {data?.event?.endsAt &&
+                formatDateTime(new Date(data?.event?.endsAt))}
             </Typography.Paragraph>
           </Card>
         </Col>
@@ -105,17 +97,13 @@ export const EventPage = () => {
 
       <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
         <Typography.Title level={4}>Descripción</Typography.Title>
-        <Typography.Paragraph>{event?.description}</Typography.Paragraph>
+        <Typography.Paragraph>{data?.event.description}</Typography.Paragraph>
         <Divider />
         <Typography.Title level={4}>Géneros</Typography.Title>
-        <GenreList
-          genres={genres.data?.filter((genre) =>
-            event?.genreIds.includes(genre._id)
-          )}
-        />
+        <GenreList genres={data?.genres} />
         <Divider />
         <Typography.Title level={4}>Dirección</Typography.Title>
-        <Typography.Paragraph>{`${event?.address.full}, ${event?.address.city}`}</Typography.Paragraph>
+        <Typography.Paragraph>{`${data?.event.address.full}, ${data?.event.address.city}`}</Typography.Paragraph>
       </Card>
     </Layout>
   );

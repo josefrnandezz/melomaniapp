@@ -11,6 +11,7 @@ import {
   CancelEventCommand,
   CreateEventCommand,
   GetEventQuery,
+  GetEventsByCityQuery,
   UpdateEventCommand,
 } from '../../application';
 
@@ -50,6 +51,10 @@ export class EventService {
     );
 
     return new EventDTO({ userId, ...event });
+  }
+
+  async findByCity(city: string): Promise<EventDTO[]> {
+    return await this.queryBus.execute(new GetEventsByCityQuery(city));
   }
 
   async findOne(eventId: string): Promise<FullEventDTO> {

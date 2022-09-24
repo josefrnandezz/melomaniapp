@@ -64,19 +64,6 @@ export class UserController {
     }
   }
 
-  @Get('/:username')
-  async findOne(@Param('username') username: string): Promise<UserDto> {
-    try {
-      return this.userService.findOne(username);
-    } catch (e) {
-      if (e instanceof IdNotFoundError) {
-        throw new NotFoundException('User not found');
-      } else {
-        throw catchError(e);
-      }
-    }
-  }
-
   @Put(':id')
   async update(@Param('id') id: string, @Body() userDto: EditUserDto) {
     try {
@@ -105,6 +92,16 @@ export class UserController {
       } else {
         throw catchError(e);
       }
+    }
+  }
+
+  @Get('me')
+  @UseGuards(UserGuard, ACGuard)
+  async getMyUser(@User() user: UserDto): Promise<UserDto> {
+    try {
+      return this.userService.findOneById(user._id);
+    } catch (error) {
+      throw catchError(error);
     }
   }
 

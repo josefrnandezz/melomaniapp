@@ -11,7 +11,7 @@ import { Layout } from '../../components/layout/Layout';
 const Events: React.FC = () => {
   const [session, loading] = useSession();
 
-  const events = useEvents();
+  const events = useEvents('Córdoba', session);
   const genres = useGenres();
 
   if (events?.isLoading || genres?.isLoading) {

@@ -22,7 +22,6 @@ export const FollowButton: React.FC<FollowButtonProps> = ({
 
   return (
     <Button
-      style={{ width: '100%' }}
       type={!isFollowing ? 'primary' : 'ghost'}
       onClick={handleOnClickFollow}
     >

@@ -9,6 +9,7 @@ interface EventProps {
   startsAt: Date;
   endsAt: Date;
   address: AddressProps;
+  establishmentId: string;
 }
 
 interface ArtistProps {

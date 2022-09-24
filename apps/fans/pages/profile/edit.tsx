@@ -1,5 +1,5 @@
 import { EditUserDto } from '@melomaniapp/contracts/user';
-import { useFan, useGenres } from '@melomaniapp/hooks';
+import { useGenres, useUser } from '@melomaniapp/hooks';
 import { CityDropdown, GenreFilter } from '@melomaniapp/ui';
 import { Button, Card, Col, Form, message, Row, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
@@ -7,38 +7,34 @@ import { useRouter } from 'next/router';
 import { Layout } from '../../components/layout/Layout';
 
 export const EditFanProfile: React.FC = () => {
-  const [session, isSessionLoading] = useSession();
+  const [session] = useSession();
   const router = useRouter();
 
-  if (isSessionLoading) {
+  const { data: user } = useUser(session);
+  const { data: genres, isLoading } = useGenres();
+
+  if (isLoading) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;
       </div>
     );
   }
-  const { data: genres } = useGenres();
 
-  const username = session?.user.email.slice(
-    0,
-    session?.user.email.indexOf('@')
-  );
-
-  const { data: fan } = useFan(username);
   const [form] = Form.useForm();
 
   const onSubmit = async (data: EditUserDto) => {
     const response = await fetch(
       `${
         process.env.NEXT_PUBLIC_API_URL || process.env.NX_PUBLIC_API_URL
-      }/api/users/${fan?._id}`,
+      }/api/users/${user?._id}`,
       {
         method: 'Put',
         headers: {
           Authorization: `Bearer ${session.accessToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...data, roles: fan?.roles }),
+        body: JSON.stringify({ ...data, roles: user?.roles }),
       }
     );
 
@@ -70,21 +66,21 @@ export const EditFanProfile: React.FC = () => {
                 name="city"
                 label="Ciudad"
                 trigger="onChangeHandler"
-                initialValue={fan?.city && fan?.city}
+                initialValue={user?.city && user?.city}
               >
-                <CityDropdown selectedCity={fan?.city} />
+                <CityDropdown selectedCity={user?.city} />
               </Form.Item>
 
               <Form.Item
                 required={true}
                 name="genres"
                 label="Genres"
-                initialValue={fan?.genres.map((genre) => genre)}
+                initialValue={user?.genres.map((genre) => genre)}
                 trigger="onChangeHandler"
               >
                 <GenreFilter
                   genres={genres}
-                  selectedGenres={fan?.genres.map((genre) => genre)}
+                  selectedGenres={user?.genres.map((genre) => genre)}
                 />
               </Form.Item>
               <Form.Item>

@@ -5,15 +5,21 @@ import {
   useGenres,
 } from '@melomaniapp/hooks';
 import { Space } from 'antd';
+import { Session } from 'next-auth';
 import { ArtistsPreviewList } from './artists/ArtistsPreviewList';
 import { EstablishmentsPreviewList } from './establishments/EstablishmentsPreviewList';
 import { EventsPreviewList } from './events/EventsPreviewList';
 
-export const Home = () => {
+interface HomeProps {
+  city: string;
+  session: Session;
+}
+
+export const Home: React.FC<HomeProps> = ({ city, session }) => {
   const establishments = useEstablishments();
   const genres = useGenres();
   const artists = useArtists();
-  const events = useEvents();
+  const events = useEvents(city, session);
 
   return (
     <div style={{ display: 'flex', margin: '10px' }}>

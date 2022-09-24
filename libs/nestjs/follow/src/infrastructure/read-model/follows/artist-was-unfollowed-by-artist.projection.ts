@@ -2,15 +2,18 @@ import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { ArtistWasUnfollowedByArtist } from '../../../domain';
-import { FollowDocument, FOLLOWS_PROJECTION } from './follows.schema';
+import {
+  FollowArtistArtistDocument,
+  FOLLOWS_ARTIST_ARTIST_PROJECTION,
+} from './follow-artist-artist.schema';
 
 @EventsHandler(ArtistWasUnfollowedByArtist)
 export class ArtistWasUnfollowedByArtistProjection
   implements IEventHandler<ArtistWasUnfollowedByArtist>
 {
   constructor(
-    @InjectModel(FOLLOWS_PROJECTION)
-    private readonly follows: Model<FollowDocument>
+    @InjectModel(FOLLOWS_ARTIST_ARTIST_PROJECTION)
+    private readonly follows: Model<FollowArtistArtistDocument>
   ) {}
 
   async handle(event: ArtistWasUnfollowedByArtist) {
