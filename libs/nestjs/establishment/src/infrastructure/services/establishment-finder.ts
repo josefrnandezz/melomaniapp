@@ -25,7 +25,10 @@ export class EstablishmentFinder implements IEstablishmentFinder {
   ) {}
 
   async findAll(): Promise<EstablishmentDTO[]> {
-    const establishments = await this.establishments.find().lean();
+    const establishments = await this.establishments
+      .find()
+      .sort({ _id: -1 })
+      .lean();
 
     return establishments.map(
       (establishment) => new EstablishmentDTO(establishment)

@@ -10,10 +10,6 @@ export class ArtistName extends ValueObject<Props> {
       throw DomainError.because('Artist name cannot be empty');
     }
 
-    if (!/^[a-zA-Z0-9ñÑ\s]+$/.test(name)) {
-      throw DomainError.because('Invalid artist name characters');
-    }
-
     return new ArtistName({ value: name });
   }
 

@@ -33,6 +33,7 @@ export class EventFinder implements IEventFinder {
         },
       })
       .select({ _id: true, name: true, imageUrl: true })
+      .sort({ _id: -1 })
       .lean<{ _id: string; name: string; imageUrl: string }[]>();
 
     const genresDocs = await this.genres

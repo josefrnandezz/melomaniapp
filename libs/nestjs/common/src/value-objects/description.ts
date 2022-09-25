@@ -16,10 +16,6 @@ export class Description extends ValueObject<Props> {
       );
     }
 
-    if (!/^[a-zA-Z0-9ñÑ\s]+$/.test(description)) {
-      throw DomainError.because('Invalid description characters');
-    }
-
     return new Description({ value: description });
   }
 
