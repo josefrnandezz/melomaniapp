@@ -1,90 +1,113 @@
-import { UserAddOutlined } from '@ant-design/icons';
 import { useEstablishments, useGenres } from '@melomaniapp/hooks';
-import { GenreList } from '@melomaniapp/ui';
-import { Card, Divider, List, PageHeader, Spin } from 'antd';
-import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import React from 'react';
+import { GenreFilter } from '@melomaniapp/ui';
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Form,
+  List,
+  Modal,
+  PageHeader,
+  Row,
+  Spin,
+} from 'antd';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 import { IconText } from '../../components/IconText';
-import { Layout } from '../../components/layout/Layout';
+import { FilterOutlined } from '@ant-design/icons';
 
 const Establishments: React.FC = () => {
-  const [session, loading] = useSession();
-
   const establishments = useEstablishments();
   const genres = useGenres();
+
+  const [filteredGenres, setFilteredGenres] = useState(
+    genres.data?.map(({ _id }) => _id)
+  );
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setFilteredGenres(filteredGenres);
+  }, [filteredGenres]);
+
+  const filteredEstablishments = establishments.data?.filter((establishment) =>
+    filteredGenres?.length > 0
+      ? establishment.genreIds.some((genre) => filteredGenres?.includes(genre))
+      : establishment
+  );
 
   if (establishments?.isLoading || genres?.isLoading) {
     return <Spin size="large" />;
   }
 
-  const router = useRouter();
-
   return (
-    <Layout session={session}>
-      <PageHeader
-        style={{ margin: 'auto', borderRadius: '20px' }}
-        ghost={false}
-        onBack={() => window.history.back()}
-        title="Establecimientos"
-      >
-        <Divider />
-        <List
-          itemLayout="vertical"
-          size="large"
-          pagination={{
-            onChange: (page) => {
-              console.log(page);
-            },
-            pageSize: 4,
-          }}
-          dataSource={establishments?.data}
-          renderItem={(item) => (
-            <Card
-              bordered={true}
-              hoverable
-              style={{
-                marginBottom: '20px',
-                background: '#cae9ff',
-                borderRadius: '20px',
-              }}
-            >
-              <List.Item
-                onClick={() => router.push(`/establishments/${item._id}`)}
-                key={item._id}
-                actions={[
-                  <IconText
-                    icon={UserAddOutlined}
-                    text="156"
-                    key="list-vertical-star-o"
-                  />,
-                  <GenreList
-                    genres={genres.data?.filter((genre) =>
-                      item.genreIds.includes(genre._id)
-                    )}
-                  />,
-                ]}
-                extra={
-                  <img
-                    style={{ textAlign: 'left' }}
-                    width={272}
-                    alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+    <PageHeader
+      style={{ margin: 'auto', borderRadius: '20px' }}
+      ghost={false}
+      onBack={() => window.history.back()}
+      title="Establecimientos"
+    >
+      <Row justify="center" style={{ marginBottom: '30px' }}>
+        <Col>
+          <Button onClick={() => setOpen(true)}>
+            <IconText text="Filtro" icon={FilterOutlined} />
+          </Button>
+          <Modal
+            visible={open}
+            title="Filtra por género musical"
+            onOk={() => setOpen(false)}
+            onCancel={() => setOpen(false)}
+          >
+            <Form.Item>
+              <GenreFilter
+                genres={genres.data}
+                onChangeHandler={(values) => setFilteredGenres(values)}
+              />
+            </Form.Item>
+          </Modal>
+        </Col>
+      </Row>
+      <List
+        itemLayout="vertical"
+        size="large"
+        pagination={{
+          onChange: (page) => {
+            console.log(page);
+          },
+          pageSize: 4,
+        }}
+        dataSource={filteredEstablishments}
+        renderItem={(item) => (
+          <Card
+            bordered={true}
+            hoverable
+            style={{
+              marginBottom: '20px',
+              background: '#cae9ff',
+              borderRadius: '20px',
+            }}
+          >
+            <List.Item key={item._id}>
+              <List.Item.Meta
+                title={
+                  <Link href={`/establishments/${item._id}`}>{item.name}</Link>
+                }
+                avatar={
+                  <Avatar
+                    size="large"
+                    src={
+                      <img referrerPolicy="no-referrer" src={item?.imageUrl} />
+                    }
                   />
                 }
-              >
-                <List.Item.Meta
-                  title={item.name}
-                  description={`@${item.alias}`}
-                />
-
-                {item.description}
-              </List.Item>
-            </Card>
-          )}
-        />
-      </PageHeader>
-    </Layout>
+                description={`@${item.alias}`}
+              />
+            </List.Item>
+          </Card>
+        )}
+      />
+    </PageHeader>
   );
 };
 

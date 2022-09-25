@@ -83,7 +83,8 @@
           "executor": "@nrwl/next:server",
           "options": {
             "buildTarget": "artists:build",
-            "dev": true
+            "dev": true,
+            "port": 3000
           },
           "configurations": {
             "production": {
@@ -337,7 +338,8 @@
           "executor": "@nrwl/next:server",
           "options": {
             "buildTarget": "establishments:build",
-            "dev": true
+            "dev": true,
+            "port": 5000
           },
           "configurations": {
             "production": {
@@ -391,7 +393,8 @@
           "executor": "@nrwl/next:server",
           "options": {
             "buildTarget": "fans:build",
-            "dev": true
+            "dev": true,
+            "port": 8080
           },
           "configurations": {
             "production": {

@@ -11,7 +11,7 @@ export const EditEstablishmentProfile: React.FC = () => {
 
   const { data: establishment, isLoading } = useMyEstablishment(session);
 
-  if (isLoading) {
+  if (isLoading || !router) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;

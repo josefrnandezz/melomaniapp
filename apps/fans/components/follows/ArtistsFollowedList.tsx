@@ -1,6 +1,7 @@
 import { FollowType, FollowUserArtistDTO } from '@melomaniapp/contracts/follow';
 import { useFollows } from '@melomaniapp/hooks';
 import { Card, List } from 'antd';
+import Avatar from 'antd/lib/avatar/avatar';
 import { Session } from 'next-auth';
 import Link from 'next/link';
 
@@ -39,26 +40,20 @@ export const ArtistsFollowedList: React.FC<ArtistsFollowedListProps> = ({
             borderRadius: '20px',
           }}
         >
-          <Link href={`/artists/${item._id}`}>
-            <List.Item
-              key={item._id}
-              extra={
-                <img
-                  style={{ textAlign: 'left' }}
-                  width={272}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+          <List.Item key={item._id}>
+            <List.Item.Meta
+              title={<Link href={`/artists/${item._id}`}>{item.name}</Link>}
+              avatar={
+                <Avatar
+                  size="large"
+                  src={
+                    <img referrerPolicy="no-referrer" src={item?.imageUrl} />
+                  }
                 />
               }
-            >
-              <List.Item.Meta
-                title={item.name}
-                description={`@${item.alias}`}
-              />
-
-              {item.description}
-            </List.Item>
-          </Link>
+              description={`@${item.alias}`}
+            />
+          </List.Item>
         </Card>
       )}
     />

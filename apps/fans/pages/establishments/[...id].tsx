@@ -4,16 +4,15 @@ import {
   useGenres,
   useUser,
 } from '@melomaniapp/hooks';
-import { UserAddOutlined } from '@ant-design/icons';
 import { Card, Col, Divider, List, Row, Spin, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Layout } from '../../components/layout/Layout';
 import { ProfileHeader } from '../../components/ProfileHeader';
 import { GenreList } from '@melomaniapp/ui';
-import { IconText } from '../../components/IconText';
+import { CalendarOutlined } from '@ant-design/icons';
 import { FollowType } from '@melomaniapp/contracts/follow';
 import Link from 'next/link';
+import { IconText } from '../../components/IconText';
 
 export const EstablishmentPage: React.FC = () => {
   const router = useRouter();
@@ -38,8 +37,15 @@ export const EstablishmentPage: React.FC = () => {
 
   const unfollowRoute = `users/${user?._id}/unfollows_to/establishments/${establishment?._id}`;
 
+  const formatDate = (item) => {
+    const date = new Date(item.startsAt);
+    const formattedDate = `${date.getDay()}/${date.getMonth()}/${date.getFullYear()}`;
+
+    return <IconText text={formattedDate} icon={CalendarOutlined} />;
+  };
+
   return (
-    <Layout session={session}>
+    <>
       <Row
         style={{
           height: '100%',
@@ -58,6 +64,7 @@ export const EstablishmentPage: React.FC = () => {
             followRoute={followRoute}
             unfollowRoute={unfollowRoute}
             session={session}
+            imageUrl={establishment?.imageUrl}
           />
         </Col>
         <Col span={10} offset={2} style={{ margin: 'auto' }}>
@@ -111,39 +118,20 @@ export const EstablishmentPage: React.FC = () => {
               }}
             >
               <Link href={`/events/${item._id}`}>
-                <List.Item
-                  key={item._id}
-                  actions={[
-                    <IconText
-                      icon={UserAddOutlined}
-                      text="156"
-                      key="list-vertical-star-o"
-                    />,
-                    <GenreList
-                      genres={genres?.filter((genre) =>
-                        item.genreIds.includes(genre._id)
-                      )}
-                    />,
-                  ]}
-                  extra={
-                    <img
-                      style={{ textAlign: 'left' }}
-                      width={272}
-                      alt="logo"
-                      src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                    />
-                  }
-                >
-                  <List.Item.Meta title={item.name} />
-
-                  {item.description}
+                <List.Item key={item._id}>
+                  <List.Item.Meta
+                    title={
+                      <Link href={`/events/${item._id}`}>{item.name}</Link>
+                    }
+                    description={formatDate(item)}
+                  />
                 </List.Item>
               </Link>
             </Card>
           )}
         />
       </Card>
-    </Layout>
+    </>
   );
 };
 

@@ -39,23 +39,12 @@ export const EventsFollowedList: React.FC<EventsFollowListProps> = ({
             borderRadius: '20px',
           }}
         >
-          <Link href={`/events/${item._id}`}>
-            <List.Item
-              key={item._id}
-              extra={
-                <img
-                  style={{ textAlign: 'left' }}
-                  width={272}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
-              }
-            >
-              <List.Item.Meta title={item.name} />
-
-              {item.description}
-            </List.Item>
-          </Link>
+          <List.Item key={item._id}>
+            <List.Item.Meta
+              title={<Link href={`/events/${item._id}`}>{item.name}</Link>}
+            />
+            {item.description}
+          </List.Item>
         </Card>
       )}
     />

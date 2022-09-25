@@ -1,4 +1,4 @@
-import { BellOutlined, SearchOutlined } from '@ant-design/icons';
+import { BellOutlined, SearchOutlined, HomeOutlined } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Space, Typography } from 'antd';
 import { Session } from 'next-auth';
 import Image from 'next/image';
@@ -27,7 +27,7 @@ const Logo = () => {
           />
         </Col>
         <Col flex="auto">
-          <Typography.Title level={4}>Melomaniapp Fans</Typography.Title>
+          <Typography.Title level={4}>Melomaniapp for Fans</Typography.Title>
         </Col>
       </Space>
     </Row>
@@ -44,18 +44,21 @@ export const Header = ({ session }: HeaderProps) => {
         background: 'white',
       }}
     >
-      <Row justify="center">
+      <Row justify="end">
         {!session ? (
           <Col span={24}>
             <Logo />
           </Col>
         ) : (
           <>
-            <Col span={14}>
+            <Col span={11}>
               <Logo />
             </Col>
-            <Col span={6} offset={2}>
-              <Menu mode="horizontal">
+            <Col span={10} offset={1}>
+              <Menu selectable={false} mode="horizontal">
+                <Menu.Item key="home" icon={<HomeOutlined />}>
+                  <Link href="/">Inicio</Link>
+                </Menu.Item>
                 <Menu.Item key="genres" icon={<SearchOutlined />}>
                   <Link href="/genres">Géneros</Link>
                 </Menu.Item>
@@ -64,7 +67,7 @@ export const Header = ({ session }: HeaderProps) => {
                 </Menu.Item>
               </Menu>
             </Col>
-            <Col>
+            <Col span={2}>
               <AccountMenu session={session} />
             </Col>
           </>

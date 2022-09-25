@@ -6,8 +6,6 @@ import { EstablishmentsFollowedList } from '../../components/follows/Establishme
 import { EventsFollowedList } from '../../components/follows/EventsFollowedList';
 import { GenresFollowedList } from '../../components/follows/GenresFollowedList';
 
-import { Layout } from '../../components/layout/Layout';
-
 const Follows: React.FC = () => {
   const [session, isLoading] = useSession();
 
@@ -16,29 +14,27 @@ const Follows: React.FC = () => {
   }
 
   return (
-    <Layout session={session}>
-      <PageHeader
-        style={{ margin: 'auto', borderRadius: '20px' }}
-        ghost={false}
-        onBack={() => window.history.back()}
-        title="Subscripciones"
-      >
-        <Tabs>
-          <Tabs.TabPane tab="Eventos" key="events">
-            <EventsFollowedList session={session} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Artistas" key="artists">
-            <ArtistsFollowedList session={session} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Establecimientos" key="establishments">
-            <EstablishmentsFollowedList session={session} />
-          </Tabs.TabPane>
-          <Tabs.TabPane tab="Géneros" key="genres">
-            <GenresFollowedList session={session} />
-          </Tabs.TabPane>
-        </Tabs>
-      </PageHeader>
-    </Layout>
+    <PageHeader
+      style={{ margin: 'auto', borderRadius: '20px' }}
+      ghost={false}
+      onBack={() => window.history.back()}
+      title="Subscripciones"
+    >
+      <Tabs>
+        <Tabs.TabPane tab="Eventos" key="events">
+          <EventsFollowedList session={session} />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Artistas" key="artists">
+          <ArtistsFollowedList session={session} />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Establecimientos" key="establishments">
+          <EstablishmentsFollowedList session={session} />
+        </Tabs.TabPane>
+        <Tabs.TabPane tab="Géneros" key="genres">
+          <GenresFollowedList session={session} />
+        </Tabs.TabPane>
+      </Tabs>
+    </PageHeader>
   );
 };
 

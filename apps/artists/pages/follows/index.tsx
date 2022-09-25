@@ -46,7 +46,17 @@ const Follows: React.FC = () => {
             <Link href={`/artists/${item.followedToId}`}>
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar src={item.artist.imageUrl} size="large" />}
+                  avatar={
+                    <Avatar
+                      src={
+                        <img
+                          referrerPolicy="no-referrer"
+                          src={item.artist?.imageUrl}
+                        />
+                      }
+                      size="large"
+                    />
+                  }
                   title={
                     <Link href={`artists/${item.followedToId}`}>
                       {item.artist.name}

@@ -53,39 +53,37 @@ export const EditFanProfile: React.FC = () => {
   };
 
   return (
-    <Layout session={session}>
-      <Row
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          marginBottom: '160px',
-          marginTop: '160px',
-        }}
-      >
-        <Col span={12} style={{ margin: 'auto' }}>
-          <Card style={{ borderRadius: '20px' }}>
-            <Form form={form} layout="vertical" onFinish={onSubmit}>
-              <Form.Item
-                required={true}
-                style={{ width: '100%' }}
-                name="city"
-                label="Ciudad"
-                trigger="onChangeHandler"
-                initialValue={user?.city && user?.city}
-              >
-                <CityDropdown selectedCity={user?.city} />
-              </Form.Item>
+    <Row
+      style={{
+        display: 'flex',
+        justifyContent: 'center',
+        marginBottom: '160px',
+        marginTop: '160px',
+      }}
+    >
+      <Col span={12} style={{ margin: 'auto' }}>
+        <Card style={{ borderRadius: '20px' }}>
+          <Form form={form} layout="vertical" onFinish={onSubmit}>
+            <Form.Item
+              required={true}
+              style={{ width: '100%' }}
+              name="city"
+              label="Ciudad"
+              trigger="onChangeHandler"
+              initialValue={user?.city && user?.city}
+            >
+              <CityDropdown selectedCity={user?.city} />
+            </Form.Item>
 
-              <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Confirmar
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-    </Layout>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Confirmar
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

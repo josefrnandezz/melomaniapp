@@ -17,7 +17,7 @@ export const EditFanProfile: React.FC = () => {
   const [form] = Form.useForm();
   const router = useRouter();
 
-  if (isLoading) {
+  if (isLoading || !router) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;

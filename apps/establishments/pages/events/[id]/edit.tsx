@@ -16,7 +16,6 @@ import {
 import moment from 'moment';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Layout } from '../../../components/layout/Layout';
 
 export const EditEvent: React.FC = () => {
   const [form] = Form.useForm();
@@ -30,7 +29,7 @@ export const EditEvent: React.FC = () => {
   const allGenres = useGenres();
   const allArtists = useArtists();
 
-  if (isLoading || allGenres.isLoading || allArtists.isLoading) {
+  if (isLoading || allGenres.isLoading || allArtists.isLoading || !router) {
     return <h1>Loading...</h1>;
   }
 

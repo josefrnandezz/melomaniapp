@@ -4,24 +4,29 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { Home } from '../components/Home';
 import { useUser } from '@melomaniapp/hooks';
+import { Spin } from 'antd';
 
 export function Index() {
-  const [session, loading] = useSession();
+  const [session, isLoading] = useSession();
   const router = useRouter();
 
   const { data: user } = useUser(session);
 
   useEffect(() => {
-    if (!loading && !session) {
+    if (!isLoading && session && !user?.city) {
       router.push('/');
     }
-  }, [loading, session, router]);
+  }, [isLoading, session, router]);
 
-  return (
-    <Layout session={session}>
-      <Home city={user?.city} session={session} />
-    </Layout>
-  );
+  if (isLoading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
+        <Spin size="large" style={{ margin: 'auto' }} />;
+      </div>
+    );
+  }
+
+  return <Home city={user?.city} session={session} />;
 }
 
 export default Index;

@@ -113,7 +113,17 @@ export const EventPage = () => {
                 >
                   <List.Item>
                     <List.Item.Meta
-                      avatar={<Avatar src={item.imageUrl} size="large" />}
+                      avatar={
+                        <Avatar
+                          src={
+                            <img
+                              referrerPolicy="no-referrer"
+                              src={item.imageUrl}
+                            />
+                          }
+                          size="large"
+                        />
+                      }
                       title={item.name}
                     />
                   </List.Item>

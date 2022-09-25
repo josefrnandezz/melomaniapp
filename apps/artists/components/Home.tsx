@@ -95,7 +95,17 @@ export const Home: React.FC<HomeProps> = ({ id, genres }) => {
               >
                 <List.Item>
                   <List.Item.Meta
-                    avatar={<Avatar src={item.imageUrl} size="large" />}
+                    avatar={
+                      <Avatar
+                        src={
+                          <img
+                            referrerPolicy="no-referrer"
+                            src={item?.imageUrl}
+                          />
+                        }
+                        size="large"
+                      />
+                    }
                     title={
                       <Link href={`artists/${item._id}`}>{item.name}</Link>
                     }

@@ -2,13 +2,12 @@ import { EstablishmentForm } from '@melomaniapp/ui';
 import { Card, Col, message, Row, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Layout } from '../components/layout/Layout';
 
 export const Onboarding: React.FC = () => {
   const [session, isLoading] = useSession();
   const router = useRouter();
 
-  if (isLoading) {
+  if (isLoading || !router) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;

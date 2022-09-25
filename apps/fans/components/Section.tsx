@@ -9,12 +9,10 @@ interface SectionProps {
 export const Section: React.FC<SectionProps> = ({ title, pushTo }) => {
   return (
     <Row>
-      <Col span={22}>
-        <Typography.Title style={{ textAlign: 'left' }} level={3}>
-          {title}
-        </Typography.Title>
+      <Col flex={22}>
+        <Typography.Title level={3}>{title}</Typography.Title>
       </Col>
-      <Col span={2}>
+      <Col flex={2}>
         <Link href={pushTo}>
           <a>Ver todos</a>
         </Link>

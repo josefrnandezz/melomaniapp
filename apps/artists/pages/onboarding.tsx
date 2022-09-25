@@ -12,7 +12,7 @@ export const Onboarding: React.FC = () => {
   const router = useRouter();
   const [form] = useForm();
 
-  if (isLoading) {
+  if (isLoading || !router) {
     return (
       <div style={{ display: 'flex', alignItems: 'center', height: '100vh' }}>
         <Spin size="large" style={{ margin: 'auto' }} />;

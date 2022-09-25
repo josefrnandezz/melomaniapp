@@ -1,9 +1,8 @@
 import { FollowType } from '@melomaniapp/contracts/follow';
 import { useGenre, useUser } from '@melomaniapp/hooks';
-import { Spin } from 'antd';
+import { Col, Row, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Layout } from '../../components/layout/Layout';
 import { ProfileHeader } from '../../components/ProfileHeader';
 
 export const GenrePage = () => {
@@ -24,8 +23,12 @@ export const GenrePage = () => {
   const unfollowRoute = `users/${user?._id}/unfollows_to/genres/${genre?._id}`;
 
   return (
-    <Layout session={session}>
-      <div style={{ marginBottom: '100px' }}>
+    <Row
+      align="middle"
+      justify="center"
+      style={{ marginBottom: '180px', marginTop: '140px' }}
+    >
+      <Col span={12} style={{ margin: 'auto' }}>
         <ProfileHeader
           type={FollowType.Genre}
           id={genre?._id}
@@ -34,8 +37,8 @@ export const GenrePage = () => {
           unfollowRoute={unfollowRoute}
           session={session}
         />
-      </div>
-    </Layout>
+      </Col>
+    </Row>
   );
 };
 

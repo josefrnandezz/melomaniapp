@@ -18,18 +18,14 @@ export const EstablishmentCard: React.FC<EstablishmentCardProps> = ({
       <Card
         hoverable
         style={{
-          marginTop: '10px',
-          width: 240,
+          maxWidth: 240,
           textAlign: 'center',
           background: '#cae9ff',
           overflow: 'hidden',
           borderRadius: '20px',
         }}
         cover={
-          <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
+          <img referrerPolicy="no-referrer" height={180} src={item.imageUrl} />
         }
       >
         <Card.Meta title={item.name} />

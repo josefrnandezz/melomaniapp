@@ -4,7 +4,7 @@ import {
   useEvents,
   useGenres,
 } from '@melomaniapp/hooks';
-import { Space } from 'antd';
+import { Col, Row, Space } from 'antd';
 import { Session } from 'next-auth';
 import { ArtistsPreviewList } from './artists/ArtistsPreviewList';
 import { EstablishmentsPreviewList } from './establishments/EstablishmentsPreviewList';
@@ -22,15 +22,17 @@ export const Home: React.FC<HomeProps> = ({ city, session }) => {
   const events = useEvents(city, session);
 
   return (
-    <div style={{ display: 'flex', margin: '10px' }}>
-      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-        <EventsPreviewList events={events} genres={genres} />
-        <ArtistsPreviewList artists={artists} genres={genres} />
-        <EstablishmentsPreviewList
-          establishments={establishments}
-          genres={genres}
-        />
-      </Space>
-    </div>
+    <Row justify="center">
+      <Col span={22}>
+        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+          <EventsPreviewList events={events} genres={genres} />
+          <ArtistsPreviewList artists={artists} genres={genres} />
+          <EstablishmentsPreviewList
+            establishments={establishments}
+            genres={genres}
+          />
+        </Space>
+      </Col>
+    </Row>
   );
 };

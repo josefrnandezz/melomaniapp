@@ -1,7 +1,7 @@
 import { FollowButton } from '@melomaniapp/ui';
 import { Avatar, Card, Space, Spin, Typography } from 'antd';
 
-import { UserOutlined } from '@ant-design/icons';
+import { CustomerServiceOutlined } from '@ant-design/icons';
 import { capitalizeFirstLetter } from '../utils';
 import { Session } from 'next-auth';
 import { useFollows } from '@melomaniapp/hooks';
@@ -26,6 +26,7 @@ interface ProfileHeader {
   alias?: string;
   followRoute: string;
   unfollowRoute: string;
+  imageUrl?: string;
   session: Session;
 }
 
@@ -37,6 +38,7 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
   followRoute,
   unfollowRoute,
   session,
+  imageUrl,
 }) => {
   const follows = useFollows<Follow>(type, session);
 
@@ -92,7 +94,11 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
     >
       <Space direction="vertical" size="middle">
         <div style={{ margin: 'auto', alignItems: 'center' }}>
-          <Avatar size={140} icon={<UserOutlined />} />
+          {!imageUrl ? (
+            <Avatar size={140} icon={<CustomerServiceOutlined />} />
+          ) : (
+            <Avatar size={140} src={imageUrl} />
+          )}
         </div>
         <Typography.Title>
           {name && capitalizeFirstLetter(name)}

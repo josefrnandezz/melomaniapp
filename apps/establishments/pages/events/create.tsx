@@ -29,7 +29,8 @@ export const CreateEvent: React.FC = () => {
     isLoading ||
     genres.isLoading ||
     artists.isLoading ||
-    establishment.isLoading
+    establishment.isLoading ||
+    !router
   ) {
     return (
       <div style={{ display: 'flex', alignItems: 'center' }}>

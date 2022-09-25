@@ -1,9 +1,11 @@
 import { EventDTO } from '@melomaniapp/contracts/event';
-import { Card, List } from 'antd';
-import { Section } from '../Section';
+import { Button, Col, List, PageHeader, Row, Typography } from 'antd';
+import { EyeOutlined } from '@ant-design/icons';
 import { Response } from '@melomaniapp/hooks';
 import { EventCard } from './EventCard';
 import { GenreDTO } from '@melomaniapp/contracts/genre';
+import Link from 'next/link';
+import { IconText } from '../IconText';
 
 interface EventsPreviewListProps {
   events: Response<EventDTO[]>;
@@ -17,35 +19,53 @@ export const EventsPreviewList: React.FC<EventsPreviewListProps> = ({
   const { isLoading, data } = events;
 
   return (
-    <Card
-      bordered={false}
+    <Row
+      align="middle"
       style={{
         background: '#fffafa',
         alignItems: 'center',
-        justifyContent: 'center',
         borderRadius: '20px',
+        overflow: 'hidden',
       }}
     >
-      <Section title="Eventos" pushTo="events" />
-      <List
-        loading={isLoading}
-        style={{ margin: 'auto' }}
-        grid={{
-          gutter: 16,
-          xs: 1,
-          sm: 2,
-          md: 2,
-          lg: 3,
-          xl: 4,
-          xxl: 5,
-        }}
-        dataSource={data}
-        renderItem={(event) => (
-          <List.Item>
-            <EventCard item={event} genres={genres.data} />
-          </List.Item>
-        )}
-      />
-    </Card>
+      <Col xl={24} xxl={24}>
+        <PageHeader
+          title="Eventos"
+          extra={[
+            <Link href="/events">
+              <Button type="text">
+                <IconText icon={EyeOutlined} text="Ver todos" />
+              </Button>
+            </Link>,
+          ]}
+        >
+          {events.data?.length !== 0 ? (
+            <List
+              loading={isLoading}
+              style={{ padding: '30px' }}
+              grid={{
+                gutter: 25,
+                xs: 1,
+                sm: 2,
+                md: 2,
+                lg: 3,
+                xl: 4,
+                xxl: 4,
+              }}
+              dataSource={data?.slice(0, 4)}
+              renderItem={(event) => (
+                <List.Item>
+                  <EventCard item={event} genres={genres.data} />
+                </List.Item>
+              )}
+            />
+          ) : (
+            <Typography.Paragraph>
+              Oops! Parece que no hay ningún evento en tu ciudad 😞
+            </Typography.Paragraph>
+          )}
+        </PageHeader>
+      </Col>
+    </Row>
   );
 };

@@ -1,90 +1,111 @@
-import { UserAddOutlined } from '@ant-design/icons';
 import { useArtists, useGenres } from '@melomaniapp/hooks';
-import { GenreList } from '@melomaniapp/ui';
-import { Card, Divider, List, PageHeader, Space, Spin } from 'antd';
-import { useSession } from 'next-auth/client';
-import { useRouter } from 'next/router';
-import React from 'react';
-import { IconText } from '../../components/IconText';
-import { Layout } from '../../components/layout/Layout';
+import { GenreFilter, IconText } from '@melomaniapp/ui';
+import {
+  Avatar,
+  Button,
+  Card,
+  Col,
+  Form,
+  List,
+  Modal,
+  PageHeader,
+  Row,
+  Spin,
+} from 'antd';
+import Link from 'next/link';
+import { FilterOutlined } from '@ant-design/icons';
+import React, { useEffect, useState } from 'react';
 
 const Artists: React.FC = () => {
-  const [session, loading] = useSession();
-
   const artists = useArtists();
   const genres = useGenres();
+
+  const [filteredGenres, setFilteredGenres] = useState(
+    genres.data?.map(({ _id }) => _id)
+  );
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    setFilteredGenres(filteredGenres);
+  }, [filteredGenres]);
+
+  const filteredArtists = artists.data?.filter((artist) =>
+    filteredGenres?.length > 0
+      ? artist.genreIds?.some((genre) => filteredGenres?.includes(genre))
+      : artist
+  );
 
   if (artists?.isLoading || genres?.isLoading) {
     return <Spin size="large" />;
   }
 
-  const router = useRouter();
-
   return (
-    <Layout session={session}>
-      <PageHeader
-        style={{ margin: 'auto', borderRadius: '20px' }}
-        ghost={false}
-        onBack={() => window.history.back()}
-        title="Artistas"
-      >
-        <Divider />
-        <List
-          itemLayout="vertical"
-          size="large"
-          pagination={{
-            onChange: (page) => {
-              console.log(page);
-            },
-            pageSize: 4,
-          }}
-          dataSource={artists?.data}
-          renderItem={(item) => (
-            <Card
-              bordered={true}
-              hoverable
-              style={{
-                marginBottom: '20px',
-                background: '#cae9ff',
-                borderRadius: '20px',
-              }}
-            >
-              <List.Item
-                onClick={() => router.push(`/artists/${item._id}`)}
-                key={item._id}
-                actions={[
-                  <IconText
-                    icon={UserAddOutlined}
-                    text="156"
-                    key="list-vertical-star-o"
-                  />,
-                  <GenreList
-                    genres={genres.data?.filter((genre) =>
-                      item.genreIds.includes(genre._id)
-                    )}
-                  />,
-                ]}
-                extra={
-                  <img
-                    style={{ textAlign: 'left' }}
-                    width={272}
-                    alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+    <PageHeader
+      style={{ margin: 'auto', borderRadius: '20px' }}
+      ghost={false}
+      onBack={() => window.history.back()}
+      title="Artistas"
+    >
+      <Row justify="center" style={{ marginBottom: '30px' }}>
+        <Col>
+          <Button onClick={() => setOpen(true)}>
+            <IconText text="Filtro" icon={FilterOutlined} />
+          </Button>
+          <Modal
+            visible={open}
+            title="Filtra por género musical"
+            onOk={() => setOpen(false)}
+            onCancel={() => setOpen(false)}
+          >
+            <Form.Item>
+              <GenreFilter
+                genres={genres.data}
+                onChangeHandler={(values) => setFilteredGenres(values)}
+              />
+            </Form.Item>
+          </Modal>
+        </Col>
+      </Row>
+
+      <List
+        itemLayout="vertical"
+        size="large"
+        pagination={{
+          onChange: (page) => {
+            console.log(page);
+          },
+          pageSize: 4,
+        }}
+        dataSource={filteredArtists}
+        renderItem={(item) => (
+          <Card
+            bordered={true}
+            hoverable
+            style={{
+              marginBottom: '20px',
+              background: '#cae9ff',
+              borderRadius: '20px',
+            }}
+          >
+            <List.Item key={item._id}>
+              <List.Item.Meta
+                title={<Link href={`/artists/${item._id}`}>{item.name}</Link>}
+                avatar={
+                  <Avatar
+                    size="large"
+                    src={
+                      <img referrerPolicy="no-referrer" src={item?.imageUrl} />
+                    }
                   />
                 }
-              >
-                <List.Item.Meta
-                  title={item.name}
-                  description={`@${item.alias}`}
-                />
-
-                {item.description}
-              </List.Item>
-            </Card>
-          )}
-        />
-      </PageHeader>
-    </Layout>
+                description={`@${item.alias}`}
+              />
+            </List.Item>
+          </Card>
+        )}
+      />
+    </PageHeader>
   );
 };
 

@@ -24,9 +24,6 @@ export const GenresFollowedList: React.FC<GenresFollowedListProps> = ({
       itemLayout="vertical"
       size="large"
       pagination={{
-        onChange: (page) => {
-          console.log(page);
-        },
         pageSize: 4,
       }}
       dataSource={genres}
@@ -40,13 +37,15 @@ export const GenresFollowedList: React.FC<GenresFollowedListProps> = ({
             borderRadius: '20px',
           }}
         >
-          <Link href={`/genres/${item._id}`}>
-            <List.Item key={item._id}>
-              <List.Item.Meta
-                title={item.name && capitalizeFirstLetter(item.name)}
-              />
-            </List.Item>
-          </Link>
+          <List.Item key={item._id}>
+            <List.Item.Meta
+              title={
+                <Link href={`/genres/${item._id}`}>
+                  {capitalizeFirstLetter(item.name)}
+                </Link>
+              }
+            />
+          </List.Item>
         </Card>
       )}
     />

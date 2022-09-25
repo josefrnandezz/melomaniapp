@@ -3,7 +3,6 @@ import { useArtist, useGenres, useUser } from '@melomaniapp/hooks';
 import { Card, Col, Divider, List, Row, Spin, Tag, Typography } from 'antd';
 import { useSession } from 'next-auth/client';
 import { useRouter } from 'next/router';
-import { Layout } from '../../components/layout/Layout';
 import { ProfileHeader } from '../../components/ProfileHeader';
 
 import { GenreList } from '@melomaniapp/ui';
@@ -98,52 +97,49 @@ export const ArtistPage = () => {
   const unfollowRoute = `users/${user?._id}/unfollows_to/artists/${artist?._id}`;
 
   return (
-    <Layout session={session}>
-      <Row
-        style={{
-          display: 'flex',
-          height: '100%',
-          width: '100%',
-          marginBottom: '140px',
-          marginTop: '100px',
-        }}
-        justify="center"
-      >
-        <Col span={12} style={{ margin: 'auto' }}>
-          <ProfileHeader
-            type={FollowType.Artist}
-            id={artist?._id}
-            name={artist?.name}
-            alias={artist?.alias}
-            followRoute={followRoute}
-            unfollowRoute={unfollowRoute}
-            session={session}
+    <Row
+      style={{
+        display: 'flex',
+        height: '100%',
+        width: '100%',
+        marginBottom: '140px',
+        marginTop: '100px',
+      }}
+      justify="center"
+    >
+      <Col span={12} style={{ margin: 'auto' }}>
+        <ProfileHeader
+          type={FollowType.Artist}
+          id={artist?._id}
+          name={artist?.name}
+          alias={artist?.alias}
+          followRoute={followRoute}
+          unfollowRoute={unfollowRoute}
+          session={session}
+          imageUrl={artist?.imageUrl}
+        />
+      </Col>
+      <Col span={10} offset={2} style={{ margin: 'auto' }}>
+        <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
+          <Typography.Title level={4}>Descripción</Typography.Title>
+          <Typography.Paragraph>{artist?.description}</Typography.Paragraph>
+          <Divider />
+          <Typography.Title level={4}>Géneros</Typography.Title>
+          <GenreList
+            genres={genres.data?.filter((genre) =>
+              artist?.genreIds.includes(genre._id)
+            )}
           />
-        </Col>
-        <Col span={10} offset={2} style={{ margin: 'auto' }}>
-          <Card style={{ background: '#fffafa', borderRadius: '20px' }}>
-            <Typography.Title level={4}>Descripción</Typography.Title>
-            <Typography.Paragraph>{artist?.description}</Typography.Paragraph>
-            <Divider />
-            <Typography.Title level={4}>Géneros</Typography.Title>
-            <GenreList
-              genres={genres.data?.filter((genre) =>
-                artist?.genreIds.includes(genre._id)
-              )}
-            />
-            {artist?.socialLinks ? (
-              <>
-                <Divider />
-                <Typography.Title level={4}>
-                  Enlaces de interés
-                </Typography.Title>
-                <SocialLinks links={artist.socialLinks} />
-              </>
-            ) : null}
-          </Card>
-        </Col>
-      </Row>
-    </Layout>
+          {artist?.socialLinks ? (
+            <>
+              <Divider />
+              <Typography.Title level={4}>Enlaces de interés</Typography.Title>
+              <SocialLinks links={artist.socialLinks} />
+            </>
+          ) : null}
+        </Card>
+      </Col>
+    </Row>
   );
 };
 

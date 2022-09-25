@@ -3,7 +3,7 @@ import {
   FollowUserEstablishmentDTO,
 } from '@melomaniapp/contracts/follow';
 import { useFollows } from '@melomaniapp/hooks';
-import { Card, List } from 'antd';
+import { Avatar, Card, List } from 'antd';
 import { Session } from 'next-auth';
 import Link from 'next/link';
 
@@ -46,23 +46,21 @@ export const EstablishmentsFollowedList: React.FC<
           }}
         >
           <Link href={`/establishments/${item._id}`}>
-            <List.Item
-              key={item._id}
-              extra={
-                <img
-                  style={{ textAlign: 'left' }}
-                  width={272}
-                  alt="logo"
-                  src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                />
-              }
-            >
+            <List.Item key={item._id}>
               <List.Item.Meta
-                title={item.name}
+                title={
+                  <Link href={`/establishments/${item._id}`}>{item.name}</Link>
+                }
+                avatar={
+                  <Avatar
+                    size="large"
+                    src={
+                      <img referrerPolicy="no-referrer" src={item?.imageUrl} />
+                    }
+                  />
+                }
                 description={`@${item.alias}`}
               />
-
-              {item.description}
             </List.Item>
           </Link>
         </Card>

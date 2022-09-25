@@ -107,7 +107,15 @@ export const ArtistPage = () => {
               {!artist.data?.imageUrl ? (
                 <Avatar size={140} icon={<UserOutlined />} />
               ) : (
-                <Avatar size={140} src={artist.data?.imageUrl} />
+                <Avatar
+                  src={
+                    <img
+                      referrerPolicy="no-referrer"
+                      src={artist.data?.imageUrl}
+                    />
+                  }
+                  size={140}
+                ></Avatar>
               )}
             </div>
             <Typography.Title>
