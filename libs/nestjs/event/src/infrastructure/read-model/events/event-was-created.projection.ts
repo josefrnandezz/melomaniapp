@@ -1,6 +1,7 @@
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+
 import { EventWasCreated } from '../../../domain';
 import { EventDocument, EVENTS_PROJECTION } from './events.schema';
 

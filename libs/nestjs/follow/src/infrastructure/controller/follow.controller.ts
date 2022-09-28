@@ -7,6 +7,7 @@ import { catchError } from 'rxjs';
 import { v4 } from 'uuid';
 import { FollowGuard } from '../auth';
 import { FollowService } from '../services';
+import { MailService } from '@melomaniapp/nestjs/mailer';
 
 @Controller('follows')
 export class FollowController {

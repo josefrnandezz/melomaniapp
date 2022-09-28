@@ -2,14 +2,15 @@ import {
   IdAlreadyRegisteredError,
   IdNotFoundError,
 } from '@aulasoftwarelibre/nestjs-eventstore';
-import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import { ArtistDTO } from '@melomaniapp/contracts/artist';
+import { EstablishmentDTO } from '@melomaniapp/contracts/establishment';
 import {
   CreateUserDto,
   EditUserDto,
   UserDto,
 } from '@melomaniapp/contracts/user';
 import { catchError, Role, Roles, User } from '@melomaniapp/nestjs/common';
+import { MailService } from '@melomaniapp/nestjs/mailer';
 import {
   Body,
   ConflictException,
@@ -27,14 +28,17 @@ import {
 import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { Response } from 'express';
 import { ACGuard } from 'nest-access-control';
-import { UserGuard } from '../auth';
 
+import { UserGuard } from '../auth';
 import { UserService } from '../services';
 
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly mailService: MailService
+  ) {}
 
   @Post()
   @Roles(Role.Admin)
@@ -100,6 +104,7 @@ export class UserController {
   @UseGuards(UserGuard, ACGuard)
   async getMyUser(@User() user: UserDto): Promise<UserDto> {
     try {
+      await this.mailService.sendUserConfirmation(user, 'token');
       return this.userService.findOneById(user._id);
     } catch (error) {
       throw catchError(error);

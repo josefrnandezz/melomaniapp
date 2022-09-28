@@ -35,6 +35,7 @@
       "@melomaniapp/nestjs/event": ["libs/nestjs/event/src/index.ts"],
       "@melomaniapp/nestjs/follow": ["libs/nestjs/follow/src/index.ts"],
       "@melomaniapp/nestjs/genre": ["libs/nestjs/genre/src/index.ts"],
+      "@melomaniapp/nestjs/mailer": ["libs/nestjs/mailer/src/index.ts"],
       "@melomaniapp/nestjs/user": ["libs/nestjs/user/src/index.ts"],
       "@melomaniapp/ui": ["libs/ui/src/index.ts"]
     }

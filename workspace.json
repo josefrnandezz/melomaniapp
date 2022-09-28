@@ -607,6 +607,29 @@
       },
       "tags": []
     },
+    "nestjs-mailer": {
+      "root": "libs/nestjs/mailer",
+      "sourceRoot": "libs/nestjs/mailer/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "outputs": ["{options.outputFile}"],
+          "options": {
+            "lintFilePatterns": ["libs/nestjs/mailer/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/nestjs/mailer"],
+          "options": {
+            "jestConfig": "libs/nestjs/mailer/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      },
+      "tags": []
+    },
     "nestjs-user": {
       "root": "libs/nestjs/user",
       "sourceRoot": "libs/nestjs/user/src",

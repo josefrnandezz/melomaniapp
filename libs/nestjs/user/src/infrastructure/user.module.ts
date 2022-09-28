@@ -1,4 +1,5 @@
 import { EventStoreModule } from '@aulasoftwarelibre/nestjs-eventstore';
+import { MailModule } from '@melomaniapp/nestjs/mailer';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -15,6 +16,7 @@ import { userProviders } from './user.providers';
   controllers: [UserController],
   imports: [
     CqrsModule,
+    MailModule,
     EventStoreModule.forFeature([User], eventTransformers),
     MongooseModule.forFeature([
       {

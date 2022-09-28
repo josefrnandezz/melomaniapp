@@ -5,9 +5,10 @@ import {
 import { ArtistModule } from '@melomaniapp/nestjs/artist';
 import { AuthModule } from '@melomaniapp/nestjs/auth';
 import { EstablishmentModule } from '@melomaniapp/nestjs/establishment';
-import { GenreModule } from '@melomaniapp/nestjs/genre';
 import { EventModule } from '@melomaniapp/nestjs/event';
 import { FollowModule } from '@melomaniapp/nestjs/follow';
+import { GenreModule } from '@melomaniapp/nestjs/genre';
+import { MailModule } from '@melomaniapp/nestjs/mailer';
 import { UserModule } from '@melomaniapp/nestjs/user';
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
@@ -27,6 +28,7 @@ import { appProviders } from './app.providers';
       isGlobal: true,
       load: [configuration],
     }),
+    MailModule,
     ConsoleModule,
     CqrsModule,
     MongooseModule.forRoot(
