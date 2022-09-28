@@ -97,7 +97,10 @@ export const ProfileHeader: React.FC<ProfileHeader> = ({
           {!imageUrl ? (
             <Avatar size={140} icon={<CustomerServiceOutlined />} />
           ) : (
-            <Avatar size={140} src={imageUrl} />
+            <Avatar
+              size={140}
+              src={<img referrerPolicy="no-referrer" src={imageUrl} />}
+            />
           )}
         </div>
         <Typography.Title>

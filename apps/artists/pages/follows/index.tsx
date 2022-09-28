@@ -1,8 +1,8 @@
 import { FollowType } from '@melomaniapp/contracts/follow';
 
-import { useArtistFollows, useMyArtist } from '@melomaniapp/hooks';
+import { useArtistFollows } from '@melomaniapp/hooks';
 
-import { Avatar, Card, List, PageHeader, Spin, Tabs } from 'antd';
+import { Avatar, Card, List, PageHeader, Spin } from 'antd';
 import { useSession } from 'next-auth/client';
 import Link from 'next/link';
 import React from 'react';
@@ -21,7 +21,7 @@ const Follows: React.FC = () => {
       style={{ margin: 'auto', borderRadius: '20px' }}
       ghost={false}
       onBack={() => window.history.back()}
-      title="Subscripciones"
+      title="Conexiones"
     >
       <List
         itemLayout="vertical"
@@ -43,7 +43,7 @@ const Follows: React.FC = () => {
               borderRadius: '20px',
             }}
           >
-            <Link href={`/artists/${item.followedToId}`}>
+            <Link href={`/artists/${item.followedTo._id}`}>
               <List.Item>
                 <List.Item.Meta
                   avatar={
@@ -51,18 +51,18 @@ const Follows: React.FC = () => {
                       src={
                         <img
                           referrerPolicy="no-referrer"
-                          src={item.artist?.imageUrl}
+                          src={item.followedTo.imageUrl}
                         />
                       }
                       size="large"
                     />
                   }
                   title={
-                    <Link href={`artists/${item.followedToId}`}>
-                      {item.artist.name}
+                    <Link href={`artists/${item.followedTo._id}`}>
+                      {item.followedTo.name}
                     </Link>
                   }
-                  description={item.artist.description}
+                  description={item.followedTo.description}
                 />
               </List.Item>
             </Link>

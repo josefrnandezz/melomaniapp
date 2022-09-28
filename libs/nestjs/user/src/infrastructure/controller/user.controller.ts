@@ -10,7 +10,6 @@ import {
   UserDto,
 } from '@melomaniapp/contracts/user';
 import { catchError, Role, Roles, User } from '@melomaniapp/nestjs/common';
-import { MailService } from '@melomaniapp/nestjs/mailer';
 import {
   Body,
   ConflictException,
@@ -35,10 +34,7 @@ import { UserService } from '../services';
 @ApiBearerAuth()
 @Controller('users')
 export class UserController {
-  constructor(
-    private readonly userService: UserService,
-    private readonly mailService: MailService
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   @Roles(Role.Admin)
@@ -104,7 +100,6 @@ export class UserController {
   @UseGuards(UserGuard, ACGuard)
   async getMyUser(@User() user: UserDto): Promise<UserDto> {
     try {
-      await this.mailService.sendUserConfirmation(user, 'token');
       return this.userService.findOneById(user._id);
     } catch (error) {
       throw catchError(error);

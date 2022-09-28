@@ -1,4 +1,5 @@
 interface ArtistProps {
+  _id: string;
   name: string;
   alias: string;
   description: string;
@@ -7,9 +8,8 @@ interface ArtistProps {
 
 interface Props {
   _id: string;
-  followedById: string;
-  followedToId: string;
-  artist: ArtistProps;
+  followedBy: ArtistProps;
+  followedTo: ArtistProps;
 }
 
 export class FollowArtistArtistDTO {
@@ -19,9 +19,7 @@ export class FollowArtistArtistDTO {
 
   public readonly _id: string;
 
-  public readonly followedById: string;
+  public readonly followedBy: ArtistProps;
 
-  public readonly followedToId: string;
-
-  public readonly artist: ArtistProps;
+  public readonly followedTo: ArtistProps;
 }

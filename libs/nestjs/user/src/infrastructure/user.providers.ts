@@ -1,6 +1,6 @@
 import { Provider } from '@nestjs/common';
 
-import { USER_FINDER, USER_SECURITY } from '../application';
+import { USER_FINDER } from '../application';
 import { UserFinder } from './services';
 
 export const userProviders: Provider[] = [

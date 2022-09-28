@@ -12,16 +12,16 @@ import {
 
 export const followProviders: Provider[] = [
   {
+    provide: USER_FINDER,
+    useClass: UserFinder,
+  },
+  {
     provide: FOLLOW_FINDER,
     useClass: FollowFinder,
   },
   {
     provide: ARTIST_FINDER,
     useClass: ArtistFinder,
-  },
-  {
-    provide: USER_FINDER,
-    useClass: UserFinder,
   },
   {
     provide: GENRE_FINDER,

@@ -113,7 +113,7 @@ export const EditFanProfile: React.FC = () => {
 
             <Form.Item
               required={true}
-              name="genres"
+              name="genreIds"
               label="Géneros musicales"
               initialValue={artist?.genreIds.map((genre) => genre)}
               trigger="onChangeHandler"

@@ -1,4 +1,3 @@
-import { UserDto } from '@melomaniapp/contracts/user';
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
 import { EventDTO } from '@melomaniapp/contracts/event';
@@ -9,30 +8,28 @@ export const MAIL_SERVICE = 'MAIL_SERVICE';
 export class MailService {
   constructor(private mailerService: MailerService) {}
 
-  async sendUserConfirmation(user: UserDto, token: string) {
-    const url = `example.com/auth/confirm?token=${token}`;
-
+  async sendEventWasCanceled(emails: string[], event: EventDTO) {
     await this.mailerService.sendMail({
-      to: user.email,
-      // from: '"Support Team" <support@example.com>', // override default from
-      subject: 'Welcome to Nice App! Confirm your Email',
-      template: './confirmation', // `.hbs` extension is appended automatically
+      to: emails,
+      subject: 'Evento cancelado',
+      template: './event-canceled',
       context: {
-        // ✏️ filling curly brackets with content
-        name: user.username,
-        url,
+        name: event.name,
       },
     });
   }
 
-  async sendEventWasCanceled(emails: string[], event: EventDTO) {
+  async sendArtistFollowedArtist(
+    email: string,
+    artistInfo: { id: string; name: string }
+  ) {
     await this.mailerService.sendMail({
-      to: emails,
-      // from: '"Support Team" <support@example.com>', // override default from
-      subject: 'Evento cancelado',
-      template: './cancelado', // `.hbs` extension is appended automatically
+      to: email,
+      subject: 'Nueva conexión!',
+      template: './artist-follow-artist',
       context: {
-        name: event.name,
+        name: artistInfo.name,
+        url: `http://localhost:3000/artists/${artistInfo.id}`,
       },
     });
   }

@@ -31,7 +31,12 @@ export const FanProfileHeader: React.FC<FanProfileHeaderProps> = ({
           {!session ? (
             <Avatar size={140} icon={<UserOutlined />} />
           ) : (
-            <Avatar size={140} src={session.user?.image} />
+            <Avatar
+              size={140}
+              src={
+                <img referrerPolicy="no-referrer" src={session.user?.image} />
+              }
+            />
           )}
         </div>
         <Typography.Title>{name}</Typography.Title>

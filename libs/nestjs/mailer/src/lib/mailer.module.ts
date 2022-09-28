@@ -3,7 +3,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { join } from 'path';
 
-import { mailProvider, MailService } from './mailer.service';
+import { MailService } from './mailer.service';
 
 @Global()
 @Module({
@@ -11,7 +11,7 @@ import { mailProvider, MailService } from './mailer.service';
     MailerModule.forRoot({
       transport: 'smtp://localhost:1025',
       defaults: {
-        from: '"No Reply" <decano@gmail.com>',
+        from: '"No Reply" <info@melomaniapp.com>',
       },
       template: {
         dir: join(__dirname, 'assets/templates'),

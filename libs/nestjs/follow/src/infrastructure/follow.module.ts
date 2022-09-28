@@ -1,4 +1,6 @@
 import { EventStoreModule } from '@aulasoftwarelibre/nestjs-eventstore';
+import { MailModule } from '@melomaniapp/nestjs/mailer';
+import { UserModule } from '@melomaniapp/nestjs/user';
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -16,6 +18,7 @@ import { FollowService } from './services';
     CqrsModule,
     EventStoreModule.forFeature([Follow], eventTransformers),
     MongooseModule.forFeature(followModels),
+    MailModule,
   ],
   providers: [
     ...commandHandlers,

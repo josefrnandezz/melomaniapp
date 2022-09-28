@@ -1,4 +1,4 @@
-import { BellOutlined, HomeOutlined } from '@ant-design/icons';
+import { ApiOutlined, HomeOutlined } from '@ant-design/icons';
 import { Col, Layout, Menu, Row, Space, Typography } from 'antd';
 import { Session } from 'next-auth';
 import Image from 'next/image';
@@ -51,8 +51,8 @@ export const Header = ({ session }: HeaderProps) => {
                 <Menu.Item key="home" icon={<HomeOutlined />}>
                   <Link href="/">Inicio</Link>
                 </Menu.Item>
-                <Menu.Item key="follows" icon={<BellOutlined />}>
-                  <Link href="/follows">Subscripciones</Link>
+                <Menu.Item key="follows" icon={<ApiOutlined />}>
+                  <Link href="/follows">Conexiones</Link>
                 </Menu.Item>
               </Menu>
             </Col>

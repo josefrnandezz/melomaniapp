@@ -28,7 +28,9 @@ export const AccountMenu = ({ session }: AccountMenuProps) => {
 
   return (
     <Dropdown overlay={menu} trigger={['click']} placement="bottomLeft">
-      <Avatar src={session.user.image} />
+      <Avatar
+        src={<img referrerPolicy="no-referrer" src={session.user?.image} />}
+      />
     </Dropdown>
   );
 };

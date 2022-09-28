@@ -8,9 +8,15 @@ export type FollowArtistArtistDocument = FollowArtistArtistDTO & Document;
 export const FollowArtistArtistSchema = new Schema(
   {
     _id: String,
-    followedById: String,
-    followedToId: String,
-    artist: {
+    followedBy: {
+      _id: String,
+      name: String,
+      alias: String,
+      description: String,
+      imageUrl: String,
+    },
+    followedTo: {
+      _id: String,
       name: String,
       alias: String,
       description: String,
